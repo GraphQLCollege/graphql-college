@@ -5,16 +5,14 @@ import Helmet from 'react-helmet'
 import { rhythm } from '../utils/typography'
 import Book from '../components/GraphQLWebappsPerspective'
 import Button from '../components/Button'
+import SubscribeForm from '../components/SubscribeForm'
 
 class GraphQLWebapps extends React.Component {
-  constructor() {
-    super()
-    this.state = { email: '' }
-  }
   render() {
     return (
       <div
         css={[
+          { display: 'flex', flexDirection: 'column' },
           media('(min-width: 426px)', {
             display: 'grid',
             gridTemplateAreas: "'headline book' 'content content'",
@@ -36,32 +34,7 @@ class GraphQLWebapps extends React.Component {
             will show you how all parts of the stack fit together by building an
             app from requirements to deployment, from server to client.
           </p>
-          <form
-            css={[
-              {
-                display: 'grid',
-                gridGap: rhythm(),
-              },
-              media('(min-width: 426px)', { padding: rhythm() }),
-            ]}
-            onSubmit={ev => {
-              ev.preventDefault()
-              alert(this.state.email)
-              this.setState({ email: '' })
-            }}
-          >
-            <input
-              onChange={event => this.setState({ email: event.target.value })}
-              value={this.state.email}
-              placeholder="Email"
-              style={{
-                border: 'solid black 1px',
-                padding: rhythm(0.5),
-              }}
-              type="email"
-            />
-            <Button>Let me know when it's ready</Button>
-          </form>
+          <SubscribeForm />
         </div>
         <p
           style={{ gridArea: 'content', justifySelf: 'center', maxWidth: 700 }}
