@@ -32,6 +32,24 @@ class BlogIndex extends React.Component {
         ]}
       >
         <Helmet title={siteTitle} />
+        <BooksLogo
+          style={{
+            gridArea: 'books-logo',
+            justifySelf: 'center',
+          }}
+          width={100}
+        />
+        <div
+          style={{
+            gridArea: 'books',
+            justifySelf: 'center',
+            padding: rhythm(2),
+          }}
+        >
+          <Link style={{ boxShadow: 'none' }} to="/graphql-webapps">
+            <GraphQLWebapps width={200} />
+          </Link>
+        </div>
         <PostsLogo
           style={{ justifySelf: 'center', gridArea: 'posts-logo' }}
           width={100}
@@ -64,24 +82,6 @@ class BlogIndex extends React.Component {
                 </div>
               )
             })}
-        </div>
-        <BooksLogo
-          style={{
-            gridArea: 'books-logo',
-            justifySelf: 'center',
-          }}
-          width={100}
-        />
-        <div
-          style={{
-            gridArea: 'books',
-            justifySelf: 'center',
-            padding: rhythm(2),
-          }}
-        >
-          <Link style={{ boxShadow: 'none' }} to="/graphql-webapps">
-            <GraphQLWebapps width={200} />
-          </Link>
         </div>
       </div>
     )
