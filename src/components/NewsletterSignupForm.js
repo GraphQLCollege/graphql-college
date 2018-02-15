@@ -23,10 +23,16 @@ class NewsletterSignupForm extends React.Component {
           }),
         ]}
       >
-        <Book
-          style={{ alignSelf: 'center', justifySelf: 'center', maxHeight: 300 }}
-          width={'80%'}
-        />
+        <Link style={{ boxShadow: 'none' }} to="/graphql-webapps">
+          <Book
+            style={{
+              alignSelf: 'center',
+              justifySelf: 'center',
+              maxHeight: 300,
+            }}
+            width={'80%'}
+          />
+        </Link>
         <div
           css={[
             {
