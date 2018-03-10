@@ -11,6 +11,9 @@ Wordpress2016.overrideThemeStyles = () => ({
   'ul, ol': {
     marginLeft: '1.75rem',
   },
+  '.anchor': {
+    boxShadow: 'none',
+  },
 })
 
 Wordpress2016.headerFontFamily = ['Rubik']
