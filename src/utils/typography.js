@@ -11,6 +11,11 @@ Wordpress2016.overrideThemeStyles = () => ({
   'ul, ol': {
     marginLeft: '1.75rem',
   },
+  img: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    display: 'block',
+  },
   '.anchor': {
     boxShadow: 'none',
   },
