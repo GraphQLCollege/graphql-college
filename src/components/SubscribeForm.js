@@ -18,7 +18,7 @@ const SubscribeForm = () => (
       },
     ]}
   >
-    <div style={{ textAlign: 'center' }}>
+    <div style={{ whiteSpace: 'nowrap' }}>
       Sign up to hear when the book launches
     </div>
     <div style={{ position: 'absolute', left: -5000 }}>
