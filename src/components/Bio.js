@@ -32,7 +32,11 @@ class Bio extends React.Component {
           Written by{' '}
           <a
             href="https://twitter.com/juli_mayorga"
-            style={{ boxShadow: 'none' }}
+            style={{
+              boxShadow: 'none',
+              textDecoration: 'underline',
+              color: '#e535ab',
+            }}
           >
             Julian
           </a>

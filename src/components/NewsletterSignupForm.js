@@ -43,7 +43,14 @@ class NewsletterSignupForm extends React.Component {
             },
           ]}
         >
-          <Link to="/graphql-webapps">
+          <Link
+            style={{
+              boxShadow: 'none',
+              textDecoration: 'underline',
+              color: '#e535ab',
+            }}
+            to="/graphql-webapps"
+          >
             <h3>Learn how to build Web Applications using GraphQL</h3>
           </Link>
           <SubscribeForm />
