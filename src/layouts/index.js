@@ -8,6 +8,10 @@ import Logo from '../components/Logo'
 import Button from '../components/Button'
 import LogoHorizontal from '../components/LogoHorizontal'
 
+import 'prismjs/themes/prism-okaidia.css'
+
+import './index.css'
+
 const Header = ({ location: { pathname } }) => (
   <Media query={'(min-width: 426px)'}>
     {matches => (
