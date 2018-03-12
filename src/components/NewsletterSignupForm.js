@@ -30,7 +30,6 @@ class NewsletterSignupForm extends React.Component {
               justifySelf: 'center',
               maxHeight: 300,
             }}
-            width={'80%'}
           />
         </Link>
         <div
