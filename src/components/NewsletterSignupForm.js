@@ -2,7 +2,7 @@ import React from 'react'
 import { media } from 'glamor'
 import Link from 'gatsby-link'
 
-import Book from './GraphQLWebapps'
+import Book from './book.svg'
 import { rhythm } from '../utils/typography'
 import Button from '../components/Button'
 import SubscribeForm from '../components/SubscribeForm'

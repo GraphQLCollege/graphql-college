@@ -7,7 +7,7 @@ import { media } from 'glamor'
 import Bio from '../components/Bio'
 import PostsLogo from '../components/PostsLogo'
 import BooksLogo from '../components/BooksLogo'
-import GraphQLWebapps from '../components/GraphQLWebapps'
+import Book from '../components/book.svg'
 import { rhythm } from '../utils/typography'
 
 class BlogIndex extends React.Component {
@@ -47,7 +47,7 @@ class BlogIndex extends React.Component {
           }}
         >
           <Link style={{ boxShadow: 'none' }} to="/graphql-webapps">
-            <GraphQLWebapps width={200} />
+            <Book width={200} />
           </Link>
         </div>
         <PostsLogo

@@ -3,7 +3,7 @@ import { media } from 'glamor'
 import Helmet from 'react-helmet'
 
 import { rhythm } from '../utils/typography'
-import Book from '../components/GraphQLWebappsPerspective'
+import Book from '../components/book-perspective.svg'
 import Button from '../components/Button'
 import SubscribeForm from '../components/SubscribeForm'
 
