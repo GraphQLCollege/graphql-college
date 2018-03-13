@@ -1,5 +1,6 @@
 import Typography from 'typography'
 import Wordpress2016 from 'typography-theme-wordpress-2016'
+import 'typeface-rubik';
 
 Wordpress2016.overrideThemeStyles = () => ({
   'a.gatsby-resp-image-link': {
@@ -21,8 +22,8 @@ Wordpress2016.overrideThemeStyles = () => ({
   },
 })
 
-Wordpress2016.headerFontFamily = ['Rubik']
-Wordpress2016.bodyFontFamily = ['Rubik']
+Wordpress2016.headerFontFamily = ['Rubik', 'sans-serif']
+Wordpress2016.bodyFontFamily = ['Rubik', 'sans-serif']
 
 delete Wordpress2016.googleFonts
 
