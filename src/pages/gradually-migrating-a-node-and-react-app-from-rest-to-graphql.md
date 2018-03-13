@@ -252,7 +252,7 @@ It's a React app that uses `setState` for state management and `fetch` to commun
 
 <iframe src="https://codesandbox.io/embed/yqk14rwo2x?module=%2Fsrc%2FApp.js&runonclick=1" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
-The API is Express based, and it communicates with a databse using KnexJS. Source code is in [here](https://github.com/GraphQLCollege/from-rest-to-graphql-node-react/tree/master/packages/todo-rest-api).
+The API is Express based, and it communicates with a database using KnexJS. Source code is in [here](https://github.com/GraphQLCollege/from-rest-to-graphql-node-react/tree/master/packages/todo-rest-api).
 
 ###Benefits
 
