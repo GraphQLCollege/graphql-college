@@ -7,6 +7,8 @@ import Bio from '../components/Bio'
 import NewsletterSignupForm from '../components/NewsletterSignupForm'
 import { rhythm, scale } from '../utils/typography'
 
+import "./blog-post.css";
+
 class BlogPostTemplate extends React.Component {
   render() {
     const post = this.props.data.markdownRemark
@@ -14,7 +16,7 @@ class BlogPostTemplate extends React.Component {
     const { previous, next } = this.props.pathContext
 
     return (
-      <div>
+      <div className="blog-post">
         <Helmet title={`${post.frontmatter.title} | ${siteTitle}`} />
         <h1>{post.frontmatter.title}</h1>
         <p

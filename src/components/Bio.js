@@ -26,6 +26,8 @@ class Bio extends React.Component {
             width: rhythm(2),
             height: rhythm(2),
             borderRadius: '50%',
+            padding: 0,
+            boxShadow: "none"
           }}
         />
         <p style={{ marginBottom: 0 }}>
