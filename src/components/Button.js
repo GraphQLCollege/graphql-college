@@ -11,7 +11,6 @@ class Button extends React.Component {
           borderRadius: 30,
           padding: 15,
           textTransform: 'uppercase',
-          fontWeight: 800,
           cursor: 'pointer',
           border: 'none',
         }}
