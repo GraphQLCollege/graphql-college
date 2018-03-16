@@ -1,3 +1,3 @@
 # GraphQL College
 
-Learn all about GraphQL
+Source code that powers [graphql.college](graphql.college).
