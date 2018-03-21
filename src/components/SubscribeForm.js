@@ -19,8 +19,9 @@ const SubscribeForm = () => (
     ]}
   >
     <div style={{ whiteSpace: 'nowrap' }}>
-      Sign up to hear when the book launches
+      Subscribe to hear when the book launches.
     </div>
+    <div style={{ whiteSpace: 'nowrap' }}>Thou shall receive no spam.</div>
     <div style={{ position: 'absolute', left: -5000 }}>
       <input
         type="text"
