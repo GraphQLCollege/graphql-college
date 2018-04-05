@@ -43,6 +43,7 @@ class BlogIndex extends React.Component {
           style={{
             gridArea: 'books',
             justifySelf: 'center',
+            alignSelf: 'flex-start',
             padding: rhythm(2),
           }}
         >
