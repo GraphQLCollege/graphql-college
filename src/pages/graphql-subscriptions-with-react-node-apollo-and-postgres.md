@@ -103,6 +103,8 @@ The next step is creating a GraphQL server which will allow the app to create an
 
 It's time to create the GraphQL server that will communicate with our webapp. We will use Apollo Server to handle HTTP requests. We will also setup a Postgres database. Postgres will serve two purposes. The first one is storing data. The second one is as a PubSub service, sending messages to the server every time a user creates pins.
 
+Using Postgres as a Subscriptions enabler makes for a simple, production ready setup. It's also perfect for MVPs because it fits perfectly in Heroku's free tier, which allows you to setup Node servers and Postgres databases for free. If you did not use Postgres for Subscriptions, you'd have to add additional services to your stack, like Redis or RabbitMQ, among others. Having extra services comes with added complexity, which you might not need for simpler projects (or even for complex ones).
+
 Let's get our hands dirty. Bootstrap the files that our server needs with the following commands.
 
 ```bash
@@ -129,10 +131,16 @@ yarn add dotenv
 yarn add run.env --dev
 ```
 
-Copy `.env.example`'s contents to a `.env` file with the following command.
+Create a file called `.env`. Using the following contents will work with Postgres' default config, but feel free to change them with your desired values:
 
-```bash
-cp .env.example .env
+```
+HOST=localhost
+PORT=3001
+DB="pinapp"
+DBHOST=localhost
+DBPORT=5432
+DBUSER=postgres
+DBPASSWORD=
 ```
 
 Finally run `createdb` to create a database inside Postgres.
@@ -154,24 +162,6 @@ Run the following commands to generate a migration file:
 yarn add pg knex
 # Init knex. This creates a configuration file called knexfile.js
 npx knex init
-# Generate a migration file
-npx knex migrate:make create_pins_table
-```
-
-Add a couple of functions to `migrations/create_pins_table.js`. Up function will run when we migrate our database, and down will run when we rollback migrations.
-
-This migration creates a table called `pins`. It adds a self-incrementing field called `id`, along with three string fields called `title`, `link` and `image`.
-
-```js
-exports.up = knex =>
-  knex.schema.createTable('pins', t => {
-    t.increments('id').primary()
-    t.string('title')
-    t.string('link')
-    t.string('image')
-  })
-
-exports.down = knex => knex.schema.dropTableIfExists('pins')
 ```
 
 Replace the contents of `knexfile.js` with the following code. It is almost the same code that `knex init` generated, but this one connects our environment variables to their corresponding connection fields.
@@ -230,6 +220,28 @@ module.exports = {
     }
   }
 };
+```
+
+Generate a migration file.
+
+```bash
+npx knex migrate:make create_pins_table
+```
+
+Add a couple of functions to `migrations/create_pins_table.js`. Up function will run when we migrate our database, and down will run when we rollback migrations.
+
+This migration creates a table called `pins`. It adds a self-incrementing field called `id`, along with three string fields called `title`, `link` and `image`.
+
+```js
+exports.up = knex =>
+  knex.schema.createTable('pins', t => {
+    t.increments('id').primary()
+    t.string('title')
+    t.string('link')
+    t.string('image')
+  })
+
+exports.down = knex => knex.schema.dropTableIfExists('pins')
 ```
 
 Finally, run the migration to create the table.
@@ -350,7 +362,31 @@ server.listen(PORT, () => {
 })
 ```
 
-Go ahead, start the server with `yarn start` and send your first query at `http://localhost:3001/graphiql`.
+Add `start` and `dev` commands to your `package.json`:
+
+```json
+{
+  "name": /* */,
+  "version": /* */,
+  "description": /* */,
+  "main": /* */,
+  "repository": /* */,
+  "author": /* */,
+  "license": /* */,
+  "scripts": {
+    "start: "node index.js",
+    "dev": "nodemon index.js"
+  }
+}
+```
+
+Install nodemon as dev dependency so that our server restarts itself after every change:
+
+```bash
+yarn add nodemon --dev
+```
+
+Go ahead, start the server with `yarn dev` and send your first query at `http://localhost:3001/graphiql`.
 
 ```graphql
 {
