@@ -454,3 +454,5 @@ And [here](https://github.com/GraphQLCollege/from-rest-to-graphql-node-react/tre
 * There's no need to rewrite everything from scratch
 * Solid tests and reusable code will make the migration easier
 * Plan your next steps. What do you want to achieve? How much resources do you have?
+
+Doubts? Feedback? Just wanna say hi? Join [our community](https://spectrum.chat/graphql-college)
