@@ -502,7 +502,7 @@ const resolvers = {
 }
 ```
 
-5. Setting up a `SubscriptionServer`
+5. Set up a `SubscriptionServer`. Delete the existing `server.listen()` call and replace it with `ws.listen()`.
 
 ```js
 const ws = createServer(server)
@@ -744,9 +744,9 @@ const schema = makeExecutableSchema({
 })
 const server = express()
 
-server.use('/graphql', bodyParser.json(), graphqlExpress({ schema }))
-
 server.use(cors())
+
+server.use('/graphql', bodyParser.json(), graphqlExpress({ schema }))
 ```
 
 Now that we have setup our client and server, it's time to use React Apollo's `<Query />` component to fetch data from the API.
