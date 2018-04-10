@@ -225,7 +225,7 @@ module.exports = {
 Generate a migration file.
 
 ```bash
-npx knex migrate:make create_pins_table
+npx run.env knex migrate:make create_pins_table
 ```
 
 Add a couple of functions to `migrations/create_pins_table.js`. Up function will run when we migrate our database, and down will run when we rollback migrations.
@@ -247,7 +247,7 @@ exports.down = knex => knex.schema.dropTableIfExists('pins')
 Finally, run the migration to create the table.
 
 ```bash
-npx knex migrate:latest
+npx run.env knex migrate:latest
 ```
 
 ## Server side GraphQL queries
@@ -375,7 +375,9 @@ Add `start` and `dev` commands to your `package.json`:
   "license": /* */,
   "scripts": {
     "start: "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "db:create": "run.env createdb pinapp",
+    "db:migrate": "run.env knex migrate:latest"
   }
 }
 ```
