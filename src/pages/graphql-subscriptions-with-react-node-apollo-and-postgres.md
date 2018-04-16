@@ -1111,6 +1111,4 @@ We went from zero to having a functional mini-pinterest app implemented with Rea
 
 I hope you learned a couple of things along the way! GraphQL Subscriptions are great tools to have at your disposal when creating GraphQL powered apps. They provide powerful real-time functionality and are also really easy to implement thanks to the abstractions provided by the Apollo stack.
 
-Feel free to reach out to [our community](https://spectrum.chat/graphql-college) if you have any doubts.
-
 Have a great day!

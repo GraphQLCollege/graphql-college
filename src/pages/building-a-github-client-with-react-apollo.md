@@ -736,6 +736,6 @@ Take a look at a live, working version of it [here](https://git-star.netlify.com
 
 You learned to build a Github client with React and Apollo Client. From creating a bare bones React app, to connecting it with Apollo to perform queries and mutations to Github's API.
 
-I hope you had fun along the way! I had a great time, for sure 😃. Follow me on [Twitter](https://twitter.com/juli_mayorga) if you'd like to keep learning about GraphQL and React. Join [our community](https://spectrum.chat/graphql-college) if you need anything or just wanna say hi.
+I hope you had fun along the way! I had a great time, for sure 😃. Follow me on [Twitter](https://twitter.com/juli_mayorga) if you'd like to keep learning about GraphQL and React.
 
 Until next time! Happy coding.

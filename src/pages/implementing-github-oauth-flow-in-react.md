@@ -272,5 +272,3 @@ Here is a live codesandbox with the final result:
 You learned how Gihub's OAuth flow works. You also applied that knowledge by creating a simple React app with Github authentication.
 
 Now that your users can login with Github, you can start making requests to [Github's GraphQL API](https://developer.github.com/v4/) on their behalf.
-
-Have any questions? Head over to [our community](https://spectrum.chat/graphql-college) and we'll help you.
