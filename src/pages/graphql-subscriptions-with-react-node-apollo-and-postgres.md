@@ -136,11 +136,11 @@ Create a file called `.env`. Using the following contents will work with Postgre
 ```
 HOST=localhost
 PORT=3001
-DB="pinapp"
-DBHOST=localhost
-DBPORT=5432
+PGDATABASE="pinapp"
+PGHOST=localhost
+PGPORT=5432
 DBUSER=postgres
-DBPASSWORD=
+PGPASSWORD=
 ```
 
 Finally run `createdb` to create a database inside Postgres.
@@ -171,10 +171,10 @@ module.exports = {
   development: {
     client: "postgresql",
     connection: {
-      host: process.env.DBHOST,
-      database: process.env.DB,
+      host: process.env.PGHOST,
+      database: process.env.PGDATABASE,
       user: process.env.DBUSER,
-      password: process.env.DBPASSWORD
+      password: process.env.PGPASSWORD
     },
     pool: {
       min: 2,
@@ -188,10 +188,10 @@ module.exports = {
   staging: {
     client: "postgresql",
     connection: {
-      host: process.env.DBHOST,
-      database: process.env.DB,
+      host: process.env.PGHOST,
+      database: process.env.PGDATABASE,
       user: process.env.DBUSER,
-      password: process.env.DBPASSWORD
+      password: process.env.PGPASSWORD
     },
     pool: {
       min: 2,
@@ -205,10 +205,10 @@ module.exports = {
   production: {
     client: "postgresql",
     connection: {
-      host: process.env.DBHOST,
-      database: process.env.DB,
+      host: process.env.PGHOST,
+      database: process.env.PGDATABASE,
       user: process.env.DBUSER,
-      password: process.env.DBPASSWORD,
+      password: process.env.PGPASSWORD,
       ssl: true
     },
     pool: {
@@ -475,10 +475,10 @@ const typeDefs = `
 ```js
 const pubsub = new PostgresPubSub({
   user: process.env.USER,
-  host: process.env.DBHOST,
-  database: process.env.DB,
-  password: process.env.DBPASSWORD,
-  port: process.env.DBPORT,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT,
 })
 ```
 
@@ -534,10 +534,10 @@ const { PostgresPubSub } = require('graphql-postgres-subscriptions')
 
 const pubsub = new PostgresPubSub({
   user: process.env.USER,
-  host: process.env.DBHOST,
-  database: process.env.DB,
-  password: process.env.DBPASSWORD,
-  port: process.env.DBPORT,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT,
 })
 
 // ...
@@ -670,7 +670,6 @@ import {
   AddPinPage,
   Spinner
 } from "apollo-subscription-example-components";
-// 1. Add new dependencies
 import gql from "graphql-tag";
 import { ApolloProvider, Query, Mutation } from "react-apollo";
 import { ApolloClient } from "apollo-client";
@@ -679,7 +678,6 @@ import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
 
-// 2. Setup client
 const client = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
@@ -699,7 +697,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-// 3. Wrap components with ApolloProvider
 class App extends Component {
   state = { pins: this.props.pins || [] };
   render() {
@@ -809,6 +806,12 @@ The following step is creating a `<AddPinMutation />` component, using the same 
 ## React Apollo's Mutation component
 
 We will implement a component called `<AddPinMutation />` which will output a function to its children. Our `<AddPinPage />` component will receive that function and call it when it needs to.
+
+Go back to client folder
+
+```bash
+cd ../client
+```
 
 ```js
 <AddPinMutation>
