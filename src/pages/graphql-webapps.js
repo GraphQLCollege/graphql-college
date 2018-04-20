@@ -69,7 +69,7 @@ class GraphQLWebapps extends React.Component {
                   width: '100%',
                   maxWidth: 150,
                   padding: 10,
-                  backgroundColor: 'lightslategray',
+                  // backgroundColor: 'lightslategray',
                 }}
                 name="read"
               >
