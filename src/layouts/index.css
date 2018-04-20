@@ -1,8 +1,11 @@
+* {
+  box-sizing: border-box;
+}
 .gatsby-highlight {
   margin-bottom: 1.75rem;
 }
 blockquote {
-  border-left: 0.32813rem solid #b33086;
+  border-left: 0.32813rem solid #e535ab;
 }
 h1,
 h2,
