@@ -32,13 +32,6 @@ class BlogIndex extends React.Component {
         ]}
       >
         <Helmet title={siteTitle} />
-        <BooksLogo
-          style={{
-            gridArea: 'books-logo',
-            justifySelf: 'center',
-          }}
-          width={100}
-        />
         <div
           style={{
             gridArea: 'books',
@@ -51,10 +44,6 @@ class BlogIndex extends React.Component {
             <Book width={200} />
           </Link>
         </div>
-        <PostsLogo
-          style={{ justifySelf: 'center', gridArea: 'posts-logo' }}
-          width={100}
-        />
         <div
           className="posts"
           style={{
