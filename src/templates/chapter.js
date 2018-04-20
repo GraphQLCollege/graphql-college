@@ -28,6 +28,22 @@ class ChapterTemplate extends React.Component {
           dangerouslySetInnerHTML={{ __html: html }}
         />
         <Navigator previous={previous} next={next} />
+        <p
+          style={{
+            borderTop: 'solid 1px',
+            marginTop: '1.75rem',
+            paddingTop: '1rem',
+          }}
+        >
+          Doubts? Suggestions?{' '}
+          <a
+            style={{ display: 'inline-block', marginBottom: 70 }}
+            href="https://github.com/GraphQLCollege/graphql-webapps/issues"
+            target="_blank"
+          >
+            Let us know and we will help you
+          </a>
+        </p>
         <BookHeader chapter={title} chapterList={chapterList} />
       </div>
     )
