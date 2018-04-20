@@ -22,17 +22,21 @@ class GraphQLWebapps extends React.Component {
       <div
         css={[
           { display: 'flex', flexDirection: 'column' },
-          media('(min-width: 426px)', {
+          media('(min-width: 600px)', {
             display: 'grid',
             gridTemplateAreas: "'headline book' 'content content'",
-            gridTemplateColumns: '1fr 1fr',
+            gridTemplateColumns: '50% 50%',
           }),
         ]}
       >
         <Helmet title="GraphQL Webapps Book" />
         <Book
-          style={{ justifySelf: 'center', gridArea: 'book' }}
-          height="75vh"
+          style={{
+            justifySelf: 'center',
+            gridArea: 'book',
+            width: '100%',
+            maxWidth: 400,
+          }}
         />
         <div style={{ padding: rhythm(), gridArea: 'headline' }}>
           <h1 style={{ textTransform: 'uppercase', fontWeight: 400 }}>
