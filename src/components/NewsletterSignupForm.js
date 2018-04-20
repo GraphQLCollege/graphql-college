@@ -5,7 +5,6 @@ import Link from 'gatsby-link'
 import Book from './book.svg'
 import { rhythm } from '../utils/typography'
 import Button from '../components/Button'
-import SubscribeForm from '../components/SubscribeForm'
 
 class NewsletterSignupForm extends React.Component {
   render() {
@@ -52,7 +51,36 @@ class NewsletterSignupForm extends React.Component {
           >
             <h3>Learn how to build Web Applications using GraphQL</h3>
           </Link>
-          <SubscribeForm />
+          <div
+            css={[
+              {
+                display: 'grid',
+                gridGap: rhythm(0.5),
+              },
+            ]}
+          >
+            <div>
+              Learn fullstack GraphQL development by building an app from
+              scratch
+            </div>
+            <Link
+              style={{
+                display: 'inline-block',
+                width: '100%',
+                boxShadow: 'none',
+              }}
+              to="/graphql-webapps"
+            >
+              <Button
+                style={{ width: '100%' }}
+                value="Read"
+                name="read"
+                type="submit"
+              >
+                Free online
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     )

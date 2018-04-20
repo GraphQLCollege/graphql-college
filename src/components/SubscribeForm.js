@@ -15,11 +15,18 @@ const SubscribeForm = () => (
       {
         display: 'grid',
         gridGap: rhythm(0.5),
+        border: 'solid 1px lightslategray',
+        padding: rhythm(1),
+        maxWidth: 400,
+        marginTop: rhythm(2),
+        marginLeft: 'auto',
+        marginRight: 'auto',
       },
     ]}
   >
-    <div>Subscribe to hear when the book launches.</div>
-    <div>Thou shall receive no spam.</div>
+    <div>As you may have noticed, this book is a work in progress.</div>
+    <div>Subscribe to get notified when we release new content.</div>
+    <div>No ads. No external links. Just fresh chapters or posts.</div>
     <div style={{ position: 'absolute', left: -5000 }}>
       <input
         type="text"
@@ -28,7 +35,12 @@ const SubscribeForm = () => (
         value=""
       />
     </div>
-    <Button value="Subscribe" name="subscribe" type="submit">
+    <Button
+      style={{ backgroundColor: 'lightslategray' }}
+      value="Subscribe"
+      name="subscribe"
+      type="submit"
+    >
       Subscribe
     </Button>
   </form>

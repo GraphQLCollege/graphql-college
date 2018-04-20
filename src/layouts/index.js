@@ -3,10 +3,10 @@ import Link from 'gatsby-link'
 import Media from 'react-media'
 
 import { rhythm, scale } from '../utils/typography'
+import { pagePadding } from '../utils/layout'
 import Logo from '../components/Logo'
 import Button from '../components/Button'
 import LogoHorizontal from '../components/LogoHorizontal'
-
 
 import './index.css'
 
@@ -36,18 +36,6 @@ const Header = ({ location: { pathname } }) => (
             {matches ? <LogoHorizontal height={50} /> : <Logo height={100} />}
           </Link>
         </h3>
-        {/* {pathname === '/graphql-webapps' && (
-      <Link style={{ boxShadow: 'none' }} to="/graphql-webapps#buy">
-        <Button
-          style={{
-            paddingTop: 0,
-            paddingBottom: 0,
-          }}
-        >
-          Buy
-        </Button>
-      </Link>
-    )} */}
       </header>
     )}
   </Media>
@@ -63,11 +51,7 @@ class Template extends React.Component {
       rootPath = __PATH_PREFIX__ + `/`
     }
     return (
-      <div
-        style={{
-          padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
-        }}
-      >
+      <div css={pagePadding}>
         {<Header location={location} />}
         {children()}
       </div>

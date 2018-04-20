@@ -2,7 +2,7 @@ import React from 'react'
 
 class Button extends React.Component {
   render() {
-    const { children, props } = this.props
+    const { children, style, ...props } = this.props
     return (
       <button
         style={{
@@ -13,6 +13,7 @@ class Button extends React.Component {
           textTransform: 'uppercase',
           cursor: 'pointer',
           border: 'none',
+          ...style
         }}
         {...props}
       >
