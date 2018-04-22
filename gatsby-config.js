@@ -7,7 +7,6 @@ module.exports = {
   },
   pathPrefix: '/',
   plugins: [
-    'gatsby-plugin-react-next',
     'gatsby-plugin-glamor',
     {
       resolve: `gatsby-source-filesystem`,
