@@ -27,6 +27,7 @@
     "gatsby-transformer-sharp": "^1.6.22",
     "glamor": "^2.20.40",
     "lodash": "^4.17.4",
+    "react-hamburger-menu": "^1.1.0",
     "react-media": "^1.8.0",
     "typeface-merriweather": "0.0.43",
     "typeface-montserrat": "0.0.43",

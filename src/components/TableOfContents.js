@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'gatsby-link'
+import HamburgerMenu from 'react-hamburger-menu'
 
-import TextIcon from './TextIcon'
 import ChapterList from './ChapterList'
 
 import './TableOfContents.css'
@@ -11,13 +11,18 @@ export default class TableOfContents extends React.Component {
   render() {
     return (
       <div className="table-of-contents">
-        <TextIcon
-          style={{
-            width: 30,
-            height: 30,
-            cursor: 'pointer',
-          }}
-          onClick={() => this.setState(({ isOpen }) => ({ isOpen: !isOpen }))}
+        <HamburgerMenu
+          isOpen={this.state.isOpen}
+          menuClicked={() =>
+            this.setState(({ isOpen }) => ({ isOpen: !isOpen }))
+          }
+          width={30}
+          height={30}
+          strokeWidth={1}
+          rotate={0}
+          color="rgb(225, 0, 152)"
+          borderRadius={0}
+          animationDuration={0.5}
         />
         <ChapterList
           style={{
