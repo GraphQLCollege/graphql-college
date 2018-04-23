@@ -17,7 +17,7 @@ export default class TableOfContents extends React.Component {
             this.setState(({ isOpen }) => ({ isOpen: !isOpen }))
           }
           width={30}
-          height={30}
+          height={20}
           strokeWidth={1}
           rotate={0}
           color="rgb(225, 0, 152)"
