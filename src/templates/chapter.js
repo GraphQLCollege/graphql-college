@@ -6,13 +6,18 @@ import get from 'lodash/get'
 import { rhythm, scale } from '../utils/typography'
 import Navigator from '../components/Navigator'
 import BookHeader from '../components/BookHeader'
+import SubscribeForm from '../components/SubscribeForm'
 
 import './chapter.css'
 
 class ChapterTemplate extends React.Component {
   render() {
     const chapterList = this.props.data.allGraphQlWebappsChapters.edges.map(
-      ({ node: { chapter: { slug, title, metadata } } }) => ({
+      ({
+        node: {
+          chapter: { slug, title, metadata },
+        },
+      }) => ({
         slug,
         title,
         metadata,
@@ -37,14 +42,19 @@ class ChapterTemplate extends React.Component {
         >
           Doubts? Suggestions?{' '}
           <a
-            style={{ display: 'inline-block', marginBottom: 70 }}
+            style={{ display: 'inline-block', marginBottom: '1.75rem' }}
             href="https://github.com/GraphQLCollege/graphql-webapps/issues"
             target="_blank"
           >
             Let us know and we will help you
           </a>
         </p>
-        <BookHeader chapter={title} chapterList={chapterList} />
+        <SubscribeForm />
+        <BookHeader
+          style={{ marginTop: 70 }}
+          chapter={title}
+          chapterList={chapterList}
+        />
       </div>
     )
   }

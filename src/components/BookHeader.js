@@ -7,8 +7,8 @@ import { headerMargin } from '../utils/layout'
 
 import './BookHeader.css'
 
-const BookHeader = ({ chapter, chapterList }) => (
-  <nav className="book-header" css={headerMargin}>
+const BookHeader = ({ chapter, chapterList, ...props }) => (
+  <nav className="book-header" css={headerMargin} {...props}>
     <TableOfContents chapterList={chapterList} />
     <Link to="/graphql-webapps" className="book-title">
       GraphQL Webapps
