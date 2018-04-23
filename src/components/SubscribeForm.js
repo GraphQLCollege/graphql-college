@@ -26,7 +26,6 @@ const SubscribeForm = () => (
   >
     <div>As you may have noticed, this book is a work in progress.</div>
     <div>Subscribe to get notified when we release new content.</div>
-    <div>No ads. No external links. Just fresh chapters or posts.</div>
     <div style={{ position: 'absolute', left: -5000 }}>
       <input
         type="text"
