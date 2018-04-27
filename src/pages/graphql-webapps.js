@@ -65,7 +65,7 @@ class GraphQLWebapps extends React.Component {
                 display: 'inline-block',
                 marginLeft: 10,
               }}
-              to="/graphql-webapps/web-development-workflow"
+              to="/graphql-webapps/introduction-to-graph-ql"
             >
               <Button
                 value="Read"
