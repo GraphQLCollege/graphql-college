@@ -53,7 +53,7 @@ const Header = ({ location: { pathname } }) => (
             to={'/'}
           >
             {matches ? (
-              <LogoHorizontal height="5vh" />
+              <LogoHorizontal style={{ height: '5vh' }} height="5vh" />
             ) : (
               <h1
                 style={{
