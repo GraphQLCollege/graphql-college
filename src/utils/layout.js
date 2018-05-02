@@ -1,21 +1,28 @@
 import { rhythm } from './typography'
 import { media } from 'glamor'
 
-const base = { x: 1.5, y: 2 }
+const base = { vertical: 2, horizontal: 1.5 }
+
+export const horizontalPadding = rhythm(base.vertical)
+export const verticalPadding = rhythm(base.vertical)
+export const mobileHorizontalPadding = rhythm(base.horizontal / 4)
+export const mobileVerticalPadding = rhythm(base.vertical / 4)
 
 export const pagePadding = [
   {
-    padding: `${rhythm(base.x / 4)} ${rhythm(base.y / 4)}`,
+    padding: `${rhythm(base.vertical / 4)} ${rhythm(base.horizontal / 4)}`,
+    paddingTop: '0 !important',
+    paddingBottom: '0 !important',
   },
   media('(min-width: 426px)', {
-    padding: `${rhythm(base.x)} ${rhythm(base.y)}`,
+    padding: `${rhythm(base.vertical)} ${rhythm(base.horizontal)}`,
   }),
 ]
 export const headerMargin = [
   {
-    margin: `-${rhythm(base.x / 4)} -${rhythm(base.y / 4)}`,
+    margin: `-${rhythm(base.vertical / 4)} -${rhythm(base.horizontal / 4)}`,
   },
   media('(min-width: 426px)', {
-    margin: `-${rhythm(base.x)} -${rhythm(base.y)}`,
+    margin: `-${rhythm(base.vertical)} -${rhythm(base.horizontal)}`,
   }),
 ]

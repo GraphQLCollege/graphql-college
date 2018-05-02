@@ -1,9 +1,13 @@
 import React from 'react'
 import Link from 'gatsby-link'
 import Media from 'react-media'
+import { media } from 'glamor'
 
-import { rhythm, scale } from '../utils/typography'
-import { pagePadding } from '../utils/layout'
+import {
+  pagePadding,
+  horizontalPadding,
+  mobileHorizontalPadding,
+} from '../utils/layout'
 import Logo from '../components/Logo'
 import Button from '../components/Button'
 import LogoHorizontal from '../components/LogoHorizontal'
@@ -14,15 +18,30 @@ const Header = ({ location: { pathname } }) => (
   <Media query={'(min-width: 426px)'}>
     {matches => (
       <header
-        style={{
-          display: 'flex',
-          justifyContent: matches ? 'space-between' : 'center',
-        }}
+        className="page-header"
+        css={[
+          {
+            display: 'flex',
+            justifyContent: matches ? 'space-between' : 'center',
+            height: '10vh',
+            alignItems: 'center',
+            marginLeft: `-${mobileHorizontalPadding}`,
+            marginRight: `-${mobileHorizontalPadding}`,
+            paddingLeft: mobileHorizontalPadding,
+            paddingRight: mobileHorizontalPadding,
+          },
+          media('(min-width: 426px)', {
+            marginLeft: `-${horizontalPadding}`,
+            marginRight: `-${horizontalPadding}`,
+            paddingLeft: horizontalPadding,
+            paddingRight: horizontalPadding,
+          }),
+        ]}
       >
         <h3
           style={{
             marginTop: 0,
-            marginBottom: rhythm(2),
+            marginBottom: 0,
           }}
         >
           <Link
@@ -33,9 +52,44 @@ const Header = ({ location: { pathname } }) => (
             }}
             to={'/'}
           >
-            {matches ? <LogoHorizontal height={50} /> : <Logo height={100} />}
+            {matches ? (
+              <LogoHorizontal height="5vh" />
+            ) : (
+              <h1
+                style={{
+                  fontSize: '1.5rem',
+                  color: '#e535ab',
+                  margin: 0,
+                }}
+              >
+                GraphQL College
+              </h1>
+            )}
           </Link>
         </h3>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <Link
+            style={{
+              color: '#e535ab',
+              boxShadow: 'none',
+              textDecoration: 'underline',
+            }}
+            to="/graphql-webapps"
+          >
+            GraphQL Book
+          </Link>
+          <Link
+            style={{
+              marginLeft: 10,
+              color: '#e535ab',
+              boxShadow: 'none',
+              textDecoration: 'underline',
+            }}
+            to="/practice-graphql"
+          >
+            Practice GraphQL
+          </Link>
+        </div>
       </header>
     )}
   </Media>

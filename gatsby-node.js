@@ -80,7 +80,13 @@ async function createBookPages(graphql, createPage) {
   `)
   const chapterTemplate = path.resolve('./src/templates/chapter.js')
   chapters.data.allGraphQlWebappsChapters.edges
-    .filter(({ node: { chapter: { metadata } } }) => metadata.online)
+    .filter(
+      ({
+        node: {
+          chapter: { metadata },
+        },
+      }) => metadata.online
+    )
     .forEach(({ node: { chapter: { slug, title, next, previous, html } } }) => {
       createPage({
         path: `/graphql-webapps/${slug}`,
@@ -127,6 +133,12 @@ exports.modifyWebpackConfig = ({ config, stage }, pluginOptions) => {
       limit: 10000,
       name: `static/[name].[hash:8].[ext]`,
     },
+  })
+
+  // Graphiql fix https://github.com/graphql/graphiql/issues/617#issuecomment-344104641
+  config.loader('ignore-loader', {
+    test: /\.flow$/,
+    loader: 'ignore-loader',
   })
 
   config.loader('svg-react-loader', {

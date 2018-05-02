@@ -17,6 +17,7 @@ class BlogIndex extends React.Component {
 
     return (
       <div
+        className="page"
         css={[
           {
             display: 'flex',
@@ -33,16 +34,25 @@ class BlogIndex extends React.Component {
       >
         <Helmet title={siteTitle} />
         <div
-          style={{
-            gridArea: 'books',
-            justifySelf: 'center',
-            alignSelf: 'flex-start',
-            padding: rhythm(2),
-          }}
+          css={[
+            {
+              gridArea: 'books',
+              justifySelf: 'center',
+              alignSelf: 'flex-start',
+              padding: rhythm(2),
+            },
+            media('(min-width: 599px)', {
+              justifySelf: 'flex-end',
+              paddingRight: 0,
+            }),
+          ]}
         >
           <Link style={{ boxShadow: 'none' }} to="/graphql-webapps">
             <Book width={200} />
           </Link>
+          <p css={{ width: 200 }}>
+            Learn to build fullstack GraphQL apps with this open source book
+          </p>
         </div>
         <div
           className="posts"
