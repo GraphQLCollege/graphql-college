@@ -16,33 +16,6 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-source-github',
-      options: {
-        headers: {
-          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-        },
-        queries: [
-          `{
-            repository(name: "graphql-webapps", owner: "GraphQLCollege") {
-              object(expression: "master:chapters/") {
-                ... on Tree {
-                  entries {
-                    name
-                    object {
-                      ... on Blob {
-                        text
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }`,
-        ],
-      },
-    },
-    'gatsby-plugin-graphql-webapps',
-    {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [

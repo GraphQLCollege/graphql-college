@@ -6,25 +6,16 @@ export default class ChapterList extends React.Component {
     const { chapterList, ...props } = this.props
     return (
       <div {...props} className="chapter-list">
-        <span style={{ marginBottom: 20, display: 'inline-block' }}>
-          GraphQL Webapps
+        <span
+          style={{
+            marginBottom: 20,
+            display: 'inline-block',
+            fontWeight: 'bold',
+          }}
+        >
+          Chapters
         </span>
-        <ol>
-          {chapterList.map(({ title, slug, metadata }) => (
-            <li key={slug}>
-              {metadata.online ? (
-                <Link
-                  onClick={() => this.setState({ isOpen: false })}
-                  to={`/graphql-webapps/${slug}`}
-                >
-                  {title}
-                </Link>
-              ) : (
-                title
-              )}
-            </li>
-          ))}
-        </ol>
+        <ol>{chapterList.map(title => <li key={title}>{title}</li>)}</ol>
       </div>
     )
   }

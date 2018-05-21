@@ -57,55 +57,10 @@ async function createBlogPostPages(graphql, createPage) {
   })
 }
 
-async function createBookPages(graphql, createPage) {
-  const chapters = await graphql(`
-    {
-      allGraphQlWebappsChapters {
-        edges {
-          node {
-            chapter {
-              title
-              slug
-              text
-              metadata {
-                online
-              }
-              previous
-              html
-            }
-          }
-        }
-      }
-    }
-  `)
-  const chapterTemplate = path.resolve('./src/templates/chapter.js')
-  chapters.data.allGraphQlWebappsChapters.edges
-    .filter(
-      ({
-        node: {
-          chapter: { metadata },
-        },
-      }) => metadata.online
-    )
-    .forEach(({ node: { chapter: { slug, title, next, previous, html } } }) => {
-      createPage({
-        path: `/graphql-webapps/${slug}`,
-        component: chapterTemplate,
-        context: {
-          title,
-          previous,
-          next,
-          html,
-        },
-      })
-    })
-}
-
 exports.createPages = async ({ graphql, boundActionCreators }) => {
   const { createPage } = boundActionCreators
   try {
     await createBlogPostPages(graphql, createPage)
-    await createBookPages(graphql, createPage)
   } catch (error) {
     console.error(error)
   }
