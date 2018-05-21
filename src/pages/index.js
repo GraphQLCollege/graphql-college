@@ -28,7 +28,7 @@ class BlogIndex extends React.Component {
           media('(min-width: 426px)', {
             display: 'grid',
             gridTemplateAreas: '"posts-logo books-logo" "posts books"',
-            gridTemplateColumns: '1fr 1fr',
+            gridTemplateColumns: '2fr 1fr',
           }),
         ]}
       >
