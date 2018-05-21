@@ -1,7 +1,7 @@
 import { rhythm } from './typography'
 import { media } from 'glamor'
 
-const base = { vertical: 2, horizontal: 1.5 }
+const base = { vertical: 2, horizontal: 5 }
 
 export const horizontalPadding = rhythm(base.vertical)
 export const verticalPadding = rhythm(base.vertical)
@@ -10,7 +10,7 @@ export const mobileVerticalPadding = rhythm(base.vertical / 4)
 
 export const pagePadding = [
   {
-    padding: `${rhythm(base.vertical / 4)} ${rhythm(base.horizontal / 4)}`,
+    padding: `${rhythm(base.vertical / 4)} 10px`,
     paddingTop: '0 !important',
     paddingBottom: '0 !important',
   },
@@ -20,7 +20,7 @@ export const pagePadding = [
 ]
 export const headerMargin = [
   {
-    margin: `-${rhythm(base.vertical / 4)} -${rhythm(base.horizontal / 4)}`,
+    margin: `-${rhythm(base.vertical / 4)} -10px`,
   },
   media('(min-width: 426px)', {
     margin: `-${rhythm(base.vertical)} -${rhythm(base.horizontal)}`,
