@@ -77,7 +77,7 @@ class NewsletterSignupForm extends React.Component {
                 name="read"
                 type="submit"
               >
-                Free online
+                Go
               </Button>
             </Link>
           </div>

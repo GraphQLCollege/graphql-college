@@ -58,28 +58,26 @@ class GraphQLWebapps extends React.Component {
             {/* <Button style={{ width: '100%', maxWidth: 150, padding: 10 }}>
               Buy Ebook
             </Button> */}
-            <Button
-              value="Read"
+            <a
               style={{
+                boxShadow: 'none',
+                display: 'inline-block',
+                backgroundColor: 'rgb(229, 53, 171)',
+                color: 'white',
+                borderRadius: 30,
+                padding: 10,
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                border: 'none',
                 width: '100%',
                 maxWidth: 150,
-                padding: 10,
+                textAlign: 'center',
               }}
-              name="read"
+              href="https://github.com/GraphQLCollege/graphql-webapps"
+              target="_blank"
             >
-              <a
-                style={{
-                  boxShadow: 'none',
-                  width: '100%',
-                  display: 'inline-block',
-                  color: 'inherit',
-                }}
-                href="https://github.com/GraphQLCollege/graphql-webapps"
-                target="_blank"
-              >
-                Read
-              </a>
-            </Button>
+              Read
+            </a>
           </div>
         </div>
         <div
