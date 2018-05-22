@@ -9,14 +9,6 @@ import Button from '../components/Button'
 import ChapterList from '../components/ChapterList'
 import SubscribeForm from '../components/SubscribeForm'
 
-const chapterList = [
-  'Introduction',
-  'Reading and writing data',
-  'Data modeling',
-  'Building GraphQL APIs',
-  'Building GraphQL clients',
-]
-
 class GraphQLWebapps extends React.Component {
   render() {
     return (
@@ -123,7 +115,7 @@ class GraphQLWebapps extends React.Component {
               server, how to develop NodeJS GraphQL servers and finally how to
               create React GraphQL clients.
             </p>
-            <ChapterList chapterList={chapterList} />
+            <ChapterList />
             <SubscribeForm />
           </div>
         </div>
