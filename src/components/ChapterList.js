@@ -15,54 +15,56 @@ export default class ChapterList extends React.Component {
         >
           Chapters
         </span>
-        <ol>
+        <ul style={{ listStyleType: 'none' }}>
+          <li>1. Introduction</li>
           <li>
-            Introduction
-            <ul>
-              <li>Why GraphQL?</li>
-              <li>What is GraphQL?</li>
-              <li>How to use GraphQL?</li>
-              <li>Sample application</li>
-              <li>Development environment</li>
+            2. Reading and writing data
+            <ul style={{ listStyleType: 'none' }}>
+              <li>2.1 Queries and Mutations</li>
+              <li>2.2 Query</li>
+              <li>2.3 Nested Fields</li>
+              <li>2.4 Multiple fields</li>
+              <li>2.5 Operation name</li>
+              <li>2.6 Arguments</li>
+              <li>2.7 Aliases</li>
+              <li>2.8 Fragments</li>
+              <li>2.9 Variables</li>
+              <li>2.10 Directives</li>
+              <li>2.11 Default variables</li>
+              <li>2.12 Inline fragments</li>
+              <li>2.13 Meta fields</li>
+              <li>2.14 Mutations</li>
             </ul>
           </li>
           <li>
-            Reading and writing data
-            <ul>
-              <li>Query</li>
-              <li>Fields</li>
-              <li>Multiple fields</li>
-              <li>Operation name</li>
-              <li>Arguments</li>
-              <li>Aliases</li>
-              <li>Fragments</li>
-              <li>Variables</li>
-              <li>Directives</li>
-              <li>Default variables</li>
-              <li>Mutations</li>
-              <li>Inline fragments</li>
-              <li>Meta fields</li>
-            </ul>
-          </li>
-          <li>Data modeling</li>
-          <li>
-            Building GraphQL APIs
-            <ul>
-              <li>Database</li>
-              <li>Business logic</li>
-              <li>Testing</li>
-              <li>Subscriptions</li>
+            3. Data modeling
+            <ul style={{ listStyleType: 'none' }}>
+              <li>3.1 Schema, types and resolvers</li>
+              <li>3.2 Schemas</li>
+              <li>3.3 Type definitions</li>
+              <li>3.4 Resolvers</li>
             </ul>
           </li>
           <li>
-            Building GraphQL clients
-            <ul>
-              <li>React Apollo</li>
-              <li>Subscriptions</li>
-              <li>Testing</li>
+            4. Building GraphQL APIs
+            <ul style={{ listStyleType: 'none' }}>
+              <li>4.1 Database</li>
+              <li>4.2 Business logic</li>
+              <li>4.3 Testing</li>
+              <li>4.4 Subscriptions</li>
+              <li>4.5 File organization</li>
             </ul>
           </li>
-        </ol>
+          <li>
+            5. Building GraphQL clients
+            <ul style={{ listStyleType: 'none' }}>
+              <li>5.1 Apollo Client</li>
+              <li>5.2 React Apollo</li>
+              <li>5.3 Subscriptions</li>
+              <li>5.4 Testing</li>
+            </ul>
+          </li>
+        </ul>
       </div>
     )
   }
