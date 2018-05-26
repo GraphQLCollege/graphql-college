@@ -33,6 +33,7 @@ export default class ChapterList extends React.Component {
               <li>1.12 Inline fragments</li>
               <li>1.13 Meta fields</li>
               <li>1.14 Mutations</li>
+              <li>1.15 Conclusion</li>
             </ul>
           </li>
           <li>
@@ -42,6 +43,7 @@ export default class ChapterList extends React.Component {
               <li>2.2 Schemas</li>
               <li>2.3 Type definitions</li>
               <li>2.4 Resolvers</li>
+              <li>2.5 Conclusion</li>
             </ul>
           </li>
           <li>
@@ -52,6 +54,7 @@ export default class ChapterList extends React.Component {
               <li>3.3 Testing</li>
               <li>3.4 Subscriptions</li>
               <li>3.5 File organization</li>
+              <li>3.6 Conclusion</li>
             </ul>
           </li>
           <li>
@@ -61,6 +64,7 @@ export default class ChapterList extends React.Component {
               <li>4.2 React Apollo</li>
               <li>4.3 Subscriptions</li>
               <li>4.4 Testing</li>
+              <li>4.5 Conclusion</li>
             </ul>
           </li>
         </ul>
