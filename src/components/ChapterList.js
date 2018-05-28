@@ -47,24 +47,44 @@ export default class ChapterList extends React.Component {
             </ul>
           </li>
           <li>
-            3. Building GraphQL APIs
+            3. GraphQL APIs
             <ul style={{ listStyleType: 'none' }}>
               <li>3.1 Database</li>
               <li>3.2 Business logic</li>
               <li>3.3 Testing</li>
-              <li>3.4 Subscriptions</li>
-              <li>3.5 File organization</li>
-              <li>3.6 Summary</li>
+              <li>3.4 File organization</li>
+              <li>3.5 Summary</li>
             </ul>
           </li>
           <li>
-            4. Building GraphQL clients
+            4. GraphQL clients
             <ul style={{ listStyleType: 'none' }}>
               <li>4.1 Apollo Client</li>
               <li>4.2 React Apollo</li>
-              <li>4.3 Subscriptions</li>
-              <li>4.4 Testing</li>
-              <li>4.5 Summary</li>
+              <li>4.3 Summary</li>
+            </ul>
+          </li>
+          <li>
+            5. Subscriptions
+            <ul style={{ listStyleType: 'none' }}>
+              <li>5.1 Server side subscriptions</li>
+              <li>5.2 PubSub</li>
+              <li>5.3 Implementing server side Subscriptions</li>
+              <li>5.4 Client side subscriptions</li>
+              <li>5.5 Apollo boost migration</li>
+              <li>5.6 Implementing client side subscriptions</li>
+              <li>5.7 Summary</li>
+            </ul>
+          </li>
+          <li>
+            6. Testing
+            <ul style={{ listStyleType: 'none' }}>
+              <li>6.1 API testing approaches</li>
+              <li>6.2 GraphQL layer</li>
+              <li>6.3 HTTP layer</li>
+              <li>6.4 Subscription endpoints</li>
+              <li>6.5 Apollo GraphQL clients</li>
+              <li>6.6 Summary</li>
             </ul>
           </li>
         </ul>
