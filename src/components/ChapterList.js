@@ -59,9 +59,10 @@ export default class ChapterList extends React.Component {
           <li>
             4. GraphQL clients
             <ul style={{ listStyleType: 'none' }}>
-              <li>4.1 Apollo Client</li>
-              <li>4.2 React Apollo</li>
-              <li>4.3 Summary</li>
+              <li>4.1 Simple GraphQL client</li>
+              <li>4.2 Apollo Client</li>
+              <li>4.3 React Apollo</li>
+              <li>4.4 Summary</li>
             </ul>
           </li>
           <li>
