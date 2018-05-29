@@ -22,7 +22,7 @@ class NewsletterSignupForm extends React.Component {
           }),
         ]}
       >
-        <Link style={{ boxShadow: 'none' }} to="/graphql-webapps">
+        <Link style={{ boxShadow: 'none' }} to="/fullstack-graphql">
           <Book
             style={{
               alignSelf: 'center',
@@ -47,7 +47,7 @@ class NewsletterSignupForm extends React.Component {
               textDecoration: 'underline',
               color: '#e535ab',
             }}
-            to="/graphql-webapps"
+            to="/fullstack-graphql"
           >
             <h3>Learn how to build Web Applications using GraphQL</h3>
           </Link>
@@ -69,7 +69,7 @@ class NewsletterSignupForm extends React.Component {
                 width: '100%',
                 boxShadow: 'none',
               }}
-              to="/graphql-webapps"
+              to="/fullstack-graphql"
             >
               <Button
                 style={{ width: '100%' }}

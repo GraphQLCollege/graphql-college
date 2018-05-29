@@ -58,7 +58,13 @@ async function createBlogPostPages(graphql, createPage) {
 }
 
 exports.createPages = async ({ graphql, boundActionCreators }) => {
-  const { createPage } = boundActionCreators
+  const { createPage, createRedirect } = boundActionCreators
+  createRedirect({
+    fromPath: `/graphql-webapps`,
+    isPermanent: true,
+    redirectInBrowser: true,
+    toPath: `/fullstack-graphql`,
+  })
   try {
     await createBlogPostPages(graphql, createPage)
   } catch (error) {

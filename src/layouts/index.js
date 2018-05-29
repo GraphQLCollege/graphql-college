@@ -74,9 +74,9 @@ const Header = ({ location: { pathname } }) => (
               boxShadow: 'none',
               textDecoration: 'underline',
             }}
-            to="/graphql-webapps"
+            to="/fullstack-graphql"
           >
-            GraphQL Book
+            Fullstack GraphQL
           </Link>
           <Link
             style={{

@@ -14,7 +14,7 @@ const Navigator = ({ previous, next }) => (
     {previous ? (
       <Link
         style={{ boxShadow: 'none', marginRight: 20 }}
-        to={`/graphql-webapps/${previous}`}
+        to={`/fullstack-graphql/${previous}`}
       >
         <Triangle style={{ width: 30 }} direction="left" />
       </Link>
@@ -22,7 +22,7 @@ const Navigator = ({ previous, next }) => (
     {next ? (
       <Link
         style={{ boxShadow: 'none', marginLeft: 20 }}
-        to={`/graphql-webapps/${next}`}
+        to={`/fullstack-graphql/${next}`}
       >
         <Triangle style={{ width: 30 }} direction="right" />
       </Link>

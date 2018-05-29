@@ -9,7 +9,7 @@ import Button from '../components/Button'
 import ChapterList from '../components/ChapterList'
 import SubscribeForm from '../components/SubscribeForm'
 
-class GraphQLWebapps extends React.Component {
+class FullstackGraphQL extends React.Component {
   render() {
     return (
       <div
@@ -22,7 +22,7 @@ class GraphQLWebapps extends React.Component {
           }),
         ]}
       >
-        <Helmet title="GraphQL Webapps Book" />
+        <Helmet title="Fullstack GraphQL" />
         <Book
           style={{
             justifySelf: 'center',
@@ -37,7 +37,7 @@ class GraphQLWebapps extends React.Component {
           </h1>
           <p>
             <a
-              href="https://github.com/GraphQLCollege/graphql-webapps"
+              href="https://github.com/GraphQLCollege/fullstack-graphql"
               target="_blank"
             >
               Open source book
@@ -65,7 +65,7 @@ class GraphQLWebapps extends React.Component {
                 maxWidth: 150,
                 textAlign: 'center',
               }}
-              href="https://github.com/GraphQLCollege/graphql-webapps"
+              href="https://github.com/GraphQLCollege/fullstack-graphql"
               target="_blank"
             >
               Read
@@ -124,4 +124,4 @@ class GraphQLWebapps extends React.Component {
   }
 }
 
-export default GraphQLWebapps
+export default FullstackGraphQL

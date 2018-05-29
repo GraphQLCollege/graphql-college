@@ -10,8 +10,8 @@ import './BookHeader.css'
 const BookHeader = ({ chapter, chapterList, ...props }) => (
   <nav className="book-header" css={headerMargin} {...props}>
     <TableOfContents chapterList={chapterList} />
-    <Link to="/graphql-webapps" className="book-title">
-      GraphQL Webapps
+    <Link to="/fullstack-graphql" className="book-title">
+      Fullstack GraphQL
     </Link>
     <div className="buy-button-placeholder" />
     {/* <Button

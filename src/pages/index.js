@@ -47,7 +47,7 @@ class BlogIndex extends React.Component {
             }),
           ]}
         >
-          <Link style={{ boxShadow: 'none' }} to="/graphql-webapps">
+          <Link style={{ boxShadow: 'none' }} to="/fullstack-graphql">
             <Book width={200} />
           </Link>
           <p css={{ width: 200 }}>
