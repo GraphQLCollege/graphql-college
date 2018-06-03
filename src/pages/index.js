@@ -51,7 +51,7 @@ class BlogIndex extends React.Component {
             <Book width={200} />
           </Link>
           <p css={{ width: 200 }}>
-            Learn to build fullstack GraphQL apps with this open source book
+            Learn to build fullstack GraphQL apps with this hands-on book
           </p>
         </div>
         <div
