@@ -3,7 +3,131 @@ div a.gumroad-button {
   color: white !important;
   background-color: #e535ab !important;
   padding: 0 30px !important;
+  line-height: auto !important;
 }
 .gumroad-button .gumroad-button-logo {
   display: none !important;
+}
+.book-buttons {
+  font-size: 0.75rem;
+  display: flex;
+}
+.sample-chapter-button {
+  box-shadow: rgba(0, 0, 0, 0.4) 0 0 2px !important;
+  font-family: -apple-system, '.SFNSDisplay-Regular', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  padding: 0 15px !important;
+  text-shadow: none !important;
+  text-decoration: none !important;
+  margin-left: 20px;
+  color: rgba(0, 0, 0, 0.4);
+  display: flex !important;
+  align-items: center;
+  cursor: pointer;
+}
+.chapters {
+  grid-area: content;
+}
+.chapters h2 {
+  font-weight: bold;
+}
+.chapters > ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  list-style: none;
+  grid-gap: 30px;
+  margin: 0;
+}
+.chapter {
+  border: solid 1px #e535ab;
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease-out;
+}
+.chapter-number {
+  display: block;
+  font-size: 1rem;
+}
+.chapter-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  height: 100px;
+}
+.chapter-sections {
+  font-size: 1rem;
+  list-style: none;
+  margin: 0;
+}
+.chapter-sections li {
+  font-size: 0.75rem;
+}
+
+/* https://alligator.io/css/collapsible/ */
+.wrap-collabsible {
+  margin-bottom: 1.2rem 0;
+}
+
+input[type='checkbox'] {
+  display: none;
+}
+
+.lbl-toggle {
+  display: block;
+
+  text-align: center;
+
+  padding: 1rem;
+  font-size: 0.9rem;
+
+  cursor: pointer;
+
+  border-radius: 7px;
+  transition: all 0.25s ease-out;
+}
+
+.lbl-toggle::before {
+  content: ' ';
+  display: inline-block;
+
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid currentColor;
+  vertical-align: middle;
+  margin-right: 0.7rem;
+  transform: translateY(-2px);
+
+  transition: transform 0.2s ease-out;
+}
+
+.toggle:checked + .lbl-toggle::before {
+  transform: rotate(90deg) translateX(-3px);
+}
+
+.collapsible-content {
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.toggle:checked + .lbl-toggle + .collapsible-content {
+  max-height: 350px;
+}
+
+.toggle:checked + .lbl-toggle {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.collapsible-content .content-inner {
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  padding: 0.5rem 1rem;
 }

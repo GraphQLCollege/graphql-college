@@ -42,7 +42,7 @@ class FullstackGraphQL extends React.Component {
             build a full stack GraphQL application step by step using NodeJS,
             Apollo GraphQL and React.
           </p>
-          <div style={{ display: 'flex', fontSize: '.75rem' }}>
+          <div className="book-buttons">
             <a
               className="gumroad-button"
               href="https://gum.co/fullstack-graphql?wanted=true"
@@ -51,54 +51,165 @@ class FullstackGraphQL extends React.Component {
             >
               Buy
             </a>
+            <a
+              target="_blank"
+              href="/fullstack-graphql-sample.zip"
+              className="sample-chapter-button"
+            >
+              Sample chapter
+            </a>
           </div>
         </div>
-        <div
-          style={{
-            padding: rhythm(),
-            gridArea: 'content',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <div style={{ maxWidth: 600 }}>
-            <p>
-              GraphQL is revolutionizing client-server communication. It is a
-              powerful technology that:
-            </p>
-            <ol>
-              <li>
-                Improves communication with API consumers. Facilitates team
-                communication by providing an easy way for frontend developers
-                to know all methods that the API exposes. It also enables better
-                communication with 3rd party API consumers because GraphQL
-                services have zero configuration API documentation.
-              </li>
-              <li>
-                Empowers clients by giving them complete data fetching control.
-                GraphQL lets clients ask for the exact data that they need. Not
-                more, not less. It also lets clients ask for nested resources in
-                the same operation, avoiding the need for REST-style cascading
-                requests. REST tends to push complexity to API clients.
-              </li>
-              <li>
-                Optimizes network usage by reducing HTTP payloads and number of
-                requests. Reducing data and requests directly maps to a better
-                experience for mobile users.
-              </li>
-            </ol>
-            <p>
-              With this book you will learn how to use GraphQL to build full
-              stack web applications. You will learn how to develop a complete
-              GraphQL client-server application from scratch. You will learn how
-              to fetch data from the client, how to design that data in the
-              server, how to develop NodeJS GraphQL servers and finally how to
-              create React GraphQL clients.
-            </p>
-            <ChapterList />
-            <SubscribeForm />
-          </div>
+        <div className="chapters">
+          <h2>Chapters</h2>
+          <ul>
+            <li className="chapter">
+              <span className="chapter-number">1</span>
+              <div className="chapter-title">Reading and writing data</div>
+              <div className="wrap-collapsible">
+                <input id="collapsible-1" className="toggle" type="checkbox" />
+                <label htmlFor="collapsible-1" className="lbl-toggle">
+                  Sections
+                </label>
+                <div className="collapsible-content">
+                  <div className="content-inner">
+                    <ul className="chapter-sections">
+                      <li>Queries and Mutations</li>
+                      <li>Query</li>
+                      <li>Nested fields</li>
+                      <li>Multiple fields</li>
+                      <li>Operation name</li>
+                      <li>Arguments</li>
+                      <li>Aliases</li>
+                      <li>Fragments</li>
+                      <li>Variables</li>
+                      <li>Directives</li>
+                      <li>Default variables</li>
+                      <li>Inline fragments</li>
+                      <li>Meta fields</li>
+                      <li>Mutations</li>
+                      <li>Summary</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li className="chapter">
+              <span className="chapter-number">2</span>
+              <div className="chapter-title">Data modeling</div>
+              <div className="wrap-collapsible">
+                <input id="collapsible-2" className="toggle" type="checkbox" />
+                <label htmlFor="collapsible-2" className="lbl-toggle">
+                  Sections
+                </label>
+                <div className="collapsible-content">
+                  <div className="content-inner">
+                    <ul className="chapter-sections">
+                      <li>Schema, types and resolvers</li>
+                      <li>Schemas</li>
+                      <li>Type definitions</li>
+                      <li>Resolvers</li>
+                      <li>Summary</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li className="chapter">
+              <span className="chapter-number">3</span>
+              <div className="chapter-title">GraphQL APIs</div>
+              <div className="wrap-collapsible">
+                <input id="collapsible-3" className="toggle" type="checkbox" />
+                <label htmlFor="collapsible-3" className="lbl-toggle">
+                  Sections
+                </label>
+                <div className="collapsible-content">
+                  <div className="content-inner">
+                    <ul className="chapter-sections">
+                      <li>Server</li>
+                      <li>Database</li>
+                      <li>Authentication</li>
+                      <li>File organization</li>
+                      <li>Summary</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li className="chapter">
+              <span className="chapter-number">4</span>
+              <div className="chapter-title">GraphQL Clients</div>
+              <div className="wrap-collapsible">
+                <input id="collapsible-4" className="toggle" type="checkbox" />
+                <label htmlFor="collapsible-4" className="lbl-toggle">
+                  Sections
+                </label>
+                <div className="collapsible-content">
+                  <div className="content-inner">
+                    <ul className="chapter-sections">
+                      <li>Initial React client</li>
+                      <li>Client side state</li>
+                      <li>Apollo Client</li>
+                      <li>React Apollo</li>
+                      <li>Query component</li>
+                      <li>Apollo Provider</li>
+                      <li>Mutation Component</li>
+                      <li>Summary</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li className="chapter">
+              <span className="chapter-number">5</span>
+              <div className="chapter-title">Subscriptions</div>
+              <div className="wrap-collapsible">
+                <input id="collapsible-5" className="toggle" type="checkbox" />
+                <label htmlFor="collapsible-5" className="lbl-toggle">
+                  Sections
+                </label>
+                <div className="collapsible-content">
+                  <div className="content-inner">
+                    <ul className="chapter-sections">
+                      <li>Server side subscriptions</li>
+                      <li>Pubsub systems</li>
+                      <li>Implementing server side subscriptions</li>
+                      <li>Client side subscriptions</li>
+                      <li>Apollo boost migration</li>
+                      <li>Implementing client side subscriptions</li>
+                      <li>Summary</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li className="chapter">
+              <span className="chapter-number">6</span>
+              <div className="chapter-title">Testing</div>
+              <div className="wrap-collapsible">
+                <input id="collapsible-6" className="toggle" type="checkbox" />
+                <label htmlFor="collapsible-6" className="lbl-toggle">
+                  Sections
+                </label>
+                <div className="collapsible-content">
+                  <div className="content-inner">
+                    <ul className="chapter-sections">
+                      <li>How to test GraphQL APIs</li>
+                      <li>Testing setup</li>
+                      <li>GraphQL Layer</li>
+                      <li>HTTP Layer</li>
+                      <li>Testing email based authentication</li>
+                      <li>Subscription endpoints</li>
+                      <li>How to test React Apollo GraphQL clients</li>
+                      <li>Testing client-side authentication</li>
+                      <li>Client subscriptions</li>
+                      <li>Summary</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     )
