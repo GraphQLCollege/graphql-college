@@ -9,6 +9,8 @@ import Button from '../components/Button'
 import ChapterList from '../components/ChapterList'
 import SubscribeForm from '../components/SubscribeForm'
 
+import "./fullstack-graphql.css";
+
 class FullstackGraphQL extends React.Component {
   render() {
     return (
@@ -41,9 +43,14 @@ class FullstackGraphQL extends React.Component {
             React.
           </p>
           <div style={{ display: 'flex', fontSize: '.75rem' }}>
-            <Button style={{ width: '100%', maxWidth: 150, padding: 10 }}>
+            <a
+              className="gumroad-button"
+              href="https://gum.co/fullstack-graphql?wanted=true"
+              target="_blank"
+              data-gumroad-single-product="true"
+            >
               Buy
-            </Button>
+            </a>
           </div>
         </div>
         <div

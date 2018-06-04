@@ -1,0 +1,9 @@
+div a.gumroad-button {
+  background-image: none !important;
+  color: white !important;
+  background-color: #e535ab !important;
+  padding: 0 30px !important;
+}
+.gumroad-button .gumroad-button-logo {
+  display: none !important;
+}
