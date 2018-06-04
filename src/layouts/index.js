@@ -13,24 +13,21 @@ import Button from '../components/Button'
 import LogoHorizontal from '../components/LogoHorizontal'
 
 import './index.css'
+import './syntax-highlighting-theme.css'
 
 const Header = ({ location: { pathname } }) => (
-  <Media query={'(min-width: 426px)'}>
+  <Media query={'(min-width: 700px)'}>
     {matches => (
       <header
         className="page-header"
         css={[
           {
             display: 'flex',
-            justifyContent: matches ? 'space-between' : 'center',
-            height: '10vh',
+            justifyContent: matches ? 'space-between' : 'space-around',
+            minHeight: '10vh',
             alignItems: 'center',
-            marginLeft: `-${mobileHorizontalPadding}`,
-            marginRight: `-${mobileHorizontalPadding}`,
-            paddingLeft: mobileHorizontalPadding,
-            paddingRight: mobileHorizontalPadding,
           },
-          media('(min-width: 426px)', {
+          media('(min-width: 700px)', {
             marginLeft: `-${horizontalPadding}`,
             marginRight: `-${horizontalPadding}`,
             paddingLeft: horizontalPadding,
@@ -59,7 +56,7 @@ const Header = ({ location: { pathname } }) => (
                 style={{
                   fontSize: '1.5rem',
                   color: '#e535ab',
-                  margin: 0,
+                  margin: 0
                 }}
               >
                 GraphQL College
@@ -76,18 +73,18 @@ const Header = ({ location: { pathname } }) => (
             }}
             to="/fullstack-graphql"
           >
-            Fullstack GraphQL
+            Book
           </Link>
           <Link
             style={{
-              marginLeft: 10,
+              marginLeft: 30,
               color: '#e535ab',
               boxShadow: 'none',
               textDecoration: 'underline',
             }}
             to="/practice-graphql"
           >
-            Practice GraphQL
+            Playground
           </Link>
         </div>
       </header>
@@ -105,7 +102,7 @@ class Template extends React.Component {
       rootPath = __PATH_PREFIX__ + `/`
     }
     return (
-      <div css={pagePadding}>
+      <div className="graphql-college">
         {<Header location={location} />}
         {children()}
       </div>
