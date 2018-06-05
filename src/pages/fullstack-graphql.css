@@ -13,7 +13,8 @@ div a.gumroad-button {
   display: flex;
 }
 .sample-chapter-button {
-  box-shadow: rgba(0, 0, 0, 0.4) 0 0 2px !important;
+  box-shadow: #e535ab 0 0 2px !important;
+  background-color: #e535ab;
   font-family: -apple-system, '.SFNSDisplay-Regular', 'Helvetica Neue',
     Helvetica, Arial, sans-serif !important;
   font-size: 16px !important;
@@ -23,7 +24,7 @@ div a.gumroad-button {
   height: 50px !important;
   text-shadow: none !important;
   text-decoration: none !important;
-  color: rgba(0, 0, 0, 0.4);
+  color: white;
   display: flex !important;
   align-items: center;
   cursor: pointer;
@@ -36,7 +37,7 @@ div a.gumroad-button {
   grid-column-end: 3;
 }
 .chapters h2 {
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 .chapters > ul {
   display: grid;
@@ -72,6 +73,28 @@ div a.gumroad-button {
 }
 .chapter-sections li {
   font-size: 0.75rem;
+}
+
+.about-author {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+.about-author img {
+  border-radius: 50%;
+  padding: 0;
+  box-shadow: none;
+  width: 200px;
+}
+
+.what-you-will-build,
+.final-words {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.final-words {
+  border-top: solid 1px #e535ab;
+  padding-top: 50px;
 }
 
 /* https://alligator.io/css/collapsible/ */
