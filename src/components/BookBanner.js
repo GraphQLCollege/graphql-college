@@ -6,7 +6,7 @@ import Book from './book.svg'
 import { rhythm } from '../utils/typography'
 import Button from '../components/Button'
 
-class NewsletterSignupForm extends React.Component {
+class BookBanner extends React.Component {
   render() {
     return (
       <div
@@ -49,7 +49,7 @@ class NewsletterSignupForm extends React.Component {
             }}
             to="/fullstack-graphql"
           >
-            <h3>Learn how to build Web Applications using GraphQL</h3>
+            <h3>Fullstack GraphQL Book</h3>
           </Link>
           <div
             css={[
@@ -77,7 +77,7 @@ class NewsletterSignupForm extends React.Component {
                 name="read"
                 type="submit"
               >
-                Go
+                Read
               </Button>
             </Link>
           </div>
@@ -87,4 +87,4 @@ class NewsletterSignupForm extends React.Component {
   }
 }
 
-export default NewsletterSignupForm
+export default BookBanner

@@ -4,7 +4,7 @@ import Link from 'gatsby-link'
 import get from 'lodash/get'
 
 import Bio from '../components/Bio'
-import NewsletterSignupForm from '../components/NewsletterSignupForm'
+import BookBanner from '../components/BookBanner'
 import SubscribeForm from '../components/SubscribeForm'
 import { rhythm, scale } from '../utils/typography'
 
@@ -39,7 +39,7 @@ class BlogPostTemplate extends React.Component {
         />
         <Bio />
         <SubscribeForm center text="Liked this article? Subscribe to receive more in your inbox" />
-        <NewsletterSignupForm />
+        <BookBanner />
       </div>
     )
   }
