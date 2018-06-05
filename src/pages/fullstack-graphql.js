@@ -42,14 +42,14 @@ class FullstackGraphQL extends React.Component {
             Apollo GraphQL and React.
           </p>
           <div className="book-buttons">
-            <a
+            {/* <a
               className="gumroad-button"
               href="https://gum.co/fullstack-graphql?wanted=true"
               target="_blank"
               data-gumroad-single-product="true"
             >
               Buy
-            </a>
+            </a> */}
             <a
               target="_blank"
               href="/fullstack-graphql-sample.zip"
@@ -59,6 +59,7 @@ class FullstackGraphQL extends React.Component {
             </a>
           </div>
         </div>
+        <SubscribeForm text="Subscribe to receive book updates" />
         <div className="chapters">
           <h2>Chapters</h2>
           <ul>

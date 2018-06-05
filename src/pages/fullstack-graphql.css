@@ -19,17 +19,21 @@ div a.gumroad-button {
   font-size: 16px !important;
   font-style: normal !important;
   font-weight: 500 !important;
-  padding: 0 15px !important;
+  padding: 0 30px !important;
+  height: 50px !important;
   text-shadow: none !important;
   text-decoration: none !important;
-  margin-left: 20px;
   color: rgba(0, 0, 0, 0.4);
   display: flex !important;
   align-items: center;
   cursor: pointer;
 }
+.sample-chapter-button {
+  /* margin-left: 20px; */
+}
 .chapters {
-  grid-area: content;
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 .chapters h2 {
   font-weight: bold;

@@ -31,6 +31,7 @@ module.exports = class HTML extends React.Component {
           />
           {this.props.headComponents}
           {css}
+          <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css" />
         </head>
         <body {...this.props.bodyAttributes}>
           {this.props.preBodyComponents}

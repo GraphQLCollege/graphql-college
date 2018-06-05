@@ -1,0 +1,14 @@
+#mc_embed_signup {
+  background: #fff;
+  clear: left;
+  font: 14px Helvetica, Arial, sans-serif;
+  width: 100%;
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+#mc_embed_signup .button {
+  background-color: #e535ab;
+}
+#mc_embed_signup form {
+  text-align: start;
+}
