@@ -6,7 +6,6 @@ import Link from 'gatsby-link'
 import { rhythm } from '../utils/typography'
 import Book from '../components/book-perspective.svg'
 import Button from '../components/Button'
-import ChapterList from '../components/ChapterList'
 import SubscribeForm from '../components/SubscribeForm'
 
 import './fullstack-graphql.css'
