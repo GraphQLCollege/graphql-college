@@ -2,7 +2,7 @@ import React from 'react'
 
 import './SubscribeForm.css'
 
-const SubscribeForm = ({ text = 'Subscribe to newsletter' }) => (
+const SubscribeForm = ({ text = 'Subscribe to newsletter', center }) => (
   <div id="mc_embed_signup">
     <form
       action="https://college.us17.list-manage.com/subscribe/post?u=cfb63d53c2a9fedaa08d89e24&amp;id=ded508fb58"
@@ -12,6 +12,7 @@ const SubscribeForm = ({ text = 'Subscribe to newsletter' }) => (
       className="validate"
       target="_blank"
       noValidate
+      style={{ textAlign: center ? 'center' : 'start' }}
     >
       <div id="mc_embed_signup_scroll">
         <label htmlFor="mce-EMAIL">{text}</label>

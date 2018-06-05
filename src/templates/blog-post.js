@@ -5,9 +5,10 @@ import get from 'lodash/get'
 
 import Bio from '../components/Bio'
 import NewsletterSignupForm from '../components/NewsletterSignupForm'
+import SubscribeForm from '../components/SubscribeForm'
 import { rhythm, scale } from '../utils/typography'
 
-import "./blog-post.css";
+import './blog-post.css'
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -37,6 +38,7 @@ class BlogPostTemplate extends React.Component {
           }}
         />
         <Bio />
+        <SubscribeForm center text="Liked this article? Subscribe to receive more in your inbox" />
         <NewsletterSignupForm />
       </div>
     )
