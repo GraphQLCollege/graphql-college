@@ -2,7 +2,6 @@ div a.gumroad-button {
   background-image: none !important;
   color: white !important;
   background-color: #e535ab !important;
-  padding: 0 30px !important;
   line-height: auto !important;
 }
 .gumroad-button .gumroad-button-logo {
@@ -10,7 +9,10 @@ div a.gumroad-button {
 }
 .book-buttons {
   font-size: 0.75rem;
-  display: flex;
+  display: grid;
+  grid-gap: 20px;
+  flex-direction: row;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 }
 .sample-chapter-button {
   box-shadow: #e535ab 0 0 2px !important;
@@ -20,7 +22,6 @@ div a.gumroad-button {
   font-size: 16px !important;
   font-style: normal !important;
   font-weight: 500 !important;
-  padding: 0 30px !important;
   height: 50px !important;
   text-shadow: none !important;
   text-decoration: none !important;
@@ -28,6 +29,24 @@ div a.gumroad-button {
   display: flex !important;
   align-items: center;
   cursor: pointer;
+  justify-content: center;
+}
+.contact-author-button {
+  box-shadow: grey 0 0 2px !important;
+  background-color: grey;
+  font-family: -apple-system, '.SFNSDisplay-Regular', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  height: 50px !important;
+  text-shadow: none !important;
+  text-decoration: none !important;
+  color: white;
+  display: flex !important;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
 }
 .sample-chapter-button {
   /* margin-left: 20px; */
