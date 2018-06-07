@@ -65,7 +65,7 @@ class FullstackGraphQL extends React.Component {
           />
           <meta
             property="og:image"
-            content="https://graphql.college/fullstack-graphql.jpg"
+            content="http://graphql.college/fullstack-graphql.jpg"
           />
           <meta
             property="og:url"
