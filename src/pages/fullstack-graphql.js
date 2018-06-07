@@ -8,15 +8,48 @@ import Book from '../components/book-perspective.svg'
 import Button from '../components/Button'
 import SubscribeForm from '../components/SubscribeForm'
 import profilePic from '../components/profile-pic.png'
+import MediumLogo from '../components/medium-logo.svg'
+import FacebookLogo from '../components/facebook-logo.svg'
+import GithubLogo from '../components/github-logo.svg'
+import PinterestLogo from '../components/pinterest-logo.svg'
+import ShopifyLogo from '../components/shopify-logo.svg'
+import TwitterLogo from '../components/twitter-logo.svg'
+import ProductHuntLogo from '../components/producthunt-logo.webp'
+import KhanLogo from '../components/khan-logo.svg'
+import AirbnbLogo from '../components/airbnb-logo.svg'
+import PaypalLogo from '../components/paypal-logo.svg'
 
 import './fullstack-graphql.css'
+
+const BookButtons = () => (
+  <div className="book-buttons">
+    {/* <a
+    className="gumroad-button"
+    href="https://gum.co/fullstack-graphql?wanted=true"
+    target="_blank"
+    data-gumroad-single-product="true"
+  >
+    Buy
+  </a> */}
+    <a
+      target="_blank"
+      href="/fullstack-graphql-sample.zip"
+      className="sample-chapter-button"
+    >
+      Sample chapter
+    </a>
+    <a href="mailto:julian@graphql.college" className="contact-author-button">
+      Contact author
+    </a>
+  </div>
+)
 
 class FullstackGraphQL extends React.Component {
   render() {
     return (
       <div
         css={[
-          { display: 'flex', flexDirection: 'column' },
+          { display: 'flex', flexDirection: 'column', paddingBottom: 100 },
           media('(min-width: 600px)', {
             display: 'grid',
             gridTemplateAreas: "'headline book' 'content content'",
@@ -42,48 +75,67 @@ class FullstackGraphQL extends React.Component {
             build a full stack GraphQL application step by step using NodeJS,
             Apollo GraphQL and React.
           </p>
-          <div className="book-buttons">
-            {/* <a
-              className="gumroad-button"
-              href="https://gum.co/fullstack-graphql?wanted=true"
-              target="_blank"
-              data-gumroad-single-product="true"
-            >
-              Buy
-            </a> */}
-            <a
-              target="_blank"
-              href="/fullstack-graphql-sample.zip"
-              className="sample-chapter-button"
-            >
-              Sample chapter
-            </a>
-            <a
-              href="mailto:julian@graphql.college"
-              className="contact-author-button"
-            >
-              Contact author
-            </a>
-          </div>
+          <BookButtons />
         </div>
+        <h2 style={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
+          Overwhelmed by all the tools required for building GraphQL
+          applications? <b>Learn how every piece fits together</b>
+        </h2>
         <SubscribeForm text="Subscribe to receive book updates" />
         <div className="what-you-will-build">
           <h2>What you'll build</h2>
           <img src="/pinapp.gif" />
-          <p>You will build from scratch a Pinterest clone called PinApp</p>
           <p>
-            Every chapter will slowly teach you the different moving parts of a
-            GraphQL stack.
+            You will build from scratch a Pinterest clone called PinApp. Every
+            chapter will slowly teach you the different moving parts of a
+            GraphQL stack by adding features to the example project.
+          </p>
+          <p>
+            Focus on learning, not on environment setup. Every chapter contains
+            live, editable code samples.
           </p>
           <p>
             The <b>first chapter</b> will teach you how to read and write data
             from PinApp, like fetching users or pins, using the GraphQL query
             language.
           </p>
+          <div className="code-samples">
+            <a
+              href="https://glitch.com/edit/#!/pinapp-queries-mutations"
+              target="_blank"
+            >
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              Queries and mutations example
+            </a>
+          </div>
           <p>
             The <b>second chapter</b> will teach you how to design PinApp's data
             model using the GraphQL schema design language.
           </p>
+          <div className="code-samples">
+            <a href="https://glitch.com/edit/#!/pinapp-schema" target="_blank">
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              Schema example
+            </a>
+          </div>
           <p>
             In the <b>third chapter</b> you will learn how to create PinApp's
             GraphQL APIs using{' '}
@@ -96,6 +148,66 @@ class FullstackGraphQL extends React.Component {
             previous chapter. You will also learn how to connect an API with a
             Postgres database, and how to organize the API source code.
           </p>
+          <div className="code-samples">
+            <a href="https://glitch.com/edit/#!/pinapp-server" target="_blank">
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              Server example
+            </a>
+            <a
+              href="https://glitch.com/edit/#!/pinapp-database"
+              target="_blank"
+            >
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              SQLite3 example
+            </a>
+            <a
+              href="https://glitch.com/edit/#!/pinapp-email-authentication"
+              target="_blank"
+            >
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              Email Authentication example
+            </a>
+            <a href="https://glitch.com/edit/#!/pinapp-files" target="_blank">
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              File management example
+            </a>
+          </div>
           <p>
             The <b>fourth chapter</b> teaches you how to build PinApp's frontend
             using{' '}
@@ -107,10 +219,139 @@ class FullstackGraphQL extends React.Component {
               React 16
             </a>.
           </p>
+          <div className="code-samples">
+            <a href="https://glitch.com/edit/#!/pinapp-initial" target="_blank">
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              React example
+            </a>
+            <a
+              href="https://glitch.com/edit/#!/pinapp-client-side-state"
+              target="_blank"
+            >
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              Client side state example
+            </a>
+            <a
+              href="https://glitch.com/edit/#!/pinapp-apollo-client"
+              target="_blank"
+            >
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              Apollo Client example
+            </a>
+            <a
+              href="https://glitch.com/edit/#!/pinapp-react-apollo"
+              target="_blank"
+            >
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              React Apollo example
+            </a>
+          </div>
           <p>
             In the <b>fifth chapter</b> you will learn how to add real time
             features to PinApp using GraphQL Subscriptions.
           </p>
+          <div className="code-samples">
+            <a
+              href="https://glitch.com/edit/#!/pinapp-postgres"
+              target="_blank"
+            >
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              Postgres example
+            </a>
+            <a
+              href="https://glitch.com/edit/#!/pinapp-subscriptions"
+              target="_blank"
+            >
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              Server side Subscriptions example
+            </a>
+            <a
+              href="https://glitch.com/edit/#!/pinapp-apollo-boost-migration"
+              target="_blank"
+            >
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              Apollo Boost migration example
+            </a>
+            <a
+              href="https://glitch.com/edit/#!/pinapp-client-subscriptions"
+              target="_blank"
+            >
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              Client side Subscriptions example
+            </a>
+          </div>
           <p>
             The <b>sixth chapter</b> will teach you how to test PinApp's API and
             frontend using{' '}
@@ -118,6 +359,40 @@ class FullstackGraphQL extends React.Component {
               Jest
             </a>.
           </p>
+          <div className="code-samples">
+            <a
+              href="https://glitch.com/edit/#!/pinapp-server-testing"
+              target="_blank"
+            >
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              Server side testing example
+            </a>
+            <a
+              href="https://glitch.com/edit/#!/pinapp-client-testing"
+              target="_blank"
+            >
+              <div
+                style={{
+                  display: 'block',
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+                {'< >'}
+              </div>
+              Client side testing example
+            </a>
+          </div>
         </div>
         <div className="chapters">
           <h2>Chapters</h2>
@@ -270,6 +545,41 @@ class FullstackGraphQL extends React.Component {
             </li>
           </ul>
         </div>
+        <div className="book-section">
+          <h2>Companies using GraphQL in production</h2>
+          <div className="companies-using-graphql">
+            <a href="https://www.facebook.com" target="_blank">
+              <FacebookLogo />
+            </a>
+            <a href="https://www.github.com" target="_blank">
+              <GithubLogo />
+            </a>
+            <a href="https://www.medium.com" target="_blank">
+              <MediumLogo />
+            </a>
+            <a href="https://www.pinterest.com" target="_blank">
+              <PinterestLogo />
+            </a>
+            <a href="https://www.shopify.com" target="_blank">
+              <ShopifyLogo />
+            </a>
+            <a href="https://www.twitter.com" target="_blank">
+              <TwitterLogo />
+            </a>
+            <a href="https://www.producthunt.com" target="_blank">
+              <img src={ProductHuntLogo} />
+            </a>
+            <a href="https://www.khanacademy.com" target="_blank">
+              <KhanLogo />
+            </a>
+            <a href="https://www.airbnb.com" target="_blank">
+              <AirbnbLogo />
+            </a>
+            <a href="https://www.paypal.com" target="_blank">
+              <PaypalLogo />
+            </a>
+          </div>
+        </div>
         <div className="about-author">
           <h2>Meet the author</h2>
           <p>
@@ -286,6 +596,23 @@ class FullstackGraphQL extends React.Component {
             about building apps by writing at GraphQL College.
           </p>
           <img src={profilePic} alt={`Julian Mayorga - Author`} />
+          <div
+            style={{
+              textAlign: 'center',
+            }}
+          >
+            <a
+              href="https://twitter.com/eljuli"
+              style={{
+                boxShadow: 'none',
+                textDecoration: 'none',
+              }}
+              target="_blank"
+            >
+              <TwitterLogo width={25} height={25} />
+              @juli_mayorga
+            </a>
+          </div>
         </div>
         <div className="final-words">
           <p>
@@ -313,7 +640,11 @@ class FullstackGraphQL extends React.Component {
             >
               julian@graphql.college
             </a>
+            .
           </p>
+        </div>
+        <div className="book-section">
+          <BookButtons />
         </div>
       </div>
     )

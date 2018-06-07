@@ -5,6 +5,9 @@
   width: 100%;
   grid-column-start: 1;
   grid-column-end: 3;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 #mc_embed_signup .button {
   background-color: #e535ab;

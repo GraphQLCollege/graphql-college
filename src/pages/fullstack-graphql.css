@@ -14,6 +14,46 @@ div a.gumroad-button {
   flex-direction: row;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 }
+@media (min-width: 700px) {
+  .book-buttons {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+.book-section {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+.companies-using-graphql {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 100px);
+  grid-gap: 20px;
+  justify-content: center;
+}
+.companies-using-graphql * {
+  width: 100px;
+  height: 100px;
+}
+.companies-using-graphql a {
+  text-decoration: none;
+  box-shadow: none;
+}
+.code-samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 150px);
+  grid-gap: 20px;
+  text-align: center;
+  cursor: pointer;
+  justify-content: center;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+.code-samples a {
+  box-shadow: none;
+  text-decoration: none;
+  color: #e535ab;
+  border: solid 1px #e535ab;
+  padding: 20px;
+}
 .sample-chapter-button {
   box-shadow: #e535ab 0 0 2px !important;
   background-color: #e535ab;
