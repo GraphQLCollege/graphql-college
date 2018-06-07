@@ -57,7 +57,24 @@ class FullstackGraphQL extends React.Component {
           }),
         ]}
       >
-        <Helmet title="Fullstack GraphQL" />
+        <Helmet title="Fullstack GraphQL">
+          <meta property="og:title" content="Fullstack GraphQL" />
+          <meta
+            property="og:description"
+            content="Book about building FullStack GraphQL Applications"
+          />
+          <meta
+            property="og:image"
+            content="https://graphql.college/fullstack-graphql.jpg"
+          />
+          <meta
+            property="og:url"
+            content="https://graphql.college/fullstack-graphql"
+          />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta property="og:site_name" content="Fullstack GraphQL" />
+          <meta name="twitter:image:alt" content="Book cover" />
+        </Helmet>
         <Book
           style={{
             justifySelf: 'center',
