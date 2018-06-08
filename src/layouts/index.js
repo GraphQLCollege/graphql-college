@@ -66,9 +66,8 @@ const Header = ({ location: { pathname } }) => (
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <Link
             style={{
-              color: '#e535ab',
+              color: 'black',
               boxShadow: 'none',
-              textDecoration: 'underline',
             }}
             to="/"
           >
@@ -77,9 +76,8 @@ const Header = ({ location: { pathname } }) => (
           <Link
             style={{
               marginLeft: 30,
-              color: '#e535ab',
+              color: 'black',
               boxShadow: 'none',
-              textDecoration: 'underline',
             }}
             to="/fullstack-graphql"
           >
@@ -88,9 +86,8 @@ const Header = ({ location: { pathname } }) => (
           <Link
             style={{
               marginLeft: 30,
-              color: '#e535ab',
+              color: 'black',
               boxShadow: 'none',
-              textDecoration: 'underline',
             }}
             to="/practice-graphql"
           >
@@ -105,7 +102,10 @@ const Header = ({ location: { pathname } }) => (
 const Footer = () => (
   <section className="footer">
     <div>
-      <Link style={{ color: '#e535ab' }} to="/">
+      <Link
+        style={{ color: 'black', textDecoration: 'none', boxShadow: 'none' }}
+        to="/"
+      >
         Home
       </Link>
     </div>
@@ -115,7 +115,7 @@ const Footer = () => (
         target="_blank"
         style={{ textDecoration: 'none', boxShadow: 'none' }}
       >
-        <GithubLogo style={{ color: '#e535ab' }} width={25} height={25} />
+        <GithubLogo style={{ color: 'black' }} width={25} height={25} />
       </a>
     </div>
   </section>

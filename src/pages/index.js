@@ -75,7 +75,7 @@ class BlogIndex extends React.Component {
                   >
                     <Link
                       style={{
-                        color: '#e535ab',
+                        color: 'black',
                         boxShadow: 'none',
                         textDecoration: 'underline',
                       }}
