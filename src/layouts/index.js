@@ -11,6 +11,7 @@ import {
 import Logo from '../components/Logo'
 import Button from '../components/Button'
 import LogoHorizontal from '../components/LogoHorizontal'
+import GithubLogo from '../components/github-logo.svg'
 
 import './index.css'
 import './syntax-highlighting-theme.css'
@@ -69,6 +70,17 @@ const Header = ({ location: { pathname } }) => (
               boxShadow: 'none',
               textDecoration: 'underline',
             }}
+            to="/"
+          >
+            Posts
+          </Link>
+          <Link
+            style={{
+              marginLeft: 30,
+              color: '#e535ab',
+              boxShadow: 'none',
+              textDecoration: 'underline',
+            }}
             to="/fullstack-graphql"
           >
             Book
@@ -90,6 +102,25 @@ const Header = ({ location: { pathname } }) => (
   </Media>
 )
 
+const Footer = () => (
+  <section className="footer">
+    <div>
+      <Link style={{ color: '#e535ab' }} to="/">
+        Home
+      </Link>
+    </div>
+    <div>
+      <a
+        href="https://github.com/GraphQLCollege/graphql-college"
+        target="_blank"
+        style={{ textDecoration: 'none', boxShadow: 'none' }}
+      >
+        <GithubLogo style={{ color: '#e535ab' }} width={25} height={25} />
+      </a>
+    </div>
+  </section>
+)
+
 class Template extends React.Component {
   render() {
     const { location, children } = this.props
@@ -103,6 +134,7 @@ class Template extends React.Component {
       <div className="graphql-college">
         {<Header location={location} />}
         {children()}
+        {<Footer />}
       </div>
     )
   }

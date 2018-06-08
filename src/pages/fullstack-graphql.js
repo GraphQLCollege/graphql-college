@@ -584,7 +584,11 @@ class FullstackGraphQL extends React.Component {
             <a href="https://www.facebook.com" target="_blank">
               <FacebookLogo />
             </a>
-            <a href="https://www.github.com" target="_blank">
+            <a
+              href="https://www.github.com"
+              target="_blank"
+              style={{ color: '#111' }}
+            >
               <GithubLogo />
             </a>
             <a href="https://www.medium.com" target="_blank">
