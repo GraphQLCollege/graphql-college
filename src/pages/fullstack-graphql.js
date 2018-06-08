@@ -18,6 +18,7 @@ import ProductHuntLogo from '../components/producthunt-logo.webp'
 import KhanLogo from '../components/khan-logo.svg'
 import AirbnbLogo from '../components/airbnb-logo.svg'
 import PaypalLogo from '../components/paypal-logo.svg'
+import GithubCornerRight from '../components/github-corner-right.svg'
 
 import './fullstack-graphql.css'
 
@@ -83,6 +84,12 @@ class FullstackGraphQL extends React.Component {
             maxWidth: 400,
           }}
         />
+        <a
+          href="https://github.com/GraphQLCollege/fullstack-graphql"
+          target="_blank"
+        >
+          <GithubCornerRight />
+        </a>
         <div style={{ padding: rhythm(), gridArea: 'headline' }}>
           <h1 style={{ textTransform: 'uppercase', fontWeight: 400 }}>
             Learn to build FullStack GraphQL Applications

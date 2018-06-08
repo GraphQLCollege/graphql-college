@@ -28,10 +28,8 @@ const Header = ({ location: { pathname } }) => (
             alignItems: 'center',
           },
           media('(min-width: 700px)', {
-            marginLeft: `-${horizontalPadding}`,
-            marginRight: `-${horizontalPadding}`,
-            paddingLeft: horizontalPadding,
-            paddingRight: horizontalPadding,
+            marginLeft: 50,
+            marginRight: 50,
           }),
         ]}
       >
@@ -56,7 +54,7 @@ const Header = ({ location: { pathname } }) => (
                 style={{
                   fontSize: '1.5rem',
                   color: '#e535ab',
-                  margin: 0
+                  margin: 0,
                 }}
               >
                 GraphQL College
