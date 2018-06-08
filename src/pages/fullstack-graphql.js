@@ -88,9 +88,18 @@ class FullstackGraphQL extends React.Component {
             Learn to build FullStack GraphQL Applications
           </h1>
           <p>
-            Learn GraphQL with a hands-on approach. With this book you will
-            build a full stack GraphQL application step by step using NodeJS,
-            Apollo GraphQL and React.
+            Learn GraphQL with a hands-on approach. With this{' '}
+            <a
+              href="https://github.com/GraphQLCollege/fullstack-graphql"
+              target="_blank"
+              style={{
+                color: '#e535ab',
+              }}
+            >
+              open source book
+            </a>{' '}
+            you will build a full stack GraphQL application step by step using
+            NodeJS, Apollo GraphQL and React.
           </p>
           <BookButtons />
         </div>
