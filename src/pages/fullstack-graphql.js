@@ -619,7 +619,7 @@ class FullstackGraphQL extends React.Component {
             }}
           >
             <a
-              href="https://twitter.com/eljuli"
+              href="https://twitter.com/juli_mayorga"
               style={{
                 boxShadow: 'none',
                 textDecoration: 'none',
