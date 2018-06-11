@@ -24,23 +24,20 @@ import './fullstack-graphql.css'
 
 const BookButtons = () => (
   <div className="book-buttons">
-    {/* <a
-    className="gumroad-button"
-    href="https://gum.co/fullstack-graphql?wanted=true"
-    target="_blank"
-    data-gumroad-single-product="true"
-  >
-    Buy
-  </a> */}
+    <a
+      className="gumroad-button"
+      href="https://gum.co/fullstack-graphql?wanted=true"
+      target="_blank"
+      data-gumroad-single-product="true"
+    >
+      Buy
+    </a>
     <a
       target="_blank"
       href="/fullstack-graphql-sample.zip"
       className="sample-chapter-button"
     >
       Sample chapter
-    </a>
-    <a href="mailto:julian@graphql.college" className="contact-author-button">
-      Contact author
     </a>
   </div>
 )

@@ -3,6 +3,7 @@ div a.gumroad-button {
   color: white !important;
   background-color: #e535ab !important;
   line-height: auto !important;
+  text-align: center !important;
 }
 .gumroad-button .gumroad-button-logo {
   display: none !important;
@@ -55,8 +56,8 @@ div a.gumroad-button {
   padding: 20px;
 }
 .sample-chapter-button {
-  box-shadow: #e535ab 0 0 2px !important;
-  background-color: #e535ab;
+  box-shadow: grey 0 0 2px !important;
+  background-color: grey;
   font-family: -apple-system, '.SFNSDisplay-Regular', 'Helvetica Neue',
     Helvetica, Arial, sans-serif !important;
   font-size: 16px !important;
