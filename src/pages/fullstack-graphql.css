@@ -43,7 +43,6 @@ div a.gumroad-button {
   grid-template-columns: repeat(auto-fill, 150px);
   grid-gap: 20px;
   text-align: center;
-  cursor: pointer;
   justify-content: center;
   padding-bottom: 20px;
   margin-bottom: 20px;
@@ -54,6 +53,7 @@ div a.gumroad-button {
   color: #e535ab;
   border: solid 1px #e535ab;
   padding: 20px;
+  cursor: pointer;
 }
 .sample-chapter-button {
   box-shadow: grey 0 0 2px !important;
