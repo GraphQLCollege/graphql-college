@@ -4,6 +4,14 @@ div a.gumroad-button {
   background-color: #e535ab !important;
   line-height: auto !important;
   text-align: center !important;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
 }
 .gumroad-button .gumroad-button-logo {
   display: none !important;
