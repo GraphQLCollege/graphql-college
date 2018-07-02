@@ -42,7 +42,6 @@ module.exports = class HTML extends React.Component {
           />
           {this.props.postBodyComponents}
           <script src="https://gumroad.com/js/gumroad.js"></script>
-          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </body>
       </html>
     )

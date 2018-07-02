@@ -2,6 +2,7 @@ import React from 'react'
 import { media } from 'glamor'
 import Helmet from 'react-helmet'
 import Link from 'gatsby-link'
+import { Tweet } from 'react-twitter-widgets'
 
 import { rhythm } from '../utils/typography'
 import Book from '../components/book-perspective.svg'
@@ -424,20 +425,9 @@ class FullstackGraphQL extends React.Component {
             </a>
           </div>
         </div>
-        <blockquote className="twitter-tweet" data-lang="en">
-          <p lang="en" dir="ltr">
-            Congrats on launching the book,{' '}
-            <a href="https://twitter.com/juli_mayorga?ref_src=twsrc%5Etfw">
-              @juli_mayorga
-            </a>! 🎉{' '}
-            <a href="https://twitter.com/hashtag/GraphQL?src=hash&amp;ref_src=twsrc%5Etfw">
-              #GraphQL
-            </a>{' '}
-          </p>&mdash; Apollo (@apollographql){' '}
-          <a href="https://twitter.com/apollographql/status/1006238433847795712?ref_src=twsrc%5Etfw">
-            11 de junio de 2018
-          </a>
-        </blockquote>
+        <div className="book-section">
+          <Tweet tweetId="1006238433847795712" options={{ cards: 'hidden' }} />
+        </div>
         <div className="chapters">
           <h2>Chapters</h2>
           <ul>

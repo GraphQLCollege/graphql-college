@@ -34,6 +34,7 @@
     "lodash": "^4.17.4",
     "react-hamburger-menu": "^1.1.0",
     "react-media": "^1.8.0",
+    "react-twitter-widgets": "^1.7.1",
     "typeface-merriweather": "0.0.43",
     "typeface-montserrat": "0.0.43",
     "typeface-rubik": "0.0.54",
