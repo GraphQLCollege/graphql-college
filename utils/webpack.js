@@ -1,4 +1,4 @@
-import RemoveServiceWorkerPlugin from "webpack-remove-serviceworker-plugin";
+const RemoveServiceWorkerPlugin = require("webpack-remove-serviceworker-plugin");
 
 function withoutFlow(nextConfig) {
   return {
