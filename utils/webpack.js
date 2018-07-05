@@ -1,3 +1,5 @@
+import RemoveServiceWorkerPlugin from "webpack-remove-serviceworker-plugin";
+
 function withoutFlow(nextConfig) {
   return {
     ...nextConfig,
@@ -30,4 +32,21 @@ function withSvgsAsReactComponents(nextConfig) {
   };
 }
 
-module.exports = { withoutFlow, withSvgsAsReactComponents };
+function withRemoveServiceWorker(nextConfig) {
+  return {
+    ...nextConfig,
+    webpack: (config, options) => {
+      config.plugins.push(new RemoveServiceWorkerPlugin());
+      if (typeof nextConfig.webpack === "function") {
+        return nextConfig.webpack(config, options);
+      }
+      return config;
+    }
+  };
+}
+
+module.exports = {
+  withoutFlow,
+  withSvgsAsReactComponents,
+  withRemoveServiceWorker
+};

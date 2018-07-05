@@ -5733,6 +5733,10 @@ webpack-hot-middleware@2.19.1:
     querystring "^0.2.0"
     strip-ansi "^3.0.0"
 
+webpack-remove-serviceworker-plugin@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/webpack-remove-serviceworker-plugin/-/webpack-remove-serviceworker-plugin-1.0.0.tgz#63a7604da9a7fd9bae8f9eef87d274a2470dcaa7"
+
 webpack-sources@1.1.0, webpack-sources@^1.0.1, webpack-sources@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.1.0.tgz#a101ebae59d6507354d71d8013950a3a8b7a5a54"

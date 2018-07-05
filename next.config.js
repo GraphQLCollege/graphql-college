@@ -8,15 +8,21 @@ const withMDX = require("@zeit/next-mdx")({
 const withCSS = require("@zeit/next-css");
 
 const { withPosts } = require("./utils/posts");
-const { withoutFlow, withSvgsAsReactComponents } = require("./utils/webpack");
+const {
+  withoutFlow,
+  withSvgsAsReactComponents,
+  withRemoveServiceWorker
+} = require("./utils/webpack");
 
 module.exports = withSvgsAsReactComponents(
-  withoutFlow(
-    withPosts(
-      withCSS(
-        withMDX({
-          pageExtensions: ["js", "jsx", "mdx"]
-        })
+  withRemoveServiceWorker(
+    withoutFlow(
+      withPosts(
+        withCSS(
+          withMDX({
+            pageExtensions: ["js", "jsx", "mdx"]
+          })
+        )
       )
     )
   )

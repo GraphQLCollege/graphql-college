@@ -31,7 +31,8 @@
     "underscore.string": "^3.3.4",
     "unified": "^7.0.0",
     "unist-util-find": "^1.0.1",
-    "unist-util-inspect": "^4.1.3"
+    "unist-util-inspect": "^4.1.3",
+    "webpack-remove-serviceworker-plugin": "^1.0.0"
   },
   "scripts": {
     "dev": "node server.js",
