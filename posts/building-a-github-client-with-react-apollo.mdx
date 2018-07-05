@@ -1,0 +1,742 @@
+export const meta = {
+  date: "2018-03-21"
+};
+
+# Building a Github Client with React Apollo
+
+![GitStar](/static/gitstar.gif)
+
+In this article you will learn how to use React Apollo to interact with Github GraphQL API. We will build a github client step by step.
+
+The app we are going to build is called ⭐ GitStar ⭐. It shows a list of Github repositories and a huge star next to them. You can tap it to star that repository on Github.
+
+You will bootstrap the app with [create-react-app](https://github.com/facebook/create-react-app/), authenticate your users with Github OAuth and setup [React Apollo](https://www.apollographql.com/docs/react/). With the tools that React Apollo provides, you will learn how to query authenticated users, list Github repositories, paginate them, and perform mutations with optimistic UI.
+
+## Contents
+
+[⚛️ Create React app](#create-react-app)
+
+[🔑 Github Authentication](#github-authentication)
+
+[🚀 Setup Apollo](#setup-apollo)
+
+[🧔 Query authenticated user](#query-authenticated-user)
+
+[📖 List repositories](#list-repositories)
+
+[📄 Pagination](#pagination)
+
+[⭐ Mutations](#mutations)
+
+[👌 Optimistic UI](#optimistic-ui)
+
+[⌨️ Conclusion](#conclusion)
+
+
+## Create React app
+
+We will use a command line tool called create-react-app to bootstrap our React project. This is a great, zero-config way of creating a single page app with React.
+
+Install the command globally. Once the download has finished, use it to create an app called gitstar. Finally start the app.
+
+```
+npm install -g create-react-app
+create-react-app gitstar
+cd gitstar
+yarn start
+```
+
+## Github Authentication
+
+The app we are creating needs our user's permission to perform actions on their behalf. More specifically we want to let users star repositories. Github provides a way for us to ask for their users' credentials so we can make authenticated API calls with them. That mechanism is called OAuth.
+
+In practical terms, all you need to do is [register an OAuth app in github](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/) and [deploy an instance of Gatekeeper to heroku](https://github.com/prose/gatekeeper#deploy-on-heroku). Read about how to make those steps in https://www.graphql.college/implementing-github-oauth-flow-in-react/.
+
+Afterwards, install the UI components that our app will need and also install a `fetch` polyfill called `unfetch`.
+
+```
+yarn add gitstar-components
+yarn add unfetch
+```
+
+Finally replace `src/App.js` with the following code:
+
+```js
+import React, { Component } from "react";
+import fetch from "unfetch";
+import {
+  STATUS,
+  Loading,
+  Avatar,
+  Logo,
+  Logotype,
+  Container,
+  Header
+} from "gitstar-components";
+
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+const AUTH_API_URI = process.env.REACT_APP_AUTH_API_URI;
+
+class App extends Component {
+  state = {
+    status: STATUS.INITIAL,
+    token: null
+  };
+  componentDidMount() {
+    const storedToken = localStorage.getItem("github_token");
+    if (storedToken) {
+      this.setState({
+        token: storedToken,
+        status: STATUS.AUTHENTICATED
+      });
+      return;
+    }
+    const code =
+      window.location.href.match(/\?code=(.*)/) &&
+      window.location.href.match(/\?code=(.*)/)[1];
+    if (code) {
+      this.setState({ status: STATUS.LOADING });
+      fetch(`${AUTH_API_URI}${code}`)
+        .then(response => response.json())
+        .then(({ token }) => {
+          localStorage.setItem("github_token", token);
+          this.setState({
+            token,
+            status: STATUS.FINISHED_LOADING
+          });
+        });
+    }
+  }
+  render() {
+    return (
+      <Container>
+        <Header>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Logo />
+            <Logotype />
+          </div>
+          <Avatar
+            style={{
+              transform: `scale(${
+                this.state.status === STATUS.AUTHENTICATED ? "1" : "0"
+              })`
+            }}
+          />
+          <a
+            style={{
+              display: this.state.status === STATUS.INITIAL ? "inline" : "none"
+            }}
+            href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=user&redirect_uri=${REDIRECT_URI}`}
+          >
+            Login
+          </a>
+        </Header>
+        <Loading
+          status={this.state.status}
+          callback={() => {
+            if (this.props.status !== STATUS.AUTHENTICATED) {
+              this.setState({
+                status: STATUS.AUTHENTICATED
+              });
+            }
+          }}
+        />
+      </Container>
+    );
+  }
+}
+
+export default App;
+```
+
+That's it! Your users can authorize your app to make authenticated API calls to Github. Our next step is setting up Apollo client so we can make API calls to the GraphQL API.
+
+## Setup Apollo
+
+Now it's time to connect our components to remote data using Apollo Client. Thankfully setting up this framework is really easy. All we have to do is wrap our top level component with `ApolloProvider` and then collocate each component that needs remote data with a GraphQL query.
+
+We'll follow [React Apollo's setup instructions](https://www.apollographql.com/docs/react/basics/setup.html).
+
+First add the required dependencies.
+
+```
+yarn add apollo-boost react-apollo@2.1.0-rc.3 graphql
+```
+
+Now create a new instance of `ApolloClient`. We need to point it to Github's API URI. We will also add a `request` function which will add the user's auth token to every request.
+
+Import `ApolloProvider` and render it in `App.js`, passing it the `client` we just instantiated.
+
+```js
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
+
+import Avatar from "./Avatar";
+
+const client = new ApolloClient({
+  uri: "https://api.github.com/graphql",
+  request: operation => {
+    const token = localStorage.getItem("github_token");
+    if (token) {
+      operation.setContext({
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      });
+    }
+  }
+});
+
+class App extends Component {
+  render() {
+    return (
+      <ApolloProvider client={client}>
+      {/* ... */}
+      </ApolloProvider>
+    );
+  }
+}
+```
+
+That's all we needed to configure React Apollo in our app. In the next step we'll create an `Avatar` component which fetches the authenticated user's profile picture using React Apollo's awesome `Query` component.
+
+## Query authenticated user
+
+To fetch the authenticated user's avatar url we'll use a component from React Apollo called `Query`. To use it you must first create a graphql query using a utility called `gql`. `gql` parses GraphQL queries into a format that Apollo Client understands. You must pass this query to `Query` in a property called `query`. Did I say query a lot? You'd better get used to it, because this is just the beginning of the queryness.
+
+The pattern that `Query` component implements is called children as a function. It simply means that instead of having React components as children, it receives a function. In this case, the function's arguments are `loading`, `error` and `data`. `Query` will rerender your component when any one of this properties changes. It's a really handy little component.
+
+In our case we'll write a query called `GET_AVATAR`. It asks Github for `viewer.avatarUrl` because that's all this component needs. Read more about which fields you can query in https://developer.github.com/v4/query/#fields.
+
+Create `Avatar.js` and put the following code in it:
+
+```js
+import React from "react";
+import { Avatar } from "gitstar-components";
+import { gql } from "apollo-boost";
+import { Query } from "react-apollo";
+
+const GET_AVATAR = gql`
+  query {
+    viewer {
+      avatarUrl
+    }
+  }
+`;
+
+class UserAvatar extends React.Component {
+  render() {
+    return (
+      <Query query={GET_AVATAR}>
+        {({ loading, error, data }) => {
+          if (loading) return <div>Loading...</div>;
+          if (error) return <div>Error :(</div>;
+
+          return <Avatar url={data.viewer.avatarUrl} />;
+        }}
+      </Query>
+    );
+  }
+}
+
+export default UserAvatar;
+```
+
+Success! Your users will now see their profile picture when they login onto the app.
+
+[Here is a link to a working version of gitstar](https://github.com/GraphQLCollege/gitstar/tree/e0b2ba94441c4507a9da416863d1a193f560c23f/packages/gitstar) in case you got stuck at some step.
+
+Next up we'll fetch and show a list of github repositories.
+
+## List repositories
+
+We'll create a component called `Repositories` which will fetch a list of github repos, show a placeholder while loading them, and finally renders them.
+
+To fetch the repositories list we could use React Apollo's `Query` component, but this time we are going to use React Apollo's `graphql` higher order component. `graphql` is a function which receives a `gql` query and a React component and creates a new component with injected properties such as `loading`, `error` or `data`. Just like `Query` component implements a React pattern called children as functions, `graphql` implements a pattern called Higher order component. A higher order component, or HOC as we'll call it from now on, is a function which receives a component and returns a modified version of it.
+
+First of all we'll write a `gql` query called `GET_REPOSITORIES`. We'll use a field that Github's GraphQL API provides called [`search`](https://developer.github.com/v4/query/#fields), which performs a search across resources. Since we are only interested in repositories, we'll pass it a parameter called type. We'll configure its query property by filtering projects written in Javascript. And also we'll only ask for the first 10 results.
+
+We'll pass `GET_REPOSITORIES` as the first argument to `graphql`. The second argument will be an object which maps `props.search.nodes` to `props.repositories` because it has more meaning.
+
+This is how `Repositories.js` should look like:
+
+```js
+import React from "react";
+import { gql } from "apollo-boost";
+import { graphql } from "react-apollo";
+import { Repositories, RepositoriesPlaceholder } from "gitstar-components";
+
+const GET_REPOSITORIES = gql`
+  {
+    search(type: REPOSITORY, query: "language:Javascript", first: 10) {
+      nodes {
+        ... on Repository {
+          id
+          nameWithOwner
+          url
+          descriptionHTML
+        }
+      }
+    }
+  }
+`;
+
+class RepositoriesWrapper extends React.Component {
+  render() {
+    if (this.props.error) {
+      return (
+        <div style={{ padding: 20 }}>
+          <p>Failed to load repositories</p>
+          <a href="/">Refresh Page</a>
+        </div>
+      );
+    }
+    return this.props.loading ? (
+      <RepositoriesPlaceholder />
+    ) : (
+      <Repositories repositories={this.props.repositories} />
+    );
+  }
+}
+
+export default graphql(GET_REPOSITORIES, {
+  props: ({ data: { error, loading, search } }) => {
+    return {
+      repositories: search ? search.nodes : [],
+      loading,
+      error
+    };
+  }
+})(RepositoriesWrapper);
+```
+
+Read more about querying in https://www.apollographql.com/docs/react/basics/queries.html.
+
+Now that we created `Repositories.js`, it's time to render them in `App.js`.
+
+```js
+// ...
+
+import Repositories from "./Repositories";
+
+// ...
+
+class App extends Component {
+  render() {
+    return (
+      <ApolloProvider client={client}>
+        <Container>
+          {/* ... */}
+          {this.state.status === STATUS.AUTHENTICATED && <Repositories />}
+        </Container>
+      </ApolloProvider>
+    );
+  }
+}
+```
+
+[Here](https://github.com/GraphQLCollege/gitstar/tree/35733db34ff03a31c3701e6b0e96e9cb1544dfef/packages/gitstar) is a working version of this step in case you need it.
+
+In the next step we'll learn about pagination by adding a button that loads more repositories.
+
+## Pagination
+
+There are different kinds of pagination strategies. Github's GraphQL API implements cursor based pagination. In our use case, cursor based pagination means that every query we make returns an endCursor. This cursor is just the id of the last element on the list. We can send this cursor to the API's `$after` parameter, and it will send us a list of repositories after the one we sent.
+
+To implement pagination we need to do three things. We need to add `$after` variable to `GET_REPOSITORIES`. We also need to render a loading placeholder beneath the existing results when the user asks for more repositories. Finally, we have to implement a `loadMore` function that will be called when our users press the "Load more" button.
+
+First of all we'll add a variable to `GET_REPOSITORIES` query. In order to add a variable to a GraphQL query, we need to define the variable's name and type and afterwards we need to send that variable as an argument to a query. To declare the variable, replace `query { search() { ... } }` with `query($after: String) { search() { ... } }`. To add that variable as an argument to `search`, add it after its existing static arguments. It will look something like `query($after: String) { search(..., after: $after) { ... } }`.
+
+Adding pagination renders our existing render logic.
+
+1. We need to show the placeholder if loading is true and there are no repositories.
+2. If loading is true and there are repositories, show repositories, then placeholders and finally show the load more button
+3. If loading is false, just show the repositories and the load more button
+
+Finally, we need to implement a function called `loadMore`. Thankfully, Apollo provides a property called `fetchMore`, which can be configured to implement custom pagination logic. We'll use it to generate `loadMore`.
+
+React Apollo's `fetchMore` role is to perform a query and merge its results with the current data. We need to pass it the variables that the query needs. In this case we pass it a pointer to the last element of our previous search. We also need to teach it how to merge the previous data with the new one, we do so by passing a function called `updateQuery`. This function specifies how to merge the previous repositories with the ones that `fetchMore` just received.
+
+Finally we need to pass `options.notifyOnNetworkStatusChange` to `graphql` so it sets `loading: true` when it calls `loadMore`. Otherwise it would only set loading to true on the first fetch.
+
+Here is what `Repositories.js` should look like now:
+
+```js
+import React, { Fragment } from "react";
+import { gql } from "apollo-boost";
+import { graphql } from "react-apollo";
+// 1. Add new import: LoadMoreButton
+import {
+  Repositories,
+  RepositoriesPlaceholder,
+  LoadMoreButton
+} from "gitstar-components";
+
+// 2. Modify GET_REPOSITORIES query
+//  a. Add $after variable
+//  b. Ask for pageInfo
+const GET_REPOSITORIES = gql`
+  query($after: String) {
+    search(
+      type: REPOSITORY
+      query: "language:Javascript"
+      first: 10
+      after: $after
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      nodes {
+        ... on Repository {
+          id
+          nameWithOwner
+          url
+          descriptionHTML
+        }
+      }
+    }
+  }
+`;
+
+class RepositoriesWrapper extends React.Component {
+  // 3. Modify render
+  render() {
+    if (this.props.error) {
+      return (
+        <div style={{ padding: 20 }}>
+          <p>Failed to load repositories</p>
+          <a href="/">Refresh Page</a>
+        </div>
+      );
+    }
+    // Show placeholders on first render
+    if (this.props.loading && !this.props.repositories) {
+      return <RepositoriesPlaceholder />;
+    }
+    // Show both repositories and placeholder when user clicks show more
+    if (this.props.loading) {
+      return (
+        <Fragment>
+          <Repositories repositories={this.props.repositories} />
+          <RepositoriesPlaceholder />
+          <LoadMoreButton loadMore={this.props.loadMore} />
+        </Fragment>
+      );
+    }
+    return (
+      <Fragment>
+        <Repositories repositories={this.props.repositories} />
+        <LoadMoreButton loadMore={this.props.loadMore} />
+      </Fragment>
+    );
+  }
+}
+
+// 4. Pass fetchMore property to RepositoriesWrapper
+export default graphql(GET_REPOSITORIES, {
+  props: ({ data: { error, loading, search, fetchMore } }) => {
+    return {
+      repositories: search ? search.nodes : null,
+      loading,
+      error,
+      loadMore: () =>
+        fetchMore({
+          variables: { after: search.pageInfo.endCursor },
+          updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {
+            const previousSearch = previousResult.search || {};
+            const currentSearch = fetchMoreResult.search || {};
+            const previousNodes = previousSearch.nodes || [];
+            const currentNodes = currentSearch.nodes || [];
+            // Specify how to merge new results with previous results
+            return {
+              ...previousResult,
+              search: {
+                ...previousSearch,
+                nodes: [...previousNodes, ...currentNodes],
+                pageInfo: currentSearch.pageInfo
+              }
+            };
+          }
+        })
+    };
+  },
+  options: {
+    notifyOnNetworkStatusChange: true // Update loading prop after loadMore is called
+  }
+})(RepositoriesWrapper);
+```
+
+Here are a couple of useful links in case you want to learn more about pagination in GraphQL.
+
+* https://www.apollographql.com/docs/react/recipes/pagination.html#cursor-pages
+* https://dev-blog.apollodata.com/pagination-and-infinite-scrolling-in-apollo-client-59ff064aac61
+* https://medium.com/@dai_shi/infinite-scroll-example-with-react-apollo-for-github-graphql-api-15209a043a0f
+
+As always, [here](https://github.com/GraphQLCollege/gitstar/tree/b3fbdaa73d107e5d485284df2cde1f31304e873f/packages/gitstar) is a working version of gitstar in case you got stuck on any step.
+
+✋ Query high five! Your users can now fetch more repositories with the click of a button. After the next step, they will be able to star their favorite repositories thanks to the power of GraphQL mutations.
+
+## Mutations
+
+GitStar users will be able to add stars or remove stars from repositories. In order to know if a user has starred a repository we must ask for a new field in the `GET_REPOSITORIES` query. To add or remove stars we need to create two [mutations](https://www.apollographql.com/docs/react/basics/mutations.html) using `gql`, connect those mutations to properties using `graphql` and finally send `props.addStar` and `props.removeStar` to `<Repositories />`.
+
+Asking for a new field in `GET_REPOSITORIES` is simple, we will add a field called `viewerHasStarred`. Now every repository from Github's API will have this field set as either `true` or `false`.
+
+We will create two new `gql` queries after `GET_REPOSITORIES`. They will be called `ADD_STAR` and `REMOVE_STAR`. Both of them will be similar. They will start with the GraphQL `mutation` keyword, as opposed to `query` keyword that we used in `GET_VIEWER` and `GET_REPOSITORIES`. Both of them will receive the id of the repository to target in a variable called `$starrableId`. Read more about those mutations in https://developer.github.com/v4/mutation/addstar/ and https://developer.github.com/v4/mutation/removestar/.
+
+After we create those queries, we need to connect `Repositories` with two new properties, `addStar` and `removeStar`. They will be functions that receive an id and send the appropriate mutation to the API. As we said earlier, we will use `graphql` HOC to create those properties. Their implementation will call a function called `mutate`, which is provided by `graphql`. We'll send `mutate` a unique argument, which is an object with two properties, `variables` and `update`.
+
+The `variables` property is pretty self explanatory. It maps the id that we received to a GraphQL variable called `$starrableId`.
+
+We use `update` to tell Apollo how to update its local copy of our data after the mutation is executed. It provides us two ways of updating data after mutations:
+
+1. [Refetch queries](https://www.apollographql.com/docs/react/basics/mutations.html#graphql-mutation-options-refetchQueries). Which means that Apollo will run a set of queries and update its cache accordingly.
+2. [Update cache](https://www.apollographql.com/docs/react/basics/mutations.html#graphql-mutation-options-update). This way we can access Apollo's cache directly and perform the changes we need to do.
+
+Read more about cache updates in [here](https://www.apollographql.com/docs/react/features/caching.html#updating-the-cache-after-a-mutation) and [here](https://www.apollographql.com/docs/react/features/cache-updates.html).
+
+In our case we will go with the second option. We will use [`cache.writeFragment`](https://www.apollographql.com/docs/react/basics/caching.html#writequery-and-writefragment) to update a single Repository. The reason is that we can easily predict what will be the result of adding a star, which is a simple change to the repository's `viewerHasStarred`. We don't need to communicate with the server for this simple use case. For more complicated changes, it can be a good idea to use `refetchQueries` instead of manually performing our API's update logic on the client. As with almost all choices in software development, it depends.
+
+```js
+graphql(ADD_STAR, {
+    props: ({ mutate }) => ({
+      addStar: starrableId =>
+        mutate({
+          variables: { starrableId },
+          update: proxy => {
+            proxy.writeFragment({
+              id: `Repository:${starrableId}`,
+              fragment: gql`
+                fragment repository on Repository {
+                  viewerHasStarred
+                }
+              `,
+              data: { viewerHasStarred: true, __typename: "Repository" }
+            });
+          }
+        })
+    })
+  })
+```
+
+We need to send addStar and removeStar properties to `RepositoriesWrapper`. We will use the `graphql` higher order component again, just like when we needed to connect `GET_REPOSITORIES`. We must apply three calls of this higher order component to our `RepositoriesWrapper` component. To do so, we have the following options:
+
+1. Reassign RepositoriesWrapper
+
+```js
+RepositoriesWrapper = graphql(GET_REPOSITORIES, { /* ... */ })(RepositoriesWrapper);
+RepositoriesWrapper = graphql(ADD_STAR, { /* ... */ })(RepositoriesWrapper);
+RepositoriesWrapper = graphql(REMOVE_STAR, { /* ... */ })(RepositoriesWrapper);
+
+export default RepositoriesWrapper;
+```
+
+2. Nest graphql calls
+
+```js
+export default graphql(REMOVE_STAR, { /* ... */ })(
+  graphql(ADD_STAR, { /* ... */ })(
+    graphql(GET_REPOSITORIES, { /* ... */ })(RepositoriesWrapper)
+  )
+)
+```
+
+3. Use React Apollo's `compose`
+
+```js
+export default compose(
+  graphql(GET_REPOSITORIES, { /* ... */ }),
+  graphql(ADD_STAR, { /* ... */ }),
+  graphql(REMOVE_STAR, { /* ... */ }),
+)(RepositoriesWrapper)
+```
+
+As you can see, `compose` ends up being the better option, so we will use that one.
+
+Here is an updated version of `Repositories.js`:
+
+```js
+// ...
+// 1. Import compose
+import { graphql, compose } from "react-apollo";
+// ...
+
+// 2. Add viewerHasStarred to GET_REPOSITORIES
+const GET_REPOSITORIES = gql`
+  query($after: String) {
+    search(
+      type: REPOSITORY
+      query: "language:Javascript"
+      first: 10
+      after: $after
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      nodes {
+        ... on Repository {
+          id
+          nameWithOwner
+          url
+          descriptionHTML
+          viewerHasStarred
+        }
+      }
+    }
+  }
+`;
+
+// 3. Create ADD_STAR and REMOVE_STAR mutations
+const ADD_STAR = gql`
+  mutation($starrableId: ID!) {
+    addStar(input: { starrableId: $starrableId }) {
+      starrable {
+        id
+      }
+    }
+  }
+`;
+
+const REMOVE_STAR = gql`
+  mutation($starrableId: ID!) {
+    removeStar(input: { starrableId: $starrableId }) {
+      starrable {
+        id
+      }
+    }
+  }
+`;
+
+class RepositoriesWrapper extends React.Component {
+  render() {
+    // ...
+    // 4. Add new properties to Repositories
+    if (this.props.loading) {
+      return (
+        <Fragment>
+          <Repositories
+            repositories={this.props.repositories}
+            addStar={this.props.addStar}
+            removeStar={this.props.removeStar}
+          />
+          <RepositoriesPlaceholder />
+          <LoadMoreButton loadMore={this.props.loadMore} />
+        </Fragment>
+      );
+    }
+    return (
+      <Fragment>
+        <Repositories
+          repositories={this.props.repositories}
+          addStar={this.props.addStar}
+          removeStar={this.props.removeStar}
+        />
+        <LoadMoreButton loadMore={this.props.loadMore} />
+      </Fragment>
+    );
+  }
+}
+
+// 5. Use compose to apply GET_REPOSITORIES, ADD_STAR and REMOVE_STAR queries
+export default compose(
+  graphql(GET_REPOSITORIES, { /* */ }),
+  graphql(ADD_STAR, {
+    props: ({ mutate }) => ({
+      addStar: starrableId =>
+        mutate({
+          variables: { starrableId },
+          update: proxy => {
+            proxy.writeFragment({
+              id: `Repository:${starrableId}`,
+              fragment: gql`
+                fragment repository on Repository {
+                  viewerHasStarred
+                }
+              `,
+              data: { viewerHasStarred: true, __typename: "Repository" }
+            });
+          }
+        })
+    })
+  }),
+  graphql(REMOVE_STAR, {
+    props: ({ mutate }) => ({
+      removeStar: starrableId =>
+        mutate({
+          variables: { starrableId },
+          update: proxy => {
+            proxy.writeFragment({
+              id: `Repository:${starrableId}`,
+              fragment: gql`
+                fragment repository on Repository {
+                  viewerHasStarred
+                }
+              `,
+              data: { viewerHasStarred: false, __typename: "Repository" }
+            });
+          }
+        })
+    })
+  })
+)(RepositoriesWrapper);
+
+```
+
+Wait! There is a final step we need to make in order to send mutations to Github's API. We need to add to `App.js` the scopes required to star repositories. Add `public_repo` and `gist` to the scopes in login link's `href`: ```href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=user%20public_repo%20gist&redirect_uri=${REDIRECT_URI}```.
+
+Here is a link to the current version of [gitstar](https://github.com/GraphQLCollege/gitstar/tree/7cb6b05327bf62219bcfdbb0186d8ceda20c388c/packages/gitstar).
+
+There is one tiny step to make and we're done with our example, and that's adding optimistic response when the user removes stars. If you try to unstar a repository, you'll see that there is a noticeable lag between clicking the yellow star and seeing it turn white. We'll fix that in the following step.
+
+## Optimistic UI
+
+When the user unstars a repository, the app sends a mutation to the server and afterwards updates its local cache, making the star turn white and empty. We can improve our users's perceived speed by updating the star as soon as they click it, and sending the mutation to the server afterwards. This is called optimistic update, and React Apollo offers a simple way to implement that.
+
+We only need to add a third property called `optimisticResponse` to the object that we send as argument to `mutate`. This property is an object that Apollo will return in place of the mutation's response. Since we already implemented an `update` function, Apollo will set `viewerHasStarred` to `false` in the repository with the correct id as soon as it calls `mutate`.
+
+Read more about React Apollo's optimistic UI feature in [here](https://www.apollographql.com/docs/react/features/optimistic-ui.html).
+
+Add `optimisticResponse` property to `REMOVE_STAR` `mutate` call in `Repositories.js`.
+
+```js
+// ...
+export default compose(
+  graphql(GET_REPOSITORIES, { /* ... */ }),
+  graphql(ADD_STAR, { /* ... */ }),
+  graphql(REMOVE_STAR, {
+    props: ({ mutate }) => ({
+      removeStar: starrableId =>
+        mutate({
+          variables: { starrableId },
+          optimisticResponse: {
+            __typename: "Mutation",
+            removeStar: {
+              starrable: {
+                id: starrableId,
+                __typename: "Repository"
+              }
+            }
+          },
+          update: proxy => { /* ... */ }
+        })
+    })
+  })
+)(RepositoriesWrapper);
+```
+
+You made it! This was the final step of building ⭐ GitStar ⭐. Take a look at the final source code in [Github](https://github.com/GraphQLCollege/gitstar/tree/master/packages/gitstar).
+
+Take a look at a live, working version of it [here](https://git-star.netlify.com/).
+
+![GitStar](/static/gitstar.gif)
+
+## Conclusion
+
+You learned to build a Github client with React and Apollo Client. From creating a bare bones React app, to connecting it with Apollo to perform queries and mutations to Github's API.
+
+I hope you had fun along the way! I had a great time, for sure 😃. Follow me on [Twitter](https://twitter.com/juli_mayorga) if you'd like to keep learning about GraphQL and React.
+
+Until next time! Happy coding.

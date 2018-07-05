@@ -1,0 +1,456 @@
+export const meta = {
+  date: "2018-03-12"
+};
+
+# Gradually migrating a Node and React app from REST to GraphQL
+
+![Title](/static/migrating-a-node-and-react-app-from-rest-to-graphql.png)
+
+Adopting GraphQL and Apollo client brings several benefits. Some of them are: smaller HTTP payloads, less network requests, zero config API documentation and declarative data fetching. Less network usage will benefit your users, and your developers will be more productive with better tooling and clear boundaries between frontend and backend.
+
+But changing your entire stack is a tremendous effort. Fortunately you can gradually adopt GraphQL. This guide will show you how to go from a REST and React stack to a stack with GraphQL and Apollo client.
+
+You will learn:
+
+* How to gradually adopt GraphQL
+* Benefits and drawbacks of each step
+* How to prevent bugs in the process
+
+Every step has an example client server app inspired in the [Todo MVC](http://todomvc.com/) project. All examples are in [GraphQLCollege/from-rest-to-graphql-node-react](https://github.com/GraphQLCollege/from-rest-to-graphql-node-react)
+
+Let's start with the best part, the benefits.
+
+## Benefits
+
+### GraphQL
+
+#### Client determines HTTP payload
+
+With [GraphQL](http://graphql.org/), frontends ask for specific fields instead of receiving all fields and using what they want.
+
+For example, `GET /todos` returns `{ id, text, completed, sentiment, language, createdAt, updatedAt }` for every item in the list. But out app only needs `{ id, text, completed }`. GraphQL allows us to request only the fields we need, which can result in significant HTTP payload reduction.
+
+#### Less HTTP calls than REST
+
+Clients can ask GraphQL servers for any resource in a single HTTP endpoint, whereas REST clients need to hit one endpoint per resource. For example if a REST client wants a list of users and a list of todos, it would need to hit `GET /todos` and `GET /users`. On the other hand, a GraphQL client would send to a single endpoint the following query:
+
+```js
+{
+  todos {
+    id
+    text
+  }
+  users {
+    id
+    email
+  }
+}
+```
+
+#### Zero config API documentation
+
+Documenting a REST API takes a lot of time. You either have to document every endpoint, and update that documentation every time there's an API change; or you have to start implementing a standard like Swagger.
+
+There is a type system used to define GraphQL APIs called SDL, which stands for Schema Definition Language. Here is an example SDL for a Todo API:
+
+```js
+type Query {
+  todos: [Todo]
+}
+type Mutation {
+  createTodo(text: String!): Todo
+  toggleAllTodos: UpdatedCount
+  toggleTodo(id: Int!): Todo
+  removeTodo(id: Int!): Boolean
+  editTodo(id: Int!, text: String!): Todo
+  clearAllCompleted: TodoIds
+}
+type Todo {
+  id: Int
+  text: String
+  completed: Boolean
+  createdAt: String
+  updatedAt: String
+  language: String
+  sentiment: Int
+}
+type UpdatedCount {
+  updated: Int
+}
+type TodoIds {
+  ids: [Int]
+}
+```
+
+Every GraphQL API also implement a feature called schema introspection, which lets clients know the complete list of types. These two features combined allow the creation of great tooling, such as [GraphiQL](http://github.com/graphql/graphiql) or [GraphQLBin](http://graphqlbin.com).
+
+GraphiQL is an interactive API explorer which requires almost no effort to add on top of any GraphQL API. Here is the documentation for our Todos GraphQL API:
+
+<iframe src="https://graphqlbin.com/8246CY" className="codesandbox" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+### Apollo Client
+
+[Apollo Client](https://www.apollographql.com/client) is a JS framework which provides declarative data fetching and stores that data in a client side cache.
+
+#### Declarative data fetching
+
+Thanks to this feature, you can declare the data requirements of each component right next to them. Compare this to the manual process of fetching data in a top level component, and passing it down through your component tree.
+
+For example, this is how you wire a component with a list of todos:
+
+```js
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
+import { Main } from 'todo-components'
+
+const withTodos = gql`
+  query Todos {
+    todos {
+      id
+      text
+      completed
+    }
+  }
+`
+
+export default graphql(withTodos, {
+  props: ({ data: { todos } }) => ({ todos }),
+})
+```
+
+Apollo client gathers every query from all components, makes an HTTP request and finally passes them data as props.
+
+#### Zero config client-side caching
+
+Apollo Client identifies every resource in your app and stores them in memory. It uses this information to prevent unnecesary HTTP calls.
+
+## End to end tests
+
+There are measurements you can take that will improve your migration's success. You can prevent errors by having a solid end to end testing suite.
+
+End to end tests verify your system work correctly. They test your app from a user's point of view.
+
+The benefit of these kind of tests in a migration is that they will stay the same across the whole process. They should not be tied to any technology, in the same way that your users don't know if your app is made with REST, GraphQL, Apollo or Jupiter.
+
+For example, here are the tests that check the correct behaviour of our Todo App:
+
+```js
+describe("Todo MVC", () => {
+  beforeEach(() => {
+    return resetDatabase();
+  });
+
+  after(() => {
+    return resetDatabase();
+  });
+
+  it("should hide #main and #footer when there are no todos", () => {
+    cy.visit("http://localhost:3000");
+    cy.get("#main").should("not.exist");
+    cy.get("#footer").should("not.exist");
+  });
+
+  it("should allow the user to add items", () => {
+    cy.visit("http://localhost:3000");
+    cy.get(".new-todo").type("Create an item");
+    cy.get(".new-todo").type("{enter}");
+    cy.get(".todo-list > li").should("have.length", 1);
+  });
+
+  it("should clear the text input when the user adds an item", () => {
+    cy.visit("http://localhost:3000");
+    cy.get(".new-todo").type("Clear input text after creating item");
+    cy.get(".new-todo").type("{enter}");
+    cy.get(".new-todo").should("have.value", "");
+  });
+
+  it("should allow users to complete all items", () => {
+    cy.visit("http://localhost:3000");
+    cy.get(".new-todo").type("Create item");
+    cy.get(".new-todo").type("{enter}");
+    cy.get(".new-todo").type("Complete all items");
+    cy.get(".new-todo").type("{enter}");
+    cy.get(".toggle-all").click();
+    cy.get(".todo-list > li.completed").should("have.length", 2);
+  });
+
+  it("should allow users to remove complete from all items", () => {
+    cy.visit("http://localhost:3000");
+    cy.get(".new-todo").type("Create an item");
+    cy.get(".new-todo").type("{enter}");
+    cy.get(".new-todo").type("Mark items as not completed");
+    cy.get(".new-todo").type("{enter}");
+    cy.get(".toggle-all").click();
+    cy.get(".toggle-all").click();
+    cy.get(".todo-list > li.completed").should("have.length", 0);
+  });
+
+  it("should allow users to complete an item", () => {
+    cy.visit("http://localhost:3000");
+    cy.get(".new-todo").type("Complete an item");
+    cy.get(".new-todo").type("{enter}");
+    cy.get(".todo-list > li input.toggle").click();
+    cy.get(".todo-list > li.completed").should("have.length", 1);
+  });
+
+  it("should allow users to remove an item", () => {
+    cy.visit("http://localhost:3000");
+    cy.get(".new-todo").type("Remove an item");
+    cy.get(".new-todo").type("{enter}");
+    cy
+      .get(".todo-list > li button.destroy")
+      .invoke("show")
+      .click();
+    cy.get(".todo-list > li").should("have.length", 0);
+  });
+
+  it("should only show active todos on /active", () => {
+    cy.visit("http://localhost:3000");
+    cy.get(".new-todo").type("Create an item");
+    cy.get(".new-todo").type("{enter}");
+    cy.get(".todo-list > li input.toggle").click();
+    cy.get(".new-todo").type("Complete all items");
+    cy.get(".new-todo").type("{enter}");
+    cy.get('footer a[href="#/active"]').click();
+    cy.get(".todo-list > li").should("have.length", 1);
+  });
+
+  it("should allow user to edit items", () => {
+    cy.visit("http://localhost:3000");
+    cy.get(".new-todo").type("Create items");
+    cy.get(".new-todo").type("{enter}");
+    cy.get(".todo-list > li label").dblclick();
+    cy.get(".todo-list input.edit").type(", and also edit them");
+    cy.get(".todo-list input.edit").type("{enter}");
+    cy
+      .get(".todo-list > li label")
+      .should("have.text", "Create items, and also edit them");
+  });
+});
+
+function resetDatabase() {
+  if (Cypress.env("NO_API")) {
+    return;
+  }
+  return cy.request(
+    "DELETE",
+    `localhost:${Cypress.env("API_PORT") || 4000}/todos`
+  );
+}
+```
+
+This suite is written in an open source framework called [Cypress](http://cypress.io).
+
+The beauty of these tests is that they read like instructions you would give to a person testing your system. "Visit this url. Type 'Create items'. Type enter. Double click the text. Type ', and also edit them'. Type enter."
+
+You can see them in this [github repo](https://github.com/GraphQLCollege/from-rest-to-graphql-node-react/tree/master/packages/todo-end-to-end-tests).
+
+## REST API, React client
+
+![REST API, React client](/static/rest-react.png)
+
+It's a React app that uses `setState` for state management and `fetch` to communicate with the server.
+
+<iframe src="https://codesandbox.io/embed/yqk14rwo2x?module=%2Fsrc%2FApp.js&runonclick=1" className="codesandbox" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+The API is Express based, and it communicates with a database using KnexJS. Source code is in [here](https://github.com/GraphQLCollege/from-rest-to-graphql-node-react/tree/master/packages/todo-rest-api).
+
+### Benefits
+
+* REST is an established, well known architecture
+* Mature ecosystem, all standard server frameworks are based on REST
+* Client simplicity, it can work with any HTTP library like `fetch`
+
+### Drawbacks
+
+* Server determines HTTP payload
+* More HTTP calls than GraphQL
+* Manual API documentation
+* Imperative data fetching
+* Manual client-side caching
+
+### Next steps
+
+* [Migrate frontend to Apollo Client, without changing REST API](#rest-api-apollo-graphql-client-with-rest-adapter)
+  * Declarative data fetching
+  * Zero config client-side caching
+* [Add a GraphQL gateway in front of REST API](#graphql-gateway-in-front-of-rest-api-react-client)
+  * Client determines HTTP payload
+  * Less HTTP calls
+  * Zero config API documentation
+
+## GraphQL Gateway in front of REST API, React client
+
+![GraphQL Gateway in front of REST API, React client](/static/rest-graphql-react.png)
+
+This client is almost identical to the REST API client. It uses `setState` to manage its internal data, and communicates with the server using `fetch`. The difference is that it always hit a single endpoint (`/graphql`) with a single `HTTP` method (`POST`), instead of hitting multiple routes and `HTTP` methods. It sends a different payload for every action it wants to achieve:
+
+* Instead of hitting `GET /todos`, it sends `{ query: { todos { id, text, completed } } }` as payload
+* Instead of hitting `POST /todos`, it sends the following payload:
+
+```js
+mutation {
+  createTodo(text: "${text}") {
+    id
+    text
+    completed
+  }
+}
+```
+* Instead of hitting `DELETE /todos/:id`, it sends the following payload:
+
+```js
+mutation {
+  removeTodo(id: ${id})
+}
+```
+
+Check out its source code in the following playground:
+
+<iframe src="https://codesandbox.io/embed/3029431yz1?module=%2Fsrc%2FApp.js&runonclick=1" className="codesandbox" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+The GraphQL Gateway translates queries into `HTTP` calls to the REST API. This is a good option for when you want to gain the benefits of a GraphQL server without changing your business logic. You can see the code in [here](https://github.com/GraphQLCollege/from-rest-to-graphql-node-react/tree/master/packages/todo-graphql-gateway)
+
+### Benefits
+
+* Client simplicity, it can work with any HTTP library like `fetch`
+* Client determines HTTP payload
+* Less HTTP calls than REST
+* Zero config API documentation
+
+### Drawbacks
+
+* Higher server latency
+* Imperative data fetching
+* Manual client-side caching
+
+### Next steps
+
+* [Replace REST API with GraphQL API, without touching React client](#graphql-api-react-client)
+  * Reduce latency
+* [Migrate client to Apollo, without changing server](#graphql-gateway-in-front-of-rest-api-apollo-client)
+  * Declarative data fetching
+  * Zero config client-side caching
+
+## GraphQL API, React client
+
+![GraphQL API, React client](/static/graphql-react.png)
+
+This is a simple GraphQL client that uses React's `setState` for data management and `fetch` for HTTP calls.
+
+<iframe src="https://codesandbox.io/embed/3029431yz1?module=%2Fsrc%2FApp.js&runonclick=1" className="codesandbox" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+You can connect a GraphQL server with any datasource. You can even combine different datasources or HTTP endpoints. This is possible because you map every GraphQL query with a regular javascript function.
+
+[This](https://github.com/GraphQLCollege/from-rest-to-graphql-node-react/tree/master/packages/todo-graphql-api) GraphQL API is directly connected to the database, this means it has lower latency compared to the [GraphQL Gateway](#graphql-gateway-in-front-of-rest-api-react-client), which is connected to a REST API before touching the database.
+
+### Benefits
+
+* Client simplicity, it can work with any HTTP library like `fetch`
+* Client determines HTTP payload
+* Less HTTP calls than REST
+* Zero config API documentation
+
+### Drawbacks
+
+* Imperative data fetching
+* Manual client-side caching
+
+### Next steps
+
+* [Migrate client to Apollo](#graphql-api-apollo-client)
+  * Declarative data fetching
+  * Zero config client-side caching
+
+## REST API, Apollo GraphQL client with REST adapter
+
+![REST API, Apollo GraphQL client with REST adapter](/static/rest-apollo.png)
+
+You can start using Apollo Client without switching your server to GraphQL. This is possible because of a library called [Apollo Link REST](https://github.com/apollographql/apollo-link-rest). Using this library allows you to get the power of Apollo Client without making any change to your REST API.
+
+If changing your client is faster than modifying your server, then this is a good step before switching to a GraphQL API.
+
+<iframe src="https://codesandbox.io/embed/pyqq0p6vjx?module=%2Fsrc%2FApp.js&runonclick=1" className="codesandbox" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+This example uses a simple Express based [REST API](https://github.com/GraphQLCollege/from-rest-to-graphql-node-react/tree/master/packages/todo-rest-api)
+
+### Benefits
+
+* Declarative data fetching
+* Zero config client-side caching
+
+### Drawbacks
+
+* Server determines HTTP payload
+* More HTTP calls than GraphQL
+* Manual API documentation
+* Apollo GraphQL REST Link is still in beta
+
+### Next steps
+
+* [Add GraphQL Gateway in front of the REST API](#graphql-gateway-in-front-of-rest-api-apollo-client)
+  * Client determines HTTP payload
+  * Less HTTP calls than REST
+  * Zero config API documentation
+
+## GraphQL Gateway in front of REST API, Apollo client
+
+![GraphQL Gateway in front of REST API, Apollo client](/static/rest-graphql-apollo.png)
+
+This example shows how to use Apollo Client to connect to a GraphQL Gateway. It is a great option that provides all the benefits of having a robust Client and a GraphQL Server.
+
+The only drawback of this approach is that a GraphQL Gateway has higher latency than a GraphQL API. You can solve the latency problem by migrating to a GraphQL API, but you can also scale your resources to mitigate the additional latency.
+
+It is a great choice when migrating your server logic is not possible yet. You put a GraphQL proxy in front of your services so that you can provide your clients with less network calls and smaller HTTP payloads.
+
+This is the code for the client in a js playground:
+
+<iframe src="https://codesandbox.io/embed/q92z2vvn54?module=%2Fsrc%2FApp.js&runonclick=1" className="codesandbox" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+You can take a look at the HTTP gateway in [here](https://github.com/GraphQLCollege/from-rest-to-graphql-node-react/tree/master/packages/todo-graphql-gateway)
+
+### Benefits
+
+* Client determines HTTP payload
+* Less HTTP calls than REST
+* Zero config API documentation
+* Declarative data fetching
+* Zero config client-side caching
+
+### Drawbacks
+
+* Higher server latency
+
+### Next steps
+
+* [](#)
+
+## GraphQL API, Apollo client
+
+![GraphQL API, Apollo client](/static/graphql-apollo.png)
+
+This is the ideal setup for Apollo and GraphQL. It provides several benefits over a REST API plus plain React setup.
+
+You don't have to throw away your previous code to get to this point though. Migrating systems is always hard, but thankfully there are intermediate steps you can take to get here.
+
+If you are starting a new app from scratch you would likely choose this setup. Both Apollo Client and Apollo Server are very easy to setup.
+
+You can play with the client code in here:
+
+<iframe src="https://codesandbox.io/embed/q92z2vvn54?module=%2Fsrc%2FApp.js&runonclick=1" className="codesandbox" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+And [here](https://github.com/GraphQLCollege/from-rest-to-graphql-node-react/tree/master/packages/todo-graphql-api) is a link to the server source code.
+
+### Benefits
+
+* Client determines HTTP payload
+* Less HTTP calls than REST
+* Zero config API documentation
+* Declarative data fetching
+* Zero config client-side caching
+
+## Conclusion
+
+* There's no need to rewrite everything from scratch
+* Solid tests and reusable code will make the migration easier
+* Plan your next steps. What do you want to achieve? How much resources do you have?
