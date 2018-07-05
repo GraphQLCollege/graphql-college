@@ -29,6 +29,11 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             type="text/css"
           />
+          <script
+            src="https://cdn.ravenjs.com/3.26.2/raven.min.js"
+            crossorigin="anonymous"
+          />
+          <script src="/static/raven.js" />
           {this.props.styleTags}
         </Head>
         <body>
