@@ -17,6 +17,7 @@
     "graphql-type-json": "^0.2.1",
     "inflection": "^1.12.0",
     "isomorphic-unfetch": "^2.0.0",
+    "matter-js": "^0.14.2",
     "next": "^6.1.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
