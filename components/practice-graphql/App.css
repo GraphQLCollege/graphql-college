@@ -1,0 +1,77 @@
+* {
+  box-sizing: border-box;
+}
+.App {
+  height: 90vh;
+  display: flex;
+  flex-direction: row-reverse;
+  border: solid 1px #e535ab;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.editor-error {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  position: absolute;
+  bottom: 0;
+  z-index: 99;
+  width: 100%;
+}
+.main {
+  overflow-y: scroll;
+  padding: 20px;
+}
+.App .editor,
+.App .graphiql-container,
+.App .schema,
+.App .main {
+  position: relative;
+  flex: 1;
+}
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+  border-right: solid 1px #e535ab;
+}
+nav .change-mode {
+  font-size: 1.5rem;
+  color: #e535ab;
+  cursor: pointer;
+  margin-bottom: 10px;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 600px) {
+  .App .graphiql-container .editorBar {
+    flex-direction: column;
+  }
+  .App {
+    flex-direction: column;
+  }
+  .App .editor .CodeMirror,
+  .App .schema .CodeMirror {
+    height: 80vh !important;
+  }
+  nav {
+    flex-direction: row;
+    justify-content: space-around;
+    height: 10vh;
+    padding: 0;
+    border-right: none;
+    border-top: solid 1px #e535ab;
+  }
+  nav .change-mode {
+    margin-bottom: 0;
+    margin-left: 10px;
+  }
+}
+/* Remove empty space on mobile */
+.App .graphiql-container .topBar {
+  height: auto;
+}

@@ -6,3 +6,5 @@ public
 .cache/
 package-lock.json
 yarn-error.log
+.next
+out
