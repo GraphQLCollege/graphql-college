@@ -15,6 +15,7 @@ const Section = styled.section`
   margin: 0 auto;
   padding-left: 0;
   padding-right: 0;
+  margin-top: 50px;
 `;
 
 const Footer = () => (
