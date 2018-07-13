@@ -72,16 +72,16 @@ const schema = makeExecutableSchema({
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: center;
   flex-direction: column;
   width: 100%;
 
   .graphiql-container {
-    height: 300px;
+    height: 400px;
   }
 
-  @media(min-width: 600px) {
+  @media (min-width: 600px) {
     flex-direction: row;
   }
 `;
@@ -99,6 +99,7 @@ class App extends Component {
                 return res;
               });
             }}
+            query={this.props.query}
             schema={schema}
           />
         </NoSSR>

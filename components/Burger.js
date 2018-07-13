@@ -1,5 +1,6 @@
 import React from "react";
 import { Engine, Render, World, Bodies } from "matter-js";
+import styled from "styled-components";
 
 const selectPatty = burger => {
   const beef = () =>
@@ -199,6 +200,10 @@ const selectToppings = burger => {
     });
 };
 
+const Wrapper = styled.div`
+  display: flex;
+`;
+
 class Burger extends React.Component {
   componentDidMount() {
     this.matterEngine = Engine.create();
@@ -258,13 +263,13 @@ class Burger extends React.Component {
   };
   render() {
     return (
-      <div className="burger">
+      <Wrapper>
         <canvas
           ref={element => {
             this.element = element;
           }}
         />
-      </div>
+      </Wrapper>
     );
   }
 }

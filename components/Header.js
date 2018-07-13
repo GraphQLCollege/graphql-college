@@ -68,7 +68,7 @@ const Header = () => (
           Book
         </a>
       </Link>
-      <Link href="/practice-graphql">
+      <Link href="/playground">
         <a
           style={{
             marginLeft: 30,
