@@ -29,3 +29,6 @@ body {
   font-feature-settings: "kern", "liga", "clig", "calt";
   padding: 20px;
 }
+a {
+  color: #e10098;
+}
