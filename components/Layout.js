@@ -15,7 +15,7 @@ export default class Layout extends React.Component {
   }
   render() {
     return (
-      <div style={{ marginBottom: 50 }}>
+      <div style={{ marginBottom: 50, maxWidth: 800, margin: "0 auto" }}>
         <Helmet title="GraphQL College" />
         <Header />
         {this.props.children}
