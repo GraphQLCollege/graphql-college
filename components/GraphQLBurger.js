@@ -99,7 +99,7 @@ class App extends Component {
                 return res;
               });
             }}
-            query={this.props.query}
+            defaultQuery={this.props.defaultQuery}
             schema={schema}
           />
         </NoSSR>
