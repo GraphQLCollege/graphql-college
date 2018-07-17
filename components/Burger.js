@@ -89,7 +89,7 @@ const selectPatty = burger => {
     }
   });
   const patties = {
-    meat: beef,
+    meat: beef(),
     chicken,
     mushroom,
     sauteedVegetables
@@ -244,11 +244,21 @@ class Burger extends React.Component {
       if (this.props.burger.topping) {
         bodies = bodies.concat(selectToppings(this.props.burger));
       }
-      bodies = bodies.concat([
-        selectTopBun(this.props.burger),
-        ...selectPatty(this.props.burger),
-        bottomBun
-      ]);
+      if (this.props.burger.patty) {
+        if (!this.props.burger.bun) {
+          bodies = bodies.concat([...selectPatty(this.props.burger)]);
+        } else {
+          bodies = bodies.concat([
+            selectTopBun(this.props.burger),
+            ...selectPatty(this.props.burger),
+            bottomBun
+          ]);
+        }
+      } else {
+        if (this.props.burger.bun) {
+          bodies = bodies.concat([selectTopBun(this.props.burger), bottomBun]);
+        }
+      }
     }
 
     Render.stop(this.matterRender);

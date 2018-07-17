@@ -95,6 +95,9 @@ class App extends Component {
           <GraphiQL
             fetcher={graphQLParams => {
               return graphql(schema, graphQLParams.query).then(res => {
+                if (res.errors) {
+                  return;
+                }
                 this.setState({ burger: res.data.burger });
                 return res;
               });
