@@ -102,7 +102,7 @@ export const Blockquote = styled.blockquote`
   border-left: 0.32813rem solid #e535ab;
 `;
 
-export const A = styled.a`
+export const A = styled.a.attrs({ target: "_blank" })`
   > code[class*="language-"] {
     color: #007acc;
   }
