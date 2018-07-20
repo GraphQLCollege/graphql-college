@@ -1,0 +1,729 @@
+export const meta = {
+date: "2018-07-20"
+};
+
+# Building an editable restaurant menu using Next.js, GraphCMS and Heroku
+
+![Menu](/static/menu.png)
+
+With this tutorial you will learn how to create GraphQL APIs with user generated content using Next.js, GraphCMS and Heroku. This setup provides users a friendly admin interface to create, edit and delete content, while also letting developers build using their preferred tools (in this case server side rendered React and a GraphQL API).
+
+You are going to build a restaurant menu with a design inspired by the stylish [menu of The Roof](https://www.underconsideration.com/artofthemenu/archives/the_roof.php), a Shanghai restaurant.
+
+![The Roof menu](/static/the-roof-menu.jpg)
+
+Users will be able to edit meals, drinks and prices thanks to [GraphCMS](http://graphcms.com)'s content management system.
+
+The app will be rendered on the server using [Next.js](https://nextjs.org/). This means that content is indexable by search engines. Search engine discoverability is the main reason why you'd choose to develop an app using [Next.js](https://nextjs.org/) instead of [Create React App](https://github.com/facebook/create-react-app).
+
+Rendering the menu on the server also improves your user's experience. As soon as they enter the page, they will receive an HTML page with the content already in place. This provides a better performance than client side rendering; which would mean that the users receive an empty page, wait for the API to respond, and seeing the menu only after it responds.
+
+In order to implement this restaurant menu, you will first identify the elements that make up this particular menu. The second step will be setting up a Node project. After that, you will design the shape of the data as a JSON structure. Once the data has a nice shape, you will use it to develop a menu with static content. You will bring the content to life by connecting the app with data from a GraphCMS instance. Finally you will deploy this application to Heroku.
+
+## Contents
+
+- [Contents](#contents)
+- [Analysis](#analysis)
+- [Project setup](#project-setup)
+- [Data](#data)
+- [Static content](#static-content)
+- [Editable content](#editable-content)
+- [Deployment](#deployment)
+- [Conclusion](#conclusion)
+
+## Analysis
+
+Let's analyze the menu that you are going to turn into a webpage. Painting a mental picture of the elements of the domain model is a nice way to understand it before jumping into coding.
+
+![The Roof menu](/static/the-roof-menu.jpg)
+
+There are two pages, food and drinks. Let's name them categories.
+
+Each category is divided into many subcategories. Food is is divided into plates, breads, snacks and sweet. Drinks is divided into martinis and drinks.
+
+All subcategories have many items. Each item has a description and a price.
+
+Now that all elements of the menu have a name, the next step is setting up the development environment.
+
+## Project setup
+
+You need to have NodeJS and Yarn installed on your machine.
+
+Create a new folder which will contain the project's source code.
+
+Run `yarn init -y` to create a `package.json` file with default values.
+
+To make development a little easier, you will create three yarn tasks. The tasks will be called `dev`, `build` and `start`. To create them, add a key named `scripts` to `package.json` with the following contents.
+
+```json
+"scripts": {
+  "dev": "next -p ${PORT-3000}",
+  "build": "next build",
+  "start": "next start -p ${PORT-3000}"
+}
+```
+
+The `dev` and `start` tasks use a bash feature called parameter expansion. `next -p ${PORT-3000}` means that the app will receive a default value of `3000` in case the `PORT` environment variable is not set. Read more about bash's parameter expansion in [the Bash wiki](http://wiki.bash-hackers.org/syntax/pe#use_a_default_value).
+
+Now it's the time to install all the dependencies. The project will only use four libraries. React and React DOM for rendering components. NextJs will take care of project configuration tasks like serving content, server side rendering and routing. Finally, Isomorphic Unfetch will server as a fetch polyfill that works on the server and on the client.
+
+Run the following command to install all dependencies.
+
+```bash
+yarn add react react-dom next isomorphic-unfetch
+```
+
+Your dev environment is ready, in the next step you will focus on data.
+
+## Data
+
+Let's translate the menu analysis to a JSON file. Having a clear image of what the data looks like will make future steps easier, like building components or creating a schema.
+
+The JSON data will have a key named `categories`. This will contain an array with two categories, food and drinks.
+
+Each category will be an object with two keys, `name` and `subcategories`.
+
+Each subcategory will be an object with a `name` key and a `menuItems` key.
+
+Finally, every menu item will be an object with a `description` and a `price`.
+
+Create a `static/` folder and inside it, create a new file called `data.json`. Paste the following JSON object in that file. You'll use this object as a starting point for the next step, which is creating an initial version of the menu with non-editable content.
+
+`static/data.json`
+
+```json
+{
+  "data": {
+    "categories": [
+      {
+        "name": "Food",
+        "subcategories": [
+          {
+            "name": "Plates",
+            "menuItems": [
+              {
+                "description": "tuna tartare, avocado, sesame",
+                "price": 100
+              },
+              {
+                "description":
+                  "fresh marinated anchovies, confit tomato, chunky bread",
+                "price": 100
+              },
+              {
+                "description": "'caesar' salad, pancetta, quail eggs",
+                "price": 100
+              },
+              {
+                "description": "heritage tomato, basil salad",
+                "price": 100
+              },
+              {
+                "description": "green salad",
+                "price": 100
+              },
+              {
+                "description": "cheese 'table' chutney",
+                "price": 100
+              }
+            ]
+          },
+          {
+            "name": "Bread",
+            "menuItems": [
+              {
+                "description": "bread basket, olive oil, taramasalata",
+                "price": 100
+              },
+              {
+                "description": "chicken, avocado and bacon",
+                "price": 100
+              },
+              {
+                "description": "tomato, mozzarella and pesto",
+                "price": 100
+              },
+              {
+                "description": "crab mayonnaise and chilli",
+                "price": 100
+              },
+              {
+                "description": "grilled ham and cheese, parsley mustard",
+                "price": 100
+              }
+            ]
+          },
+          {
+            "name": "Snacks",
+            "menuItems": [
+              {
+                "description":
+                  "cayenne and rosemary roasted chestnuts, almonds and cashews",
+                "price": 100
+              },
+              {
+                "description": "marinated olives",
+                "price": 100
+              },
+              {
+                "description": "vegetable crisps, vinegar foam",
+                "price": 100
+              },
+              {
+                "description":
+                  "boiled quail eggs, toasted sesame seeds and paprika salt",
+                "price": 100
+              },
+              {
+                "description": "potato chips, brava sauce",
+                "price": 100
+              },
+              {
+                "description": "cured meat 'table'",
+                "price": 100
+              }
+            ]
+          },
+          {
+            "name": "Sweet",
+            "menuItems": [
+              {
+                "description":
+                  "chocolate pots, spiced fruit, cinnamon doughnuts",
+                "price": 100
+              },
+              {
+                "description": "tiramisu",
+                "price": 100
+              },
+              {
+                "description": "créme catalan, strawberry gel, mint",
+                "price": 100
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Drinks",
+        "subcategories": [
+          {
+            "name": "Martinis",
+            "menuItems": [
+              {
+                "description": "pure martini",
+                "price": 100
+              },
+              {
+                "description": "dirty lychee martini",
+                "price": 100
+              },
+              {
+                "description": "white cosmo",
+                "price": 100
+              },
+              {
+                "description": "kats martini",
+                "price": 100
+              },
+              {
+                "description": "watermelon cosmo",
+                "price": 100
+              }
+            ]
+          },
+          {
+            "name": "Cocktails",
+            "menuItems": [
+              {
+                "description": "sparkling cosmo",
+                "price": 100
+              },
+              {
+                "description": "basil caipirinha",
+                "price": 100
+              },
+              {
+                "description": "kiwi mojito",
+                "price": 100
+              },
+              {
+                "description": "strawberry caipiroska",
+                "price": 100
+              },
+              {
+                "description": "kampong freeze",
+                "price": 100
+              },
+              {
+                "description": "platano",
+                "price": 100
+              },
+              {
+                "description": "batida",
+                "price": 100
+              },
+              {
+                "description": "goatini",
+                "price": 100
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Static content
+
+In this step, you'll transform the data representation of the menu into a server side rendered menu. Fortunately, Next.js takes care of all the configuration, so you will focus exclusively on developing React components.
+
+At first, you will only focus on the markup that each component contains. Once the page shows all the content correctly, you will add styles to it.
+
+The first component you are going to build is the index page. It will load data from `/static/data.json` and pass as props to a `Menu` component.
+
+Create the file `pages/index.js` with this content:
+
+`pages/index.js`
+
+```js
+import React from "react";
+import fetch from "isomorphic-unfetch";
+
+import Menu from "../components/Menu";
+
+export default class Index extends React.Component {
+  static async getInitialProps() {
+    const url = `http://localhost:${process.env.PORT || 3000}/static/data.json`;
+    const options = { headers: { "Content-Type": "application/json" } };
+    const { data } = await fetch(url, options).then(res => res.json());
+    return { data };
+  }
+  render() {
+    return <Menu data={this.props.data} />;
+  }
+}
+```
+
+Now create the file `components/Menu.js` that `index.js` imports. This file will contain four components: `Menu`, `Category`, `Subcategory` and `Logo`. It will only export `Menu`, the rest will be internal.
+
+The responsibilities of `Menu` will be receiving a `data` prop and mapping `data.categories` into `Category` components.
+
+`components/Menu.js`
+
+```js
+import React from "react";
+
+const Menu = ({ data = { categories: [] } }) => {
+  return (
+    <article className="menu">
+      {data.categories.map(category => (
+        <Category key={category.name} data={category} />
+      ))}
+    </article>
+  );
+};
+
+export default Menu;
+```
+
+Now create the `Category` component. This component will be very similar to `Category`. It will also receive a `data` prop. It will map over this property's `subcategory` field and transform every item into a `Category` component.
+
+```js
+import React from "react";
+
+const Category = ({ data = { subcategories: [] }, ...props }) => (
+  <section className="category" {...props}>
+    <Logo />
+    {data.subcategories.map(subcategory => (
+      <Subcategory key={subcategory.name} data={subcategory} />
+    ))}
+  </section>
+);
+
+const Menu = ({ data = { categories: [] } }) => {
+// ...
+```
+
+Every category shows a Logo that says "menu".
+
+```js
+import React from "react";
+
+const Logo = () => (
+  <h1>
+    menu
+  </h1>
+);
+
+const Category = ({ data = { subcategories: [] }, ...props }) => (
+// ...
+```
+
+Every subcategory renders its name and a list of menu items. Name will be an `h2` element, and menu items will be a `ul` element with many `li` items inside of it, containing a description and price.
+
+```js
+import React from "react";
+
+const Subcategory = ({ data = { menuItems: [] }, ...props }) => (
+  <div className="subcategory" {...props}>
+    <h2>{data.name}</h2>
+    <ul>
+      {data.menuItems.map(element => (
+        <li key={element.description}>
+          {element.description}
+          <span className="price">{element.price}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+const Logo = () => (
+// ...
+```
+
+Run `yarn dev` to see this menu on `http://localhost:3000`.
+
+![menu page](/static/unstyled-menu.png)
+
+Now you have a page that correctly shows all the data from `data.json`. But it could really use a coat of paint, right?
+
+You will add styles to every component. The tool you will use this time is Styled JSX. It's a nice library that Next.js supports out of the box. It lets you use plain old style tags, but all styles you write inside them will target only the current component. This means that you can write really simple CSS queries, knowing that you won't accidentally target elements outside of the component's scope.
+
+First you will add some global styles to `pages/index.js`.
+
+```js
+render() {
+  return (
+    <React.Fragment>
+      <Menu data={this.props.data} />
+      <style global jsx>{`
+        html,
+        body {
+          padding: 0;
+          margin: 0;
+        }
+        * {
+          box-sizing: border-box;
+        }
+      `}</style>
+    </React.Fragment>
+  );
+}
+```
+
+Now let's add a `meta` tag to improve the menu's appearance on mobile devices. NextJs lets you modify the initial server side rendered markup with a special file called `_document.js`. Read more about it in the [NextJs docs](https://github.com/zeit/next.js#custom-document).
+
+Create a file called `pages/_document.js` with the following content.
+
+```js
+import Document, { Head, Main, NextScript } from "next/document";
+
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx) {
+    const initialProps = await Document.getInitialProps(ctx);
+    return { ...initialProps };
+  }
+
+  render() {
+    return (
+      <html>
+        <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </html>
+    );
+  }
+}
+```
+
+Now that all global styling is in place, you will focus on the CSS of each individual component. Explaining the reasoning behind each component's styles is outside the scope of this tutorial, but I encourage you to learn about each new styling concept that you stumble upon. [Mozilla's MDN docs](https://developer.mozilla.org) are a great resource for learning CSS.
+
+This is what the final, styled version of `components/Menu.js` contains:
+
+```js
+import React from "react";
+
+const Logo = () => (
+  <h1>
+    menu
+    <style jsx>{`
+      h1 {
+        margin: 0;
+        grid-column-start: 2;
+        justify-self: flex-end;
+        transform: rotate(-5deg);
+        padding: 20px;
+        font-size: 5rem;
+      }
+    `}</style>
+  </h1>
+);
+
+const Subcategory = ({ data = { menuItems: [] }, ...props }) => (
+  <div className="subcategory" {...props}>
+    <h2>{data.name}</h2>
+    <ul>
+      {data.menuItems.map(element => (
+        <li key={element.description}>
+          {element.description}
+          <span className="price">{element.price}</span>
+        </li>
+      ))}
+    </ul>
+    <style jsx>{`
+      ul,
+      h2 {
+        margin: 0;
+        text-transform: lowercase;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1rem;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        font-family: Arial;
+      }
+      .subcategory {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        transform: rotate(-5deg);
+        justify-content: flex-end;
+      }
+      @media (min-width: 750px) {
+        .subcategory {
+          flex-direction: row;
+        }
+      }
+      .subcategory > h2 {
+        font-size: 3rem;
+        margin-right: 20px;
+        margin-bottom: 20px;
+      }
+      .price {
+        margin-left: 20px;
+      }
+    `}</style>
+  </div>
+);
+
+const Category = ({ data = { subcategories: [] }, ...props }) => (
+  <section className="category" {...props}>
+    <Logo />
+    {data.subcategories.map(subcategory => (
+      <Subcategory key={subcategory.name} data={subcategory} />
+    ))}
+    <style jsx>{`
+      .category:nth-child(even) {
+        background: #0b0b09;
+      }
+      .category:nth-child(odd) {
+        background: #a72203;
+      }
+      .category {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 1fr 90vw 1fr;
+      }
+      @media (min-width: 750px) {
+        .category {
+          grid-template-columns: 1fr 700px 1fr;
+        }
+      }
+      .category > :global(div) {
+        grid-column-start: 2;
+      }
+    `}</style>
+  </section>
+);
+
+const Menu = ({ data = { categories: [] } }) => {
+  return (
+    <article className="menu">
+      {data.categories.map(category => (
+        <Category key={category.name} data={category} />
+      ))}
+      <style jsx>{`
+        .menu {
+          color: #eee;
+          background: #eee;
+          /* System font stack: https://css-tricks.com/snippets/css/system-font-stack/ */
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+          padding: 10px;
+          max-width: 100%;
+          overflow: hidden;
+          min-height: 100vh;
+        }
+      `}</style>
+    </article>
+  );
+};
+
+export default Menu;
+```
+
+And this is what the styled menu page looks like:
+
+![menu with styles](/static/styled-menu.png)
+
+The next step is allowing restaurant users to edit the content as they please.
+
+## Editable content
+
+Allowing users to edit content is very straightforward. [GraphCMS](https://graphcms.com/) provides a headless CMS for your content creators, and a nice GraphQL API for your developers. You will use its free plan to create a CMS for the restaurant menu from the previous step.
+
+Head over to [https://graphcms.com/](https://graphcms.com/) and create an account. Once you have an account, create a project called `Menu`.
+
+![GraphCMS Menu project](/static/graphcms-menu.png)
+
+Once you have an account, you will perform the following steps in order to have a working, CMS backed restaurant menu.
+
+1.  Define a Schema
+2.  Create content
+3.  Consume GraphQL API
+
+In order to stay true to `data.json`, the Schema will contain three models: `Category`, `Subcategory` and `Menu Item`.
+
+Create a new Model called `Category` and add a single line text field called `Name`.
+
+Create a `Subcategory` model. Add a single line text field called `Name`. Also, add a reference to `Category`. Indicate that it's a one to many reference. One `Category` has many `Subcategory`, make sure it's setup this way and not backwards. After adding this reference, make sure that `Category` has a `Subcategories` field and `Subcategory` has a `Category` field.
+
+Finally, create a `Menu Item` model. Add a single line text field called `Description`. Add an Int field called `Price`. Also add a reference to `Subcategory`. Mark that one `Subcategory` has many `Menu Item`.
+
+![GraphCMS schema](/static/graphcms-schema.png)
+
+Now that the Schema is ready, head over to the Content tab and start adding content. This is where having a CMS truly shines. GraphCMS provides a powerful role system so you can make sure that the correct stakeholder can manage content. Since this is a tutorial restaurant menu, you will be in charge of creating all content.
+
+Create two categories, Food and Drinks.
+
+Next, create four subcategories in Food. Name them Plates, Bread, Snacks and Sweet. Create two categories in Drinks, called Martinis and Cocktails. Make sure to connect each item to its correct `Category`.
+
+Now comes the fun part, take a look at all the menu items in `static/data.json` and connect them to their appropriate `Subcategory`.
+
+Once you've finished adding content, you can make sure that you correctly created all entities by opening the API Explorer tab.
+
+Paste the following query, hit play and make sure that the result matches the contents of `static/data.json`.
+
+```graphql
+{
+  categories {
+    name
+    subcategories {
+      name
+      menuItems {
+        description
+        price
+      }
+    }
+  }
+}
+```
+
+![GraphCMS Explorer](/static/graphcms-explorer.png)
+
+The final step before connecting the app to its new GraphQL API is going to the Settings tab, and marking the Public API Permissions to "Read".
+
+Now copy your API's URL from the project's Dashboard. You will load data from this API instead of from `static/data.json`.
+
+The only thing you need to change is the `url` and `options` variables in `pages/index.js`. GraphQL does not need any framework, `fetch` is a perfect GraphQL client because it's just HTTP.
+
+Replace `getInitialProps` in `pages/index.js` with the following code. Remember to set the GraphQL URL that you copied in the last step.
+
+```js
+static async getInitialProps() {
+  const url =
+    "YOUR_GRAPHCMS_API_URL";
+  const options = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: `
+      {
+        categories {
+          name
+          subcategories {
+            name
+            menuItems {
+              description
+              price
+            }
+          }
+        }
+      }
+      `
+    })
+  };
+  const { data } = await fetch(url, options).then(res => res.json());
+  return { data };
+}
+```
+
+**Congratulations!** You have an editable restaurant menu, server side rendered with NextJs and backed by a headless CMS powered by GraphCMS. Take it out for a spin by changing the menu items' descriptions or prices, and refreshing the page to see those changes.
+
+In the next step you will deploy your app to Heroku.
+
+## Deployment
+
+Deploying a NextJs app to Heroku should be pretty straightforward. Besides having a Heroku account and a local installation of the Heroku CLI, you only need to have a GIT repository, create an app using the CLI, add a `heroku-postbuild` command, and calling `git push heroku master`.
+
+Initialize a GIT repository with `git init` and create a `.gitignore` so you don't track any unnecessary files.
+
+```.gitignore
+node_modules
+.next
+```
+
+Add a script to `package.json` called `heroku-postbuild`.
+
+```json
+"scripts": {
+  "dev": "next -p ${PORT-3000}",
+  "build": "next build",
+  "start": "next start -p ${PORT-3000}",
+  "heroku-postbuild": "next build"
+},
+```
+
+Create an initial commit.
+
+```bash
+git add .
+git commit -m 'Editable restaurant menu'
+```
+
+Create a Heroku app and name it `restaurant-menu` or something.
+
+```
+heroku create restaurant-menu
+```
+
+Finally push your changes to see them live.
+
+```
+git push heroku master
+```
+
+And that's it. Now your app is live!
+
+You can find the complete source code of this tutorial on [Github](https://github.com/GraphQLCollege/editable-restaurant-menu-using-nextjs-graphcms-and-heroku).
+
+## Conclusion
+
+You learned how to build a GraphCMS backed GraphQL API and consumed its data with a server rendered React application. This combination provides your users with a nice interface to manage content, and frees your developers to use top notch tools like GraphQL, React and NextJs.
