@@ -79,10 +79,11 @@ export const H1 = ({ children, date }) => (
 export const Img = styled.img`
   margin-left: auto;
   margin-right: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
   display: block;
   max-width: 100%;
   max-height: 500px;
-  padding: 25px;
   -o-object-fit: contain;
   object-fit: contain;
 `;
