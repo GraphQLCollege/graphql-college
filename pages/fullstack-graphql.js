@@ -165,6 +165,13 @@ class FullstackGraphQL extends React.Component {
           </p>
           <BookButtons />
         </div>
+        <a
+          style={{ gridColumnStart: 1, gridColumnEnd: 3, marginTop: "1.75rem" }}
+          href="https://graphcms.com/?ref=graphqlcollege"
+          target="_blank"
+        >
+          <img src="/static/graphcms.svg" alt="Brought to you by GraphCMS" />
+        </a>
         <h2 style={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
           Overwhelmed by all the tools required for building GraphQL
           applications? <b>Learn how every piece fits together</b>
@@ -232,9 +239,10 @@ class FullstackGraphQL extends React.Component {
               target="_blank"
             >
               Apollo Server
-            </a>. You will expose to HTTP the schema you designed in the
-            previous chapter. You will also learn how to connect an API with a
-            Postgres database, and how to organize the API source code.
+            </a>
+            . You will expose to HTTP the schema you designed in the previous
+            chapter. You will also learn how to connect an API with a Postgres
+            database, and how to organize the API source code.
           </p>
           <div className="code-samples">
             <a href="https://glitch.com/edit/#!/pinapp-server" target="_blank">
@@ -305,7 +313,8 @@ class FullstackGraphQL extends React.Component {
             and{" "}
             <a href="https://reactjs.org/" target="_blank">
               React 16
-            </a>.
+            </a>
+            .
           </p>
           <div className="code-samples">
             <a href="https://glitch.com/edit/#!/pinapp-initial" target="_blank">
@@ -445,7 +454,8 @@ class FullstackGraphQL extends React.Component {
             frontend using{" "}
             <a href="http://facebook.github.io/jest/" target="_blank">
               Jest
-            </a>.
+            </a>
+            .
           </p>
           <div className="code-samples">
             <a
