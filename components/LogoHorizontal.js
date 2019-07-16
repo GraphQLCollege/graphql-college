@@ -1,7 +1,7 @@
 import React from "react";
 
 const GraphqlCollegeHorizontal = props => (
-  <svg viewBox="0 0 2657 392" {...props}>
+  <svg viewBox="0 0 2800 392" {...props}>
     <g fill="none" fillRule="evenodd">
       <g fillRule="nonzero" fill="#E535AB">
         <path d="M207.468 298.66l-14.376-8.3 160.15-277.38 14.376 8.3z" />
