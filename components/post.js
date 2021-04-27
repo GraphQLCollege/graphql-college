@@ -5,7 +5,7 @@ import Error from "next/error";
 import { prettyDate } from "../utils/time";
 
 export const Post = styled.div.attrs({
-  className: "post"
+  className: "post",
 })`
   max-width: 800px;
   min-height: 100vh;
@@ -72,7 +72,7 @@ const StyledH1 = styled.h1`
 export const H1 = ({ children, date }) => (
   <React.Fragment>
     <StyledH1>{children}</StyledH1>
-    <StyledDate>{prettyDate(date)}</StyledDate>
+    {/* <StyledDate>{prettyDate(date)}</StyledDate> */}
   </React.Fragment>
 );
 

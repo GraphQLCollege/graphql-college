@@ -1,5 +1,5 @@
 export const meta = {
-date: "2018-07-20"
+  date: "2018-07-20",
 };
 
 # Building an editable restaurant menu using Next.js, GraphCMS and Heroku
@@ -106,8 +106,7 @@ Create a `static/` folder and inside it, create a new file called `data.json`. P
                 "price": 100
               },
               {
-                "description":
-                  "fresh marinated anchovies, confit tomato, chunky bread",
+                "description": "fresh marinated anchovies, confit tomato, chunky bread",
                 "price": 100
               },
               {
@@ -157,8 +156,7 @@ Create a `static/` folder and inside it, create a new file called `data.json`. P
             "name": "Snacks",
             "menuItems": [
               {
-                "description":
-                  "cayenne and rosemary roasted chestnuts, almonds and cashews",
+                "description": "cayenne and rosemary roasted chestnuts, almonds and cashews",
                 "price": 100
               },
               {
@@ -170,8 +168,7 @@ Create a `static/` folder and inside it, create a new file called `data.json`. P
                 "price": 100
               },
               {
-                "description":
-                  "boiled quail eggs, toasted sesame seeds and paprika salt",
+                "description": "boiled quail eggs, toasted sesame seeds and paprika salt",
                 "price": 100
               },
               {
@@ -188,8 +185,7 @@ Create a `static/` folder and inside it, create a new file called `data.json`. P
             "name": "Sweet",
             "menuItems": [
               {
-                "description":
-                  "chocolate pots, spiced fruit, cinnamon doughnuts",
+                "description": "chocolate pots, spiced fruit, cinnamon doughnuts",
                 "price": 100
               },
               {
@@ -298,7 +294,7 @@ export default class Index extends React.Component {
   static async getInitialProps() {
     const url = `http://localhost:${process.env.PORT || 3000}/static/data.json`;
     const options = { headers: { "Content-Type": "application/json" } };
-    const { data } = await fetch(url, options).then(res => res.json());
+    const { data } = await fetch(url, options).then((res) => res.json());
     return { data };
   }
   render() {
@@ -319,7 +315,7 @@ import React from "react";
 const Menu = ({ data = { categories: [] } }) => {
   return (
     <article className="menu">
-      {data.categories.map(category => (
+      {data.categories.map((category) => (
         <Category key={category.name} data={category} />
       ))}
     </article>
@@ -474,7 +470,7 @@ const Subcategory = ({ data = { menuItems: [] }, ...props }) => (
   <div className="subcategory" {...props}>
     <h2>{data.name}</h2>
     <ul>
-      {data.menuItems.map(element => (
+      {data.menuItems.map((element) => (
         <li key={element.description}>
           {element.description}
           <span className="price">{element.price}</span>
@@ -526,7 +522,7 @@ const Subcategory = ({ data = { menuItems: [] }, ...props }) => (
 const Category = ({ data = { subcategories: [] }, ...props }) => (
   <section className="category" {...props}>
     <Logo />
-    {data.subcategories.map(subcategory => (
+    {data.subcategories.map((subcategory) => (
       <Subcategory key={subcategory.name} data={subcategory} />
     ))}
     <style jsx>{`
@@ -556,7 +552,7 @@ const Category = ({ data = { subcategories: [] }, ...props }) => (
 const Menu = ({ data = { categories: [] } }) => {
   return (
     <article className="menu">
-      {data.categories.map(category => (
+      {data.categories.map((category) => (
         <Category key={category.name} data={category} />
       ))}
       <style jsx>{`
@@ -621,7 +617,7 @@ Once you've finished adding content, you can make sure that you correctly create
 
 Paste the following query, hit play and make sure that the result matches the contents of `static/data.json`.
 
-```graphql
+```
 {
   categories {
     name
@@ -685,7 +681,7 @@ Deploying a NextJs app to Heroku should be pretty straightforward. Besides havin
 
 Initialize a GIT repository with `git init` and create a `.gitignore` so you don't track any unnecessary files.
 
-```.gitignore
+```
 node_modules
 .next
 ```

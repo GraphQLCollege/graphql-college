@@ -1,5 +1,5 @@
 export const meta = {
-  date: "2018-04-05"
+  date: "2018-04-05",
 };
 
 # GraphQL Subscriptions with React, Node, Apollo and Postgres
@@ -16,15 +16,15 @@ Don't worry if this stack sounds overwhelming. You will learn how to make this a
 
 ## Contents
 
-* [Contents](#contents)
-* [Bootstrap client](#bootstrap-client)
-* [Create database](#create-database)
-* [Server side GraphQL queries](#server-side-graphql-queries)
-* [Server side GraphQL mutations](#server-side-graphql-mutations)
-* [Server side GraphQL subscriptions](#server-side-graphql-subscriptions)
-* [Setup React Apollo](#setup-react-apollo)
-* [React Apollo's Mutation component](#react-apollos-mutation-component)
-* [Conclusion](#conclusion)
+- [Contents](#contents)
+- [Bootstrap client](#bootstrap-client)
+- [Create database](#create-database)
+- [Server side GraphQL queries](#server-side-graphql-queries)
+- [Server side GraphQL mutations](#server-side-graphql-mutations)
+- [Server side GraphQL subscriptions](#server-side-graphql-subscriptions)
+- [Setup React Apollo](#setup-react-apollo)
+- [React Apollo's Mutation component](#react-apollos-mutation-component)
+- [Conclusion](#conclusion)
 
 ## Bootstrap client
 
@@ -62,37 +62,41 @@ Users can create new pins. To implement that bit of functionality, add `<AddPinP
 At this point `App.js` should look like this:
 
 ```js
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import {
   Container,
   Nav,
   PinListPage,
   AddPinPage,
-} from 'apollo-subscription-example-components'
+} from "apollo-subscription-example-components";
 
 class App extends Component {
-  state = { pins: this.props.pins || [] }
+  state = { pins: this.props.pins || [] };
   render() {
     return (
       <Container>
         <PinListPage pins={this.state.pins} />
         <AddPinPage
-          addPin={pin => {
-            this.setState(({ pins }) => ({ pins: pins.concat([pin]) }))
+          addPin={(pin) => {
+            this.setState(({ pins }) => ({ pins: pins.concat([pin]) }));
           }}
         />
         <Nav />
       </Container>
-    )
+    );
   }
 }
 
-export default App
+export default App;
 ```
 
 To get a feel of the app, play around with it in this sandbox:
 
-<iframe src="https://codesandbox.io/embed/github/GraphQLCollege/apollo-subscriptions-example/tree/4d9c2ea9de7fdcaa482755adc25a5c5a3f0deb67/packages/client?module=%2Fsrc%2FApp.js" className="codesandbox" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe
+  src="https://codesandbox.io/embed/github/GraphQLCollege/apollo-subscriptions-example/tree/4d9c2ea9de7fdcaa482755adc25a5c5a3f0deb67/packages/client?module=%2Fsrc%2FApp.js"
+  className="codesandbox"
+  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+></iframe>
 
 Take a look at the [github repo at this point in time](https://github.com/GraphQLCollege/apollo-subscriptions-example/tree/4d9c2ea9de7fdcaa482755adc25a5c5a3f0deb67/packages/client) if you got stuck in anything.
 
@@ -173,15 +177,15 @@ module.exports = {
       host: process.env.PGHOST,
       database: process.env.PGDATABASE,
       user: process.env.DBUSER,
-      password: process.env.PGPASSWORD
+      password: process.env.PGPASSWORD,
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
+      tableName: "knex_migrations",
+    },
   },
 
   staging: {
@@ -190,15 +194,15 @@ module.exports = {
       host: process.env.PGHOST,
       database: process.env.PGDATABASE,
       user: process.env.DBUSER,
-      password: process.env.PGPASSWORD
+      password: process.env.PGPASSWORD,
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
+      tableName: "knex_migrations",
+    },
   },
 
   production: {
@@ -208,16 +212,16 @@ module.exports = {
       database: process.env.PGDATABASE,
       user: process.env.DBUSER,
       password: process.env.PGPASSWORD,
-      ssl: true
+      ssl: true,
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
-  }
+      tableName: "knex_migrations",
+    },
+  },
 };
 ```
 
@@ -232,15 +236,15 @@ Add a couple of functions to `migrations/create_pins_table.js`. Up function will
 This migration creates a table called `pins`. It adds a self-incrementing field called `id`, along with three string fields called `title`, `link` and `image`.
 
 ```js
-exports.up = knex =>
-  knex.schema.createTable('pins', t => {
-    t.increments('id').primary()
-    t.string('title')
-    t.string('link')
-    t.string('image')
-  })
+exports.up = (knex) =>
+  knex.schema.createTable("pins", (t) => {
+    t.increments("id").primary();
+    t.string("title");
+    t.string("link");
+    t.string("image");
+  });
 
-exports.down = knex => knex.schema.dropTableIfExists('pins')
+exports.down = (knex) => knex.schema.dropTableIfExists("pins");
 ```
 
 Finally, run the migration to create the table.
@@ -262,17 +266,17 @@ yarn add express body-parser apollo-server-express graphql-tools graphql
 Now create `index.js`. Add the dependencies we just installed and also set `PORT` and `HOST` variables:
 
 ```js
-const express = require('express')
-const bodyParser = require('body-parser')
-const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
-const { makeExecutableSchema } = require('graphql-tools')
-const { execute, subscribe } = require('graphql')
-const { createServer } = require('http')
+const express = require("express");
+const bodyParser = require("body-parser");
+const { graphqlExpress, graphiqlExpress } = require("apollo-server-express");
+const { makeExecutableSchema } = require("graphql-tools");
+const { execute, subscribe } = require("graphql");
+const { createServer } = require("http");
 
-const database = require('./database')
+const database = require("./database");
 
-const PORT = process.env.PORT || 3000
-const HOST = process.env.HOST || 'localhost'
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || "localhost";
 ```
 
 Create `database.js` with the following code:
@@ -293,7 +297,7 @@ We will also define a `pins` query. It returns an object with a field called `pi
 const typeDefs = `
   type Pin { title: String!, link: String!, image: String!, id: Int! }
   type Query { pins: [Pin] }
-`
+`;
 ```
 
 We defined a Query in the previous schema, now it's time to associate a function that our server will execute every time a client asks for `pins`.
@@ -302,11 +306,11 @@ We defined a Query in the previous schema, now it's time to associate a function
 const resolvers = {
   Query: {
     pins: async () => {
-      const pins = await database('pins').select()
-      return pins
+      const pins = await database("pins").select();
+      return pins;
     },
-  }
-}
+  },
+};
 ```
 
 The last step to having a working schema is connecting `typeDefs` to `resolvers`. To achieve that we will use a function from `graphql-tools` called `makeExecutableSchema`.
@@ -316,49 +320,49 @@ Finally we will define two routes. Our API endpoint will be server at `/graphql`
 After all the previous code changes, this is what `index.js` should look like:
 
 ```js
-const express = require('express')
-const bodyParser = require('body-parser')
-const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
-const { makeExecutableSchema } = require('graphql-tools')
+const express = require("express");
+const bodyParser = require("body-parser");
+const { graphqlExpress, graphiqlExpress } = require("apollo-server-express");
+const { makeExecutableSchema } = require("graphql-tools");
 
-const database = require('./database')
+const database = require("./database");
 
-const PORT = process.env.PORT || 3000
-const HOST = process.env.HOST || 'localhost'
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || "localhost";
 
 const typeDefs = `
   type Pin { title: String!, link: String!, image: String!, id: Int! }
   type Query { pins: [Pin] }
-`
+`;
 
 const resolvers = {
   Query: {
     pins: async () => {
-      const pins = await database('pins').select()
-      return pins
+      const pins = await database("pins").select();
+      return pins;
     },
-  }
-}
+  },
+};
 
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
-})
-const server = express()
+});
+const server = express();
 
-server.use('/graphql', bodyParser.json(), graphqlExpress({ schema }))
+server.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
 
 server.use(
-  '/graphiql',
+  "/graphiql",
   graphiqlExpress({
-    endpointURL: '/graphql',
+    endpointURL: "/graphql",
     subscriptionsEndpoint: `ws://${HOST}:${PORT}/subscriptions`,
   })
-)
+);
 
 server.listen(PORT, () => {
-  console.log(`Go to http://${HOST}:${PORT}/graphiql to run queries!`)
-})
+  console.log(`Go to http://${HOST}:${PORT}/graphiql to run queries!`);
+});
 ```
 
 Add `start` and `dev` commands to your `package.json`:
@@ -389,7 +393,7 @@ yarn add nodemon --dev
 
 Go ahead, start the server with `yarn dev` and send your first query at `http://localhost:3001/graphiql`.
 
-```graphql
+```
 {
   pins {
     id
@@ -423,22 +427,24 @@ We will add a `Mutation` field to `resolvers`. It's function will insert a pin t
 
 ```js
 const resolvers = {
-  Query: {/* */},
+  Query: {
+    /* */
+  },
   Mutation: {
     addPin: async (_, { title, link, image }) => {
       const [id] = await database("pins")
         .returning("id")
         .insert({ title, link, image });
       return id;
-    }
-  }
+    },
+  },
 };
 // ...
 ```
 
 That's all we need in order to allow users to create pins. Try the new mutation by going to `http://localhost:3001/graphiql` and send the following query:
 
-```graphql
+```
 mutation {
   addPin(title: "Best GraphQL video ever!", link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image:"https://graphql.org/img/logo.svg")
 }
@@ -466,7 +472,7 @@ const typeDefs = `
   type Query { pins: [Pin] }
   type Mutation { addPin(title: String!, link: String!, image: String!): Int }
   type Subscription { pinAdded: Pin }
-`
+`;
 ```
 
 3. Setup a PostgresPubSub instance that our server will publish new events to
@@ -478,36 +484,38 @@ const pubsub = new PostgresPubSub({
   database: process.env.PGDATABASE,
   password: process.env.PGPASSWORD,
   port: process.env.PGPORT,
-})
+});
 ```
 
 4. Hook together PubSub and GraphQL Subscription
 
 ```js
 const resolvers = {
-  Query: {/* */},
+  Query: {
+    /* */
+  },
   Mutation: {
     addPin: async (_, { title, link, image }) => {
       // ...
       pubsub.publish("pinAdded", { pinAdded: { title, link, image, id } });
       return id;
-    }
+    },
   },
   Subscription: {
     pinAdded: {
-      subscribe: () => pubsub.asyncIterator('pinAdded'),
+      subscribe: () => pubsub.asyncIterator("pinAdded"),
     },
   },
-}
+};
 ```
 
 5. Set up a `SubscriptionServer`. Delete the existing `server.listen()` call and replace it with `ws.listen()`.
 
 ```js
-const ws = createServer(server)
+const ws = createServer(server);
 
 ws.listen(PORT, () => {
-  console.log(`Go to http://${HOST}:${PORT}/graphiql to run queries!`)
+  console.log(`Go to http://${HOST}:${PORT}/graphiql to run queries!`);
   new SubscriptionServer(
     {
       execute,
@@ -516,20 +524,20 @@ ws.listen(PORT, () => {
     },
     {
       server: ws,
-      path: '/subscriptions',
+      path: "/subscriptions",
     }
-  )
-})
+  );
+});
 ```
 
 This is what the new changes in `index.js` look like:
 
 ```js
 // ...
-const { execute, subscribe } = require('graphql')
-const { createServer } = require('http')
-const { SubscriptionServer } = require('subscriptions-transport-ws')
-const { PostgresPubSub } = require('graphql-postgres-subscriptions')
+const { execute, subscribe } = require("graphql");
+const { createServer } = require("http");
+const { SubscriptionServer } = require("subscriptions-transport-ws");
+const { PostgresPubSub } = require("graphql-postgres-subscriptions");
 
 const pubsub = new PostgresPubSub({
   user: process.env.USER,
@@ -537,7 +545,7 @@ const pubsub = new PostgresPubSub({
   database: process.env.PGDATABASE,
   password: process.env.PGPASSWORD,
   port: process.env.PGPORT,
-})
+});
 
 // ...
 
@@ -546,44 +554,46 @@ const typeDefs = `
   type Query { pins: [Pin] }
   type Mutation { addPin(title: String!, link: String!, image: String!): Int }
   type Subscription { pinAdded: Pin }
-`
+`;
 
 const resolvers = {
-  Query: {/* */},
+  Query: {
+    /* */
+  },
   Mutation: {
     addPin: async (_, { title, link, image }) => {
       // ...
       pubsub.publish("pinAdded", { pinAdded: { title, link, image, id } });
       return id;
-    }
+    },
   },
   Subscription: {
     pinAdded: {
-      subscribe: () => pubsub.asyncIterator('pinAdded'),
+      subscribe: () => pubsub.asyncIterator("pinAdded"),
     },
   },
-}
+};
 
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
-})
-const server = express()
+});
+const server = express();
 
-server.use('/graphql', bodyParser.json(), graphqlExpress({ schema }))
+server.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
 
 server.use(
-  '/graphiql',
+  "/graphiql",
   graphiqlExpress({
-    endpointURL: '/graphql',
+    endpointURL: "/graphql",
     subscriptionsEndpoint: `ws://${HOST}:${PORT}/subscriptions`,
   })
-)
+);
 
-const ws = createServer(server)
+const ws = createServer(server);
 
 ws.listen(PORT, () => {
-  console.log(`Go to http://${HOST}:${PORT}/graphiql to run queries!`)
+  console.log(`Go to http://${HOST}:${PORT}/graphiql to run queries!`);
   new SubscriptionServer(
     {
       execute,
@@ -592,10 +602,10 @@ ws.listen(PORT, () => {
     },
     {
       server: ws,
-      path: '/subscriptions',
+      path: "/subscriptions",
     }
-  )
-})
+  );
+});
 ```
 
 You can play with subscriptions by starting two servers at the same time.
@@ -609,7 +619,7 @@ PORT=3002 node index.js
 
 Send a subscription query to one of them using GraphiQL (http://localhost:3001/graphiql).
 
-```graphql
+```
 subscription {
   pinAdded {
     id
@@ -622,7 +632,7 @@ subscription {
 
 Afterwards send a mutation to the other server (http://localhost:3002/graphiql).
 
-```graphql
+```
 mutation {
   addPin(title: "Truly the best GraphQL video ever!", link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image:"https://graphql.org/img/logo.svg")
 }
@@ -667,7 +677,7 @@ import {
   Nav,
   PinListPage,
   AddPinPage,
-  Spinner
+  Spinner,
 } from "apollo-subscription-example-components";
 import gql from "graphql-tag";
 import { ApolloProvider, Query, Mutation } from "react-apollo";
@@ -690,10 +700,10 @@ const client = new ApolloClient({
     }),
     new HttpLink({
       uri: "http://localhost:3001/graphql",
-      credentials: "same-origin"
-    })
+      credentials: "same-origin",
+    }),
   ]),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 
 class App extends Component {
@@ -704,10 +714,10 @@ class App extends Component {
         <Container>
           <PinListPage pins={this.state.pins} />
           <AddPinPage
-            addPin={pin => {
+            addPin={(pin) => {
               this.setState(({ pins }) => ({ pins: pins.concat([pin]) }));
             }}
-            />
+          />
           <Nav />
         </Container>
       </ApolloProvider>
@@ -737,12 +747,12 @@ const cors = require("cors");
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
-})
-const server = express()
+});
+const server = express();
 
-server.use(cors())
+server.use(cors());
 
-server.use('/graphql', bodyParser.json(), graphqlExpress({ schema }))
+server.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
 ```
 
 Now that we have setup our client and server, it's time to use React Apollo's `<Query />` component to fetch data from the API.
@@ -756,18 +766,18 @@ As you may have noticed, `<Query />` receives a function as children. Most React
 We will use React Apollo's `<Query />` component to create a component called `PinsQuery`. It will fetch data from our API, and return that information to `<PinListPage />`. To understand what we'll make, it's useful to look at how we want to use it.
 
 ```js
-<PinsQuery>{pins => <PinListPage pins={pins} />}</PinsQuery>
+<PinsQuery>{(pins) => <PinListPage pins={pins} />}</PinsQuery>
 ```
 
 As you can see, we will create this component using render props, the same technique that React Apollo uses.
 
 The responsibilities of `<PinsQuery />` are:
 
-* Receive `PINS_QUERY`
-* Fetch data
-* If loading is true, render a `<Spinner />`
-* If error is true, show an error message
-* If data is defined, then pass it as an argument to `children`
+- Receive `PINS_QUERY`
+- Fetch data
+- If loading is true, render a `<Spinner />`
+- If error is true, show an error message
+- If data is defined, then pass it as an argument to `children`
 
 This is what the implementation looks like:
 
@@ -814,7 +824,7 @@ cd ../client
 
 ```js
 <AddPinMutation>
-  {addPin => (
+  {(addPin) => (
     <AddPinPage
       addPin={({ title, link, image }) =>
         addPin({ variables: { title, link, image } })
@@ -834,7 +844,7 @@ The query that we will send to `AddPinMutation` has a new aspect compared to `PI
 
 We will define three required variables called `$title`, `$link` and `$image`. This is what our query will look like:
 
-```graphql
+```
 mutation AddPin($title: String!, $link: String!, $image: String!) {
   addPin(title: $title, link: $link, image: $image)
 }
@@ -870,7 +880,7 @@ import {
   Nav,
   PinListPage,
   AddPinPage,
-  Spinner
+  Spinner,
 } from "apollo-subscription-example-components";
 import gql from "graphql-tag";
 import { ApolloProvider, Query, Mutation } from "react-apollo";
@@ -893,10 +903,10 @@ const client = new ApolloClient({
     }),
     new HttpLink({
       uri: "http://localhost:3001/graphql",
-      credentials: "same-origin"
-    })
+      credentials: "same-origin",
+    }),
   ]),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 
 const PINS_QUERY = gql`
@@ -946,7 +956,7 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <Container>
-          <PinsQuery>{pins => <PinListPage pins={pins} />}</PinsQuery>
+          <PinsQuery>{(pins) => <PinListPage pins={pins} />}</PinsQuery>
           <AddPinMutation>
             {(addPin, { data, loading, error }) => (
               <AddPinPage
@@ -997,17 +1007,19 @@ import { WebSocketLink } from "apollo-link-ws";
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:3001/subscriptions`,
   options: {
-    reconnect: true
-  }
+    reconnect: true,
+  },
 });
 
 const client = new ApolloClient({
   link: ApolloLink.from([
     onError(/* */),
     wsLink,
-    new HttpLink({/* */})
+    new HttpLink({
+      /* */
+    }),
   ]),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 ```
 
@@ -1046,9 +1058,9 @@ const PinsQuery = ({ children }) => (
             const newPinAdded = subscriptionData.data.pinAdded;
 
             return Object.assign({}, prev, {
-              pins: [...prev.pins, newPinAdded]
+              pins: [...prev.pins, newPinAdded],
             });
-          }
+          },
         });
       };
 

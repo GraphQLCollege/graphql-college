@@ -17,8 +17,6 @@ import AirbnbLogo from "../components/airbnb-logo.svg";
 import PaypalLogo from "../components/paypal-logo.svg";
 import GithubCornerRight from "../components/github-corner-right.svg";
 
-import "./fullstack-graphql.css";
-
 const BookButtons = () => (
   <div className="book-buttons">
     <a
@@ -136,7 +134,7 @@ class FullstackGraphQL extends React.Component {
             justifySelf: "center",
             gridArea: "book",
             width: "100%",
-            maxWidth: 400
+            maxWidth: 400,
           }}
         />
         <a
@@ -155,7 +153,7 @@ class FullstackGraphQL extends React.Component {
               href="https://github.com/GraphQLCollege/fullstack-graphql"
               target="_blank"
               style={{
-                color: "#e535ab"
+                color: "#e535ab",
               }}
             >
               open source book
@@ -204,7 +202,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -223,7 +221,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -251,7 +249,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -267,7 +265,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -283,7 +281,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -296,7 +294,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -323,7 +321,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -339,7 +337,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -355,7 +353,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -371,7 +369,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -393,7 +391,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -409,7 +407,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -425,7 +423,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -441,7 +439,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -467,7 +465,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -483,7 +481,7 @@ class FullstackGraphQL extends React.Component {
                   display: "block",
                   fontFamily: "monospace",
                   fontWeight: "bold",
-                  fontSize: "2rem"
+                  fontSize: "2rem",
                 }}
               >
                 {"< >"}
@@ -703,14 +701,14 @@ class FullstackGraphQL extends React.Component {
           <img src="/static/profile-pic.png" alt={`Julian Mayorga - Author`} />
           <div
             style={{
-              textAlign: "center"
+              textAlign: "center",
             }}
           >
             <a
               href="https://twitter.com/juli_mayorga"
               style={{
                 boxShadow: "none",
-                textDecoration: "none"
+                textDecoration: "none",
               }}
               target="_blank"
             >
@@ -726,7 +724,7 @@ class FullstackGraphQL extends React.Component {
               style={{
                 boxShadow: "none",
                 textDecoration: "underline",
-                color: "#e535ab"
+                color: "#e535ab",
               }}
               target="_blank"
               href="/static/fullstack-graphql-sample.zip"
@@ -739,7 +737,7 @@ class FullstackGraphQL extends React.Component {
               style={{
                 boxShadow: "none",
                 textDecoration: "underline",
-                color: "#e535ab"
+                color: "#e535ab",
               }}
               href="mailto:julian@graphql.college"
             >

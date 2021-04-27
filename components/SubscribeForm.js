@@ -1,8 +1,6 @@
-import React from 'react'
+import React from "react";
 
-import './SubscribeForm.css'
-
-const SubscribeForm = ({ text = 'Subscribe to newsletter', center }) => (
+const SubscribeForm = ({ text = "Subscribe to newsletter", center }) => (
   <div id="mc_embed_signup">
     <form
       action="https://college.us17.list-manage.com/subscribe/post?u=cfb63d53c2a9fedaa08d89e24&amp;id=ded508fb58"
@@ -12,7 +10,7 @@ const SubscribeForm = ({ text = 'Subscribe to newsletter', center }) => (
       className="validate"
       target="_blank"
       noValidate
-      style={{ textAlign: center ? 'center' : 'start' }}
+      style={{ textAlign: center ? "center" : "start" }}
     >
       <div id="mc_embed_signup_scroll">
         <label htmlFor="mce-EMAIL">{text}</label>
@@ -25,7 +23,7 @@ const SubscribeForm = ({ text = 'Subscribe to newsletter', center }) => (
           required
         />
         <div
-          style={{ position: 'absolute', left: '-5000px' }}
+          style={{ position: "absolute", left: "-5000px" }}
           aria-hidden="true"
         >
           <input
@@ -47,6 +45,6 @@ const SubscribeForm = ({ text = 'Subscribe to newsletter', center }) => (
       </div>
     </form>
   </div>
-)
+);
 
-export default SubscribeForm
+export default SubscribeForm;

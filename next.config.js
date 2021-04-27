@@ -3,28 +3,22 @@ const slug = require("remark-slug");
 const withMDX = require("@zeit/next-mdx")({
   extension: /\.mdx?$/,
   options: {
-    mdPlugins: [remarkHighlight, slug]
-  }
+    mdPlugins: [remarkHighlight, slug],
+  },
 });
-const withCSS = require("@zeit/next-css");
 
-const { withPosts } = require("./utils/posts");
-const {
-  withoutFlow,
-  withSvgsAsReactComponents,
-  withRemoveServiceWorker
-} = require("./utils/webpack");
+module.exports = withMDX({
+  pageExtensions: ["js", "jsx", "mdx"],
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      issuer: {
+        test: /\.(js|ts)x?$/,
+      },
+      // use: ["@svgr/webpack"],
+      use: ["svg-react-loader"],
+    });
 
-module.exports = withSvgsAsReactComponents(
-  withRemoveServiceWorker(
-    withoutFlow(
-      withPosts(
-        withCSS(
-          withMDX({
-            pageExtensions: ["js", "jsx", "mdx"]
-          })
-        )
-      )
-    )
-  )
-);
+    return config;
+  },
+});
