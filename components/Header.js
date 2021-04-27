@@ -27,14 +27,14 @@ const Header = () => (
         <h3
           style={{
             marginTop: 0,
-            marginBottom: 0
+            marginBottom: 0,
           }}
         >
           <LogoHorizontal
             style={{
               height: "40px",
               boxShadow: "none",
-              color: "inherit"
+              color: "inherit",
             }}
             height="40px"
           />
@@ -46,13 +46,13 @@ const Header = () => (
         display: "flex",
         flexDirection: "row",
         padding: 20,
-        paddingRight: 0
+        paddingRight: 0,
       }}
     >
       <Link href="/">
         <a
           style={{
-            color: "#333"
+            color: "#333",
           }}
         >
           Posts
@@ -62,20 +62,10 @@ const Header = () => (
         <a
           style={{
             marginLeft: 30,
-            color: "#333"
+            color: "#333",
           }}
         >
           Book
-        </a>
-      </Link>
-      <Link href="/playground">
-        <a
-          style={{
-            marginLeft: 30,
-            color: "#333"
-          }}
-        >
-          Playground
         </a>
       </Link>
     </div>

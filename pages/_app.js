@@ -8,6 +8,8 @@ import "../components/SubscribeForm.css";
 import "../utils/fullstack-graphql.css";
 import { MDXProvider } from "@mdx-js/react";
 import { components } from "../utils/post";
+import "../components/practice-graphql/App.css";
+import "graphiql/graphiql.css";
 
 export default class MyApp extends App {
   render() {

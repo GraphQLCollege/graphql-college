@@ -5,11 +5,10 @@ import { makeExecutableSchema } from "graphql-tools";
 import NoSSR from "react-no-ssr";
 import styled from "styled-components";
 
-import "graphiql/graphiql.css";
 import Burger from "./Burger";
 
 const GraphiQL = dynamic(import("graphiql"), {
-  ssr: false
+  ssr: false,
 });
 
 const typeDefs = `
@@ -53,21 +52,21 @@ type Topping {
 
 const resolvers = {
   Query: {
-    burger: () => ({})
+    burger: () => ({}),
   },
   Burger: {
     bun: (_, { type }) => type,
     patty: (_, { type }) => type,
-    topping: () => ({})
+    topping: () => ({}),
   },
   Topping: {
-    cheese: (a, { type }) => type
-  }
+    cheese: (a, { type }) => type,
+  },
 };
 
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 const Wrapper = styled.div`
@@ -93,8 +92,8 @@ class App extends Component {
       <Wrapper>
         <NoSSR>
           <GraphiQL
-            fetcher={graphQLParams => {
-              return graphql(schema, graphQLParams.query).then(res => {
+            fetcher={(graphQLParams) => {
+              return graphql(schema, graphQLParams.query).then((res) => {
                 if (res.errors) {
                   return;
                 }
