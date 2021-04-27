@@ -40,7 +40,7 @@
     "dev": "node server.js",
     "build": "next build",
     "export": "npm run build && next export",
-    "start": "next start"
+    "start": "node server.js"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.5.1",
