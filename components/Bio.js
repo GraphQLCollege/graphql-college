@@ -8,7 +8,7 @@ class Bio extends React.Component {
           display: "flex",
           marginBottom: "4.375rem",
           alignItems: "flex-end",
-          justifyContent: "flex-end"
+          justifyContent: "flex-end",
         }}
       >
         <img
@@ -21,17 +21,17 @@ class Bio extends React.Component {
             height: "3.5rem",
             borderRadius: "50%",
             padding: 0,
-            boxShadow: "none"
+            boxShadow: "none",
           }}
         />
         <p style={{ marginBottom: 0 }}>
           Written by{" "}
           <a
-            href="https://twitter.com/juli_mayorga"
+            href="https://twitter.com/okjulian"
             style={{
               boxShadow: "none",
               textDecoration: "underline",
-              color: "#e535ab"
+              color: "#e535ab",
             }}
           >
             Julian

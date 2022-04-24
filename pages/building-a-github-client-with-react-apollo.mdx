@@ -1,5 +1,5 @@
 export const meta = {
-  date: "2018-03-21"
+  date: "2018-03-21",
 };
 
 # Building a Github Client with React Apollo
@@ -31,7 +31,6 @@ You will bootstrap the app with [create-react-app](https://github.com/facebook/c
 [👌 Optimistic UI](#optimistic-ui)
 
 [⌨️ Conclusion](#conclusion)
-
 
 ## Create React app
 
@@ -71,7 +70,7 @@ import {
   Logo,
   Logotype,
   Container,
-  Header
+  Header,
 } from "gitstar-components";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
@@ -81,14 +80,14 @@ const AUTH_API_URI = process.env.REACT_APP_AUTH_API_URI;
 class App extends Component {
   state = {
     status: STATUS.INITIAL,
-    token: null
+    token: null,
   };
   componentDidMount() {
     const storedToken = localStorage.getItem("github_token");
     if (storedToken) {
       this.setState({
         token: storedToken,
-        status: STATUS.AUTHENTICATED
+        status: STATUS.AUTHENTICATED,
       });
       return;
     }
@@ -98,12 +97,12 @@ class App extends Component {
     if (code) {
       this.setState({ status: STATUS.LOADING });
       fetch(`${AUTH_API_URI}${code}`)
-        .then(response => response.json())
+        .then((response) => response.json())
         .then(({ token }) => {
           localStorage.setItem("github_token", token);
           this.setState({
             token,
-            status: STATUS.FINISHED_LOADING
+            status: STATUS.FINISHED_LOADING,
           });
         });
     }
@@ -120,12 +119,12 @@ class App extends Component {
             style={{
               transform: `scale(${
                 this.state.status === STATUS.AUTHENTICATED ? "1" : "0"
-              })`
+              })`,
             }}
           />
           <a
             style={{
-              display: this.state.status === STATUS.INITIAL ? "inline" : "none"
+              display: this.state.status === STATUS.INITIAL ? "inline" : "none",
             }}
             href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=user&redirect_uri=${REDIRECT_URI}`}
           >
@@ -137,7 +136,7 @@ class App extends Component {
           callback={() => {
             if (this.props.status !== STATUS.AUTHENTICATED) {
               this.setState({
-                status: STATUS.AUTHENTICATED
+                status: STATUS.AUTHENTICATED,
               });
             }
           }}
@@ -176,25 +175,21 @@ import Avatar from "./Avatar";
 
 const client = new ApolloClient({
   uri: "https://api.github.com/graphql",
-  request: operation => {
+  request: (operation) => {
     const token = localStorage.getItem("github_token");
     if (token) {
       operation.setContext({
         headers: {
-          authorization: `Bearer ${token}`
-        }
+          authorization: `Bearer ${token}`,
+        },
       });
     }
-  }
+  },
 });
 
 class App extends Component {
   render() {
-    return (
-      <ApolloProvider client={client}>
-      {/* ... */}
-      </ApolloProvider>
-    );
+    return <ApolloProvider client={client}>{/* ... */}</ApolloProvider>;
   }
 }
 ```
@@ -305,9 +300,9 @@ export default graphql(GET_REPOSITORIES, {
     return {
       repositories: search ? search.nodes : [],
       loading,
-      error
+      error,
     };
-  }
+  },
 })(RepositoriesWrapper);
 ```
 
@@ -370,14 +365,14 @@ import { graphql } from "react-apollo";
 import {
   Repositories,
   RepositoriesPlaceholder,
-  LoadMoreButton
+  LoadMoreButton,
 } from "gitstar-components";
 
 // 2. Modify GET_REPOSITORIES query
 //  a. Add $after variable
 //  b. Ask for pageInfo
 const GET_REPOSITORIES = gql`
-  query($after: String) {
+  query ($after: String) {
     search(
       type: REPOSITORY
       query: "language:Javascript"
@@ -455,24 +450,24 @@ export default graphql(GET_REPOSITORIES, {
               search: {
                 ...previousSearch,
                 nodes: [...previousNodes, ...currentNodes],
-                pageInfo: currentSearch.pageInfo
-              }
+                pageInfo: currentSearch.pageInfo,
+              },
             };
-          }
-        })
+          },
+        }),
     };
   },
   options: {
-    notifyOnNetworkStatusChange: true // Update loading prop after loadMore is called
-  }
+    notifyOnNetworkStatusChange: true, // Update loading prop after loadMore is called
+  },
 })(RepositoriesWrapper);
 ```
 
 Here are a couple of useful links in case you want to learn more about pagination in GraphQL.
 
-* https://www.apollographql.com/docs/react/recipes/pagination.html#cursor-pages
-* https://dev-blog.apollodata.com/pagination-and-infinite-scrolling-in-apollo-client-59ff064aac61
-* https://medium.com/@dai_shi/infinite-scroll-example-with-react-apollo-for-github-graphql-api-15209a043a0f
+- https://www.apollographql.com/docs/react/recipes/pagination.html#cursor-pages
+- https://dev-blog.apollodata.com/pagination-and-infinite-scrolling-in-apollo-client-59ff064aac61
+- https://medium.com/@dai_shi/infinite-scroll-example-with-react-apollo-for-github-graphql-api-15209a043a0f
 
 As always, [here](https://github.com/GraphQLCollege/gitstar/tree/b3fbdaa73d107e5d485284df2cde1f31304e873f/packages/gitstar) is a working version of gitstar in case you got stuck on any step.
 
@@ -501,24 +496,24 @@ In our case we will go with the second option. We will use [`cache.writeFragment
 
 ```js
 graphql(ADD_STAR, {
-    props: ({ mutate }) => ({
-      addStar: starrableId =>
-        mutate({
-          variables: { starrableId },
-          update: proxy => {
-            proxy.writeFragment({
-              id: `Repository:${starrableId}`,
-              fragment: gql`
-                fragment repository on Repository {
-                  viewerHasStarred
-                }
-              `,
-              data: { viewerHasStarred: true, __typename: "Repository" }
-            });
-          }
-        })
-    })
-  })
+  props: ({ mutate }) => ({
+    addStar: (starrableId) =>
+      mutate({
+        variables: { starrableId },
+        update: (proxy) => {
+          proxy.writeFragment({
+            id: `Repository:${starrableId}`,
+            fragment: gql`
+              fragment repository on Repository {
+                viewerHasStarred
+              }
+            `,
+            data: { viewerHasStarred: true, __typename: "Repository" },
+          });
+        },
+      }),
+  }),
+});
 ```
 
 We need to send addStar and removeStar properties to `RepositoriesWrapper`. We will use the `graphql` higher order component again, just like when we needed to connect `GET_REPOSITORIES`. We must apply three calls of this higher order component to our `RepositoriesWrapper` component. To do so, we have the following options:
@@ -526,9 +521,15 @@ We need to send addStar and removeStar properties to `RepositoriesWrapper`. We w
 1. Reassign RepositoriesWrapper
 
 ```js
-RepositoriesWrapper = graphql(GET_REPOSITORIES, { /* ... */ })(RepositoriesWrapper);
-RepositoriesWrapper = graphql(ADD_STAR, { /* ... */ })(RepositoriesWrapper);
-RepositoriesWrapper = graphql(REMOVE_STAR, { /* ... */ })(RepositoriesWrapper);
+RepositoriesWrapper = graphql(GET_REPOSITORIES, {
+  /* ... */
+})(RepositoriesWrapper);
+RepositoriesWrapper = graphql(ADD_STAR, {
+  /* ... */
+})(RepositoriesWrapper);
+RepositoriesWrapper = graphql(REMOVE_STAR, {
+  /* ... */
+})(RepositoriesWrapper);
 
 export default RepositoriesWrapper;
 ```
@@ -536,21 +537,33 @@ export default RepositoriesWrapper;
 2. Nest graphql calls
 
 ```js
-export default graphql(REMOVE_STAR, { /* ... */ })(
-  graphql(ADD_STAR, { /* ... */ })(
-    graphql(GET_REPOSITORIES, { /* ... */ })(RepositoriesWrapper)
+export default graphql(REMOVE_STAR, {
+  /* ... */
+})(
+  graphql(ADD_STAR, {
+    /* ... */
+  })(
+    graphql(GET_REPOSITORIES, {
+      /* ... */
+    })(RepositoriesWrapper)
   )
-)
+);
 ```
 
 3. Use React Apollo's `compose`
 
 ```js
 export default compose(
-  graphql(GET_REPOSITORIES, { /* ... */ }),
-  graphql(ADD_STAR, { /* ... */ }),
-  graphql(REMOVE_STAR, { /* ... */ }),
-)(RepositoriesWrapper)
+  graphql(GET_REPOSITORIES, {
+    /* ... */
+  }),
+  graphql(ADD_STAR, {
+    /* ... */
+  }),
+  graphql(REMOVE_STAR, {
+    /* ... */
+  })
+)(RepositoriesWrapper);
 ```
 
 As you can see, `compose` ends up being the better option, so we will use that one.
@@ -565,7 +578,7 @@ import { graphql, compose } from "react-apollo";
 
 // 2. Add viewerHasStarred to GET_REPOSITORIES
 const GET_REPOSITORIES = gql`
-  query($after: String) {
+  query ($after: String) {
     search(
       type: REPOSITORY
       query: "language:Javascript"
@@ -591,7 +604,7 @@ const GET_REPOSITORIES = gql`
 
 // 3. Create ADD_STAR and REMOVE_STAR mutations
 const ADD_STAR = gql`
-  mutation($starrableId: ID!) {
+  mutation ($starrableId: ID!) {
     addStar(input: { starrableId: $starrableId }) {
       starrable {
         id
@@ -601,7 +614,7 @@ const ADD_STAR = gql`
 `;
 
 const REMOVE_STAR = gql`
-  mutation($starrableId: ID!) {
+  mutation ($starrableId: ID!) {
     removeStar(input: { starrableId: $starrableId }) {
       starrable {
         id
@@ -642,13 +655,15 @@ class RepositoriesWrapper extends React.Component {
 
 // 5. Use compose to apply GET_REPOSITORIES, ADD_STAR and REMOVE_STAR queries
 export default compose(
-  graphql(GET_REPOSITORIES, { /* */ }),
+  graphql(GET_REPOSITORIES, {
+    /* */
+  }),
   graphql(ADD_STAR, {
     props: ({ mutate }) => ({
-      addStar: starrableId =>
+      addStar: (starrableId) =>
         mutate({
           variables: { starrableId },
-          update: proxy => {
+          update: (proxy) => {
             proxy.writeFragment({
               id: `Repository:${starrableId}`,
               fragment: gql`
@@ -656,18 +671,18 @@ export default compose(
                   viewerHasStarred
                 }
               `,
-              data: { viewerHasStarred: true, __typename: "Repository" }
+              data: { viewerHasStarred: true, __typename: "Repository" },
             });
-          }
-        })
-    })
+          },
+        }),
+    }),
   }),
   graphql(REMOVE_STAR, {
     props: ({ mutate }) => ({
-      removeStar: starrableId =>
+      removeStar: (starrableId) =>
         mutate({
           variables: { starrableId },
-          update: proxy => {
+          update: (proxy) => {
             proxy.writeFragment({
               id: `Repository:${starrableId}`,
               fragment: gql`
@@ -675,17 +690,16 @@ export default compose(
                   viewerHasStarred
                 }
               `,
-              data: { viewerHasStarred: false, __typename: "Repository" }
+              data: { viewerHasStarred: false, __typename: "Repository" },
             });
-          }
-        })
-    })
+          },
+        }),
+    }),
   })
 )(RepositoriesWrapper);
-
 ```
 
-Wait! There is a final step we need to make in order to send mutations to Github's API. We need to add to `App.js` the scopes required to star repositories. Add `public_repo` and `gist` to the scopes in login link's `href`: ```href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=user%20public_repo%20gist&redirect_uri=${REDIRECT_URI}```.
+Wait! There is a final step we need to make in order to send mutations to Github's API. We need to add to `App.js` the scopes required to star repositories. Add `public_repo` and `gist` to the scopes in login link's `href`: `` href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=user%20public_repo%20gist&redirect_uri=${REDIRECT_URI} ``.
 
 Here is a link to the current version of [gitstar](https://github.com/GraphQLCollege/gitstar/tree/7cb6b05327bf62219bcfdbb0186d8ceda20c388c/packages/gitstar).
 
@@ -704,11 +718,15 @@ Add `optimisticResponse` property to `REMOVE_STAR` `mutate` call in `Repositorie
 ```js
 // ...
 export default compose(
-  graphql(GET_REPOSITORIES, { /* ... */ }),
-  graphql(ADD_STAR, { /* ... */ }),
+  graphql(GET_REPOSITORIES, {
+    /* ... */
+  }),
+  graphql(ADD_STAR, {
+    /* ... */
+  }),
   graphql(REMOVE_STAR, {
     props: ({ mutate }) => ({
-      removeStar: starrableId =>
+      removeStar: (starrableId) =>
         mutate({
           variables: { starrableId },
           optimisticResponse: {
@@ -716,13 +734,15 @@ export default compose(
             removeStar: {
               starrable: {
                 id: starrableId,
-                __typename: "Repository"
-              }
-            }
+                __typename: "Repository",
+              },
+            },
           },
-          update: proxy => { /* ... */ }
-        })
-    })
+          update: (proxy) => {
+            /* ... */
+          },
+        }),
+    }),
   })
 )(RepositoriesWrapper);
 ```
@@ -737,6 +757,6 @@ Take a look at a live, working version of it [here](https://git-star.netlify.com
 
 You learned to build a Github client with React and Apollo Client. From creating a bare bones React app, to connecting it with Apollo to perform queries and mutations to Github's API.
 
-I hope you had fun along the way! I had a great time, for sure 😃. Follow me on [Twitter](https://twitter.com/juli_mayorga) if you'd like to keep learning about GraphQL and React.
+I hope you had fun along the way! I had a great time, for sure 😃. Follow me on [Twitter](https://twitter.com/okjulian) if you'd like to keep learning about GraphQL and React.
 
 Until next time! Happy coding.
