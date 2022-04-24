@@ -705,7 +705,7 @@ class FullstackGraphQL extends React.Component {
             }}
           >
             <a
-              href="https://twitter.com/okjulian"
+              href="https://twitter.com/_okjulian_"
               style={{
                 boxShadow: "none",
                 textDecoration: "none",
@@ -713,7 +713,7 @@ class FullstackGraphQL extends React.Component {
               target="_blank"
             >
               <TwitterLogo width={25} height={25} />
-              @juli_mayorga
+              @_okjulian_
             </a>
           </div>
         </div>

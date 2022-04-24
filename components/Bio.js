@@ -27,7 +27,7 @@ class Bio extends React.Component {
         <p style={{ marginBottom: 0 }}>
           Written by{" "}
           <a
-            href="https://twitter.com/okjulian"
+            href="https://twitter.com/_okjulian_"
             style={{
               boxShadow: "none",
               textDecoration: "underline",
