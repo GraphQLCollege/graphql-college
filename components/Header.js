@@ -21,55 +21,87 @@ const StyledHeader = styled.header`
 `;
 
 const Header = () => (
-  <StyledHeader>
-    <Link href="/">
-      <a>
-        <h3
-          style={{
-            marginTop: 0,
-            marginBottom: 0,
-          }}
-        >
-          <LogoHorizontal
-            style={{
-              height: "40px",
-              boxShadow: "none",
-              color: "inherit",
-            }}
-            height="40px"
-          />
-        </h3>
-      </a>
-    </Link>
+  <>
     <div
       style={{
+        borderBottom: "solid 1px #e535ab",
         display: "flex",
-        flexDirection: "row",
-        padding: 20,
+        paddingLeft: 0,
         paddingRight: 0,
+        paddingTop: 20,
+        paddingBottom: 20,
+        marginBottom: 20,
+        alignItems: "center",
       }}
     >
-      <Link href="/">
-        <a
-          style={{
-            color: "#333",
-          }}
-        >
-          Posts
-        </a>
-      </Link>
-      <Link href="/fullstack-graphql">
-        <a
-          style={{
-            marginLeft: 30,
-            color: "#333",
-          }}
-        >
-          Book
-        </a>
-      </Link>
+      <div
+        style={{
+          borderRadius: 8,
+          backgroundColor: "#ff47c5",
+          color: "white",
+          padding: 8,
+          paddingLeft: 12,
+          paddingRight: 12,
+          marginRight: 8,
+        }}
+      >
+        New!
+      </div>
+      <div>
+        Make GraphQL Apps in minutes with{" "}
+        <a href="https://graphqlapps.com">GraphQLApps</a>
+      </div>
     </div>
-  </StyledHeader>
+    <StyledHeader>
+      <Link href="/">
+        <a>
+          <h3
+            style={{
+              marginTop: 0,
+              marginBottom: 0,
+            }}
+          >
+            <LogoHorizontal
+              style={{
+                height: "40px",
+                boxShadow: "none",
+                color: "inherit",
+              }}
+              height="40px"
+            />
+          </h3>
+        </a>
+      </Link>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          padding: 20,
+          paddingRight: 0,
+        }}
+      >
+        <Link href="/">
+          <a
+            style={{
+              color: "#333",
+            }}
+          >
+            Posts
+          </a>
+        </Link>
+        <Link href="/fullstack-graphql">
+          <a
+            style={{
+              marginLeft: 30,
+              color: "#333",
+            }}
+          >
+            Book
+          </a>
+        </Link>
+      </div>
+    </StyledHeader>
+  </>
 );
 
 export default Header;

@@ -9,6 +9,9 @@ const withMDX = require("@zeit/next-mdx")({
 
 module.exports = withMDX({
   pageExtensions: ["js", "jsx", "mdx"],
+  // TODO: Redirect to graphqlapps
+  // https://nextjs.org/docs/api-reference/next.config.js/redirects
+  // async redirects() {},
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

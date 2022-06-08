@@ -57,7 +57,7 @@ class Index extends React.Component {
                 }}
               >
                 <Link href={post.filename}>
-                  <a>{post.title}</a>
+                  <a style={{ color: "#333" }}>{post.title}</a>
                 </Link>
               </h3>
               <small>{prettyDate(post.meta.date)}</small>
