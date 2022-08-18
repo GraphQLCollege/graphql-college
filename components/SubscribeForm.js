@@ -3,7 +3,7 @@ import React from "react";
 const SubscribeForm = ({ text = "Subscribe to newsletter", center }) => (
   <div id="mc_embed_signup">
     <form
-      action="https://college.us17.list-manage.com/subscribe/post?u=cfb63d53c2a9fedaa08d89e24&amp;id=ded508fb58"
+      action="https://app.us14.list-manage.com/subscribe/post?u=fb32ddee18e334ce8490db51a&amp;id=9f53f632ff&amp;f_id=004693e0f0"
       method="post"
       id="mc-embedded-subscribe-form"
       name="mc-embedded-subscribe-form"
@@ -28,7 +28,7 @@ const SubscribeForm = ({ text = "Subscribe to newsletter", center }) => (
         >
           <input
             type="text"
-            name="b_cfb63d53c2a9fedaa08d89e24_ded508fb58"
+            name="b_fb32ddee18e334ce8490db51a_9f53f632ff"
             tabIndex="-1"
             value=""
           />
