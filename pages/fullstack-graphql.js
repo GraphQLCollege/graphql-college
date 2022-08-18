@@ -163,13 +163,6 @@ class FullstackGraphQL extends React.Component {
           </p>
           <BookButtons />
         </div>
-        <a
-          style={{ gridColumnStart: 1, gridColumnEnd: 3, marginTop: "1.75rem" }}
-          href="https://graphcms.com/?ref=graphqlcollege"
-          target="_blank"
-        >
-          <img src="/static/graphcms.svg" alt="Brought to you by GraphCMS" />
-        </a>
         <h2 style={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
           Overwhelmed by all the tools required for building GraphQL
           applications? <b>Learn how every piece fits together</b>
