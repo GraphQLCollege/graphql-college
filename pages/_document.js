@@ -4,8 +4,8 @@ import styled, { ServerStyleSheet } from "styled-components";
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet();
-    const page = renderPage(App => props =>
-      sheet.collectStyles(<App {...props} />)
+    const page = renderPage(
+      (App) => (props) => sheet.collectStyles(<App {...props} />)
     );
     const styleTags = sheet.getStyleElement();
     return { ...page, styleTags };
@@ -31,7 +31,7 @@ export default class MyDocument extends Document {
           />
           <script
             src="https://cdn.ravenjs.com/3.26.2/raven.min.js"
-            crossorigin="anonymous"
+            crossOrigin="anonymous"
           />
           <script src="/static/raven.js" />
           {this.props.styleTags}

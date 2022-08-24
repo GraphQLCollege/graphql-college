@@ -66,9 +66,9 @@ class Index extends React.Component {
           ))}
         </ul>
         <StyledBook>
-          <Link href="/fullstack-graphql">
+          <a href="/fullstack-graphql">
             <Book style={{ cursor: "pointer" }} width={200} />
-          </Link>
+          </a>
           <p style={{ width: 200 }}>
             Learn to build fullstack GraphQL apps with this hands-on book
           </p>

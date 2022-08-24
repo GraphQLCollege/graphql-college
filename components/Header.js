@@ -89,16 +89,15 @@ const Header = () => (
             Posts
           </a>
         </Link>
-        <Link href="/fullstack-graphql">
-          <a
-            style={{
-              marginLeft: 30,
-              color: "#333",
-            }}
-          >
-            Book
-          </a>
-        </Link>
+        <a
+          href="/fullstack-graphql"
+          style={{
+            marginLeft: 30,
+            color: "#333",
+          }}
+        >
+          Book
+        </a>
       </div>
     </StyledHeader>
   </>
