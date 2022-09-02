@@ -128,6 +128,10 @@ class FullstackGraphQL extends React.Component {
           <meta property="og:site_name" content="Fullstack GraphQL" />
           <meta name="twitter:image:alt" content="Book cover" />
           <script src="https://gumroad.com/js/gumroad.js" />
+          <link
+            rel="canonical"
+            href="https://graphqladmin.com/books/fullstack-graphql"
+          />
         </Helmet>
         <Book
           style={{
