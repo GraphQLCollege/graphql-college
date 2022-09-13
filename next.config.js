@@ -14,7 +14,7 @@ module.exports = withMDX({
     return [
       {
         source: "/fullstack-graphql",
-        destination: "https://graphqladmin.com/books/fullstack-graphql",
+        destination: "https://www.graphqladmin.com/books/fullstack-graphql",
         permanent: true,
       },
     ];

@@ -130,7 +130,7 @@ class FullstackGraphQL extends React.Component {
           <script src="https://gumroad.com/js/gumroad.js" />
           <link
             rel="canonical"
-            href="https://graphqladmin.com/books/fullstack-graphql"
+            href="https://www.graphqladmin.com/books/fullstack-graphql"
           />
         </Helmet>
         <Book
