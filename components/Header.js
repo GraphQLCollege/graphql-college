@@ -48,8 +48,8 @@ const Header = () => (
         New!
       </div>
       <div>
-        Make GraphQL Apps in minutes with{" "}
-        <a href="https://graphqlapps.com">GraphQLApps</a>
+        Test your GraphQL APIs with{" "}
+        <a href="https://www.graphqladmin.com">GraphQL Admin</a>
       </div>
     </div>
     <StyledHeader>
